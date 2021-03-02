@@ -1,11 +1,25 @@
-#include "mainwindow.h"
+#include "ventanaprincipal.h"
 
 #include <QApplication>
+#include <QFile>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+
+    QFont fnt= QApplication::font();
+    fnt.setPointSize(10);
+    a.setFont(fnt);
+
+    QFile file(":/stylesheets/stylesheetGeneral.qss");
+        if(file.open(QFile::ReadOnly)) {
+           QString StyleSheet = QLatin1String(file.readAll());
+           a.setStyleSheet(StyleSheet);
+        }
+
+    VentanaPrincipal w;
+    w.setMinimumSize(1400,900);
+
     w.show();
     return a.exec();
 }

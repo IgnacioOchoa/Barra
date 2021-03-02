@@ -1,0 +1,18 @@
+QPushButton {
+background-color : white;
+border-style : flat;
+padding: 5px;
+}
+
+QPushButton:pressed {
+background-color: #f5efe4;
+}
+
+QPushButton:checked {
+background-color: #f4edf7;
+}
+
+
+QStackedWidget {
+background-color : white;
+}
