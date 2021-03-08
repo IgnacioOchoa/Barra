@@ -16,3 +16,9 @@ background-color: #f4edf7;
 QStackedWidget {
 background-color : white;
 }
+
+QPushButton#pbModelo {
+background-color: transparent;
+padding : 0px;
+}
+

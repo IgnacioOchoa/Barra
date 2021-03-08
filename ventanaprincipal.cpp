@@ -8,6 +8,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     ui->setupUi(this);
 
     crearMenus();
+    crearFrameModelo();
 
     grBotonesModulos = new QButtonGroup;
 
@@ -40,6 +41,35 @@ void VentanaPrincipal::crearMenus()
     menuOpciones = menuBar()->addMenu("Opciones");
     menuAjustes = menuBar()->addMenu("Ajustes");
     menuAyuda = menuBar()->addMenu("Ayuda");
+}
+
+void VentanaPrincipal::crearFrameModelo()
+{
+     QLabel* modelo = new QLabel("Transferencia térmica", this);
+     QLabel* estado = new QLabel("Estado estacionario", this);
+     QLabel* incognita = new QLabel("Incógnita: temperatura", this);
+
+     QVBoxLayout* labelLayout = new QVBoxLayout;
+     labelLayout->addWidget(modelo);
+     labelLayout->addWidget(estado);
+     labelLayout->addWidget(incognita);
+
+     QHBoxLayout* modelLayout = new QHBoxLayout;
+
+     QPixmap pixmapProblemaFisico(":/imagenesIconos/Imagenes/iconoProblemaTermico.png");
+     QIcon iconoModelo(pixmapProblemaFisico);
+     QPushButton* pbModelo = new QPushButton(iconoModelo, QString(), this);
+     pbModelo->setIconSize(QSize(100,100));
+     pbModelo->setCursor(Qt::PointingHandCursor);
+     pbModelo->setObjectName("pbModelo");
+
+     QLabel* imageLabel = new QLabel;
+     imageLabel->setPixmap(pixmapProblemaFisico);
+
+     modelLayout->addWidget(pbModelo);
+     modelLayout->addItem(labelLayout);
+
+     ui->frameModelo->setLayout(modelLayout);
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)

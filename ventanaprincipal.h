@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QButtonGroup>
 #include <QMenu>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }
@@ -27,6 +29,8 @@ private:
     QButtonGroup* grBotonesModulos;
 
     void crearMenus();
+    void crearFrameModelo();
     void moduloSeleccionado(bool seleccionado);
+
 };
 #endif // MAINWINDOW_H

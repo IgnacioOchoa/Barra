@@ -2,4 +2,7 @@
     <qresource prefix="/stylesheets">
         <file>stylesheetGeneral.qss</file>
     </qresource>
+    <qresource prefix="/imagenesIconos">
+        <file>Imagenes/iconoProblemaTermico.png</file>
+    </qresource>
 </RCC>
