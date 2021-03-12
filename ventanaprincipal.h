@@ -6,6 +6,8 @@
 #include <QMenu>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }
@@ -27,6 +29,7 @@ private:
     QMenu* menuAjustes;
     QMenu* menuAyuda;
     QButtonGroup* grBotonesModulos;
+    QGraphicsScene* escena;
 
     void crearMenus();
     void crearFrameModelo();

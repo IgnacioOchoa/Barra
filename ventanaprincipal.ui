@@ -109,7 +109,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QGraphicsView" name="graphicsView"/>
+       <widget class="QGraphicsView" name="vistaGeometria"/>
       </item>
      </layout>
     </item>
@@ -119,8 +119,8 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="pagGeometria">
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Geometría</string>

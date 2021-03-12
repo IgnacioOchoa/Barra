@@ -10,6 +10,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearMenus();
     crearFrameModelo();
 
+    escena = new QGraphicsScene(this);
+    ui->vistaGeometria->setScene(escena);
+
     grBotonesModulos = new QButtonGroup;
 
     QList<QPushButton*> listaBotones = {ui->pbGeometria, ui->pbMalla, ui->pbFisica, ui->pbCondBorde,
@@ -76,4 +79,3 @@ void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 {
     if(seleccionado) ui->stackedWidget->setCurrentIndex(grBotonesModulos->checkedId());
 }
-
