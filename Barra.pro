@@ -10,9 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    nodo1d.cpp \
+    nodoabstracto.cpp \
     ventanaprincipal.cpp
 
 HEADERS += \
+    nodo1d.h \
+    nodoabstracto.h \
     ventanaprincipal.h
 
 FORMS += \
