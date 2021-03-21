@@ -9,12 +9,16 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    elemento1d.cpp \
+    elementoabstracto.cpp \
     main.cpp \
     nodo1d.cpp \
     nodoabstracto.cpp \
     ventanaprincipal.cpp
 
 HEADERS += \
+    elemento1d.h \
+    elementoabstracto.h \
     nodo1d.h \
     nodoabstracto.h \
     ventanaprincipal.h
