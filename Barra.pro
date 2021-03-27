@@ -9,21 +9,26 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dialogseleccionmodelo.cpp \
     elemento1d.cpp \
     elementoabstracto.cpp \
     main.cpp \
+    modelosfisicos.cpp \
     nodo1d.cpp \
     nodoabstracto.cpp \
     ventanaprincipal.cpp
 
 HEADERS += \
+    dialogseleccionmodelo.h \
     elemento1d.h \
     elementoabstracto.h \
+    modelosfisicos.h \
     nodo1d.h \
     nodoabstracto.h \
     ventanaprincipal.h
 
 FORMS += \
+    dialogseleccionmodelo.ui \
     ventanaprincipal.ui
 
 # Default rules for deployment.

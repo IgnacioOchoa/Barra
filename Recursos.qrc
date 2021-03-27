@@ -4,5 +4,7 @@
     </qresource>
     <qresource prefix="/imagenesIconos">
         <file>Imagenes/iconoProblemaTermico.png</file>
+        <file>Imagenes/iconoProblemaElectrico.png</file>
+        <file>Imagenes/iconoProblemaEstructural.png</file>
     </qresource>
 </RCC>
