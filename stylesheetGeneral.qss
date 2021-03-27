@@ -17,8 +17,19 @@ QStackedWidget {
 background-color : white;
 }
 
-QPushButton#pbModelo {
+QPushButton#pbModelo,
+QPushButton#pbModeloTermico,
+QPushButton#pbModeloElectrico,
+QPushButton#pbModeloEstructural {
 background-color: transparent;
-padding : 0px;
+padding : 2px;
 }
 
+QPushButton#pbModeloTermico:pressed,
+QPushButton#pbModeloElectrico:pressed,
+QPushButton#pbModeloEstructural:pressed {
+border-width: 3px;
+border-style : dashed;
+border-color : black;
+padding : 2px;
+}

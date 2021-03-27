@@ -9,6 +9,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 
+#include "dialogseleccionmodelo.h"
+#include "modelosfisicos.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }
 QT_END_NAMESPACE
@@ -34,6 +37,9 @@ private:
     void crearMenus();
     void crearFrameModelo();
     void moduloSeleccionado(bool seleccionado);
+
+private slots:
+    void lanzarVentanaModelo();
 
 };
 #endif // MAINWINDOW_H

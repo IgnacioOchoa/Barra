@@ -73,9 +73,18 @@ void VentanaPrincipal::crearFrameModelo()
      modelLayout->addItem(labelLayout);
 
      ui->frameModelo->setLayout(modelLayout);
+     connect(pbModelo, &QAbstractButton::clicked, this, &VentanaPrincipal::lanzarVentanaModelo);
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 {
     if(seleccionado) ui->stackedWidget->setCurrentIndex(grBotonesModulos->checkedId());
+}
+
+void VentanaPrincipal::lanzarVentanaModelo()
+{
+    DialogSeleccionModelo* dlg = new DialogSeleccionModelo();
+
+    dlg->show();
+
 }
