@@ -10,18 +10,15 @@ DialogSeleccionModelo::DialogSeleccionModelo(QWidget *parent) :
     listaModelos = Modelos::getListaModelosFisicos();
 
     QHBoxLayout* hlayout = new QHBoxLayout;
+    QButtonGroup* grupoBotonesModelos = new QButtonGroup(this);
 
     foreach(Modelos::ModeloFisico mdl, listaModelos)
     {
             qInfo() << "Length lista modelos: " << listaModelos.length();
             qInfo() << "QIcon: " << mdl.imagenIcono;
-            QPushButton* pb = new QPushButton(QIcon(mdl.imagenIcono), QString(),this);
-            pb->setObjectName("pbModelo" + mdl.nombre);
-            pb->setCheckable(true);
-            pb->setCursor(Qt::PointingHandCursor);
-            pb->setIconSize(QSize(100,100));
-            hlayout->addWidget(pb);
-
+            BotonSeleccionModelo* botonModelo = new BotonSeleccionModelo(mdl.imagenIcono, mdl.nombre,this);
+            hlayout->addWidget(botonModelo);
+            grupoBotonesModelos->addButton(botonModelo);
     }
     ui->frModelos->setLayout(hlayout);
 }

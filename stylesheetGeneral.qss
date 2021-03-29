@@ -22,14 +22,16 @@ QPushButton#pbModeloTermico,
 QPushButton#pbModeloElectrico,
 QPushButton#pbModeloEstructural {
 background-color: transparent;
-padding : 2px;
+padding : 0px;
+margin: 10px;
 }
 
-QPushButton#pbModeloTermico:pressed,
-QPushButton#pbModeloElectrico:pressed,
-QPushButton#pbModeloEstructural:pressed {
+QPushButton#pbModeloTermico:checked,
+QPushButton#pbModeloElectrico:checked,
+QPushButton#pbModeloEstructural:checked {
 border-width: 3px;
+border-radius: 21px;
 border-style : dashed;
 border-color : black;
-padding : 2px;
 }
+

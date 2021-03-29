@@ -74,6 +74,7 @@ void VentanaPrincipal::crearFrameModelo()
 
      ui->frameModelo->setLayout(modelLayout);
      connect(pbModelo, &QAbstractButton::clicked, this, &VentanaPrincipal::lanzarVentanaModelo);
+
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)

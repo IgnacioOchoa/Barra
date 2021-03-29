@@ -4,9 +4,9 @@
 #include <QDialog>
 #include <QtCore>
 #include <QPushButton>
+#include <QButtonGroup>
 #include "modelosfisicos.h"
-
-
+#include "botonseleccionmodelo.h"
 
 namespace Ui {
 class DialogSeleccionModelo;
