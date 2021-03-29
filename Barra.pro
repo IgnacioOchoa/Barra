@@ -13,6 +13,7 @@ SOURCES += \
     dialogseleccionmodelo.cpp \
     elemento1d.cpp \
     elementoabstracto.cpp \
+    kernel.cpp \
     main.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     dialogseleccionmodelo.h \
     elemento1d.h \
     elementoabstracto.h \
+    kernel.h \
     modelosfisicos.h \
     nodo1d.h \
     nodoabstracto.h \

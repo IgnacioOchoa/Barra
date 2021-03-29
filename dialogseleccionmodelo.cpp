@@ -14,8 +14,6 @@ DialogSeleccionModelo::DialogSeleccionModelo(QWidget *parent) :
 
     foreach(Modelos::ModeloFisico mdl, listaModelos)
     {
-            qInfo() << "Length lista modelos: " << listaModelos.length();
-            qInfo() << "QIcon: " << mdl.imagenIcono;
             BotonSeleccionModelo* botonModelo = new BotonSeleccionModelo(mdl.imagenIcono, mdl.nombre,this);
             hlayout->addWidget(botonModelo);
             grupoBotonesModelos->addButton(botonModelo);

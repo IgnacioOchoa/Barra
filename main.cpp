@@ -1,4 +1,5 @@
 #include "ventanaprincipal.h"
+#include "kernel.h"
 
 #include <QApplication>
 #include <QFile>
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
         }
 
     VentanaPrincipal w;
+    Kernel k;
+    k.setInterfaz(&w);
+
     w.setMinimumSize(1400,900);
 
     w.show();
