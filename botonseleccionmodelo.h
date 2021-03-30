@@ -5,13 +5,19 @@
 
 class BotonSeleccionModelo : public QPushButton
 {
+    Q_OBJECT
+
 public:
-    BotonSeleccionModelo(QWidget* parent = 0);
-    BotonSeleccionModelo(const QPixmap& pxImagen, const QString& nombre,  QWidget* parent = 0);
+    BotonSeleccionModelo(const QPixmap& pxImagen,
+                         const QString& nombre,
+                         const QString& descrip,
+                         QWidget* parent = 0);
     int heightForWidth(int w) const override {return w;}
+    const QString& getDescripcion() {return des;}
 
 private:
     void aplicarPropiedades();
+    QString des;
     QPixmap pxMap;
     QIcon* icono;
 };

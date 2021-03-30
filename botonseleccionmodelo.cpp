@@ -1,14 +1,11 @@
 #include "botonseleccionmodelo.h"
 
-BotonSeleccionModelo::BotonSeleccionModelo(QWidget* parent) :
-    QPushButton(parent)
-{
-    aplicarPropiedades();
-}
-
-BotonSeleccionModelo::BotonSeleccionModelo(const QPixmap &imagen, const QString& nombre, QWidget* parent) :
-    QPushButton(parent)
-
+BotonSeleccionModelo::BotonSeleccionModelo(const QPixmap &imagen,
+                                           const QString& nombre,
+                                           const QString& descrip,
+                                           QWidget* parent) :
+    QPushButton(parent),
+    des(descrip)
 {
     this->setObjectName("pbModelo" + nombre);
     pxMap = imagen;
