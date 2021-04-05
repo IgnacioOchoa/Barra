@@ -15,6 +15,7 @@ SOURCES += \
     elementoabstracto.cpp \
     kernel.cpp \
     main.cpp \
+    malla.cpp \
     modelo.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     elemento1d.h \
     elementoabstracto.h \
     kernel.h \
+    malla.h \
     modelo.h \
     modelosfisicos.h \
     nodo1d.h \
