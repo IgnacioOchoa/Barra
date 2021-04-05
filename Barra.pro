@@ -20,6 +20,7 @@ SOURCES += \
     modelosfisicos.cpp \
     nodo1d.cpp \
     nodoabstracto.cpp \
+    solver.cpp \
     ventanaprincipal.cpp
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     modelosfisicos.h \
     nodo1d.h \
     nodoabstracto.h \
+    solver.h \
     ventanaprincipal.h
 
 FORMS += \
