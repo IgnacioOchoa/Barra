@@ -2,6 +2,7 @@
 #define NODO1D_H
 
 #include "nodoabstracto.h"
+#include "elemento1d.h"
 
 class Nodo1D : public NodoAbstracto
 {
@@ -12,13 +13,17 @@ public:
     Nodo1D(float x);
 
     virtual QList<float> getCoordenadas() const override;
-    virtual QList<ElementoAbstracto*> getElementosConectados() const override;
+    virtual QList<ElementoAbstracto*> getElementos() const override;
     virtual void moverNodo(QList<float> deltas) override;
     virtual void reubicarNodo(QList<float> pos) override;
-    virtual void conectarElemento(ElementoAbstracto* el) override;
-    virtual void desconectarElemento(ElementoAbstracto* el) override;
+    virtual bool conectarElemento(ElementoAbstracto* el) override;
+    virtual bool desconectarElemento(ElementoAbstracto* el) override;
 
     virtual ~Nodo1D() {};
+
+private:
+    QList<Elemento1D*> elementos;
+
 };
 
 #endif // NODO1D_H

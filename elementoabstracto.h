@@ -8,13 +8,11 @@ class NodoAbstracto;
 class ElementoAbstracto
 {
 public:
-    ElementoAbstracto();
-    ElementoAbstracto(QList<NodoAbstracto*> nodos);
 
-    virtual QList<NodoAbstracto*> getNodos() {return nodos;}
+    virtual QList<NodoAbstracto*> getNodos() = 0;
     virtual bool setNodos(QList<NodoAbstracto*>) const = 0;
 
-private:
+protected:
     QList<NodoAbstracto*> nodos;
 
 };

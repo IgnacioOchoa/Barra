@@ -2,14 +2,17 @@
 #define ELEMENTO1D_H
 
 #include "elementoabstracto.h"
+#include "nodo1d.h"
 
 class Elemento1D : public ElementoAbstracto
 {
 public:
     Elemento1D();
-    Elemento1D(QList<NodoAbstracto*> nodos);
+    Elemento1D(Nodo1D* nodo, Elemento1D* elem);
 
-    virtual bool setNodos(QList<NodoAbstracto*>) const override;
+private:
+    Nodo1D* nodoSiguiente;
+    Elemento1D* elementoSiguiente;
 };
 
 #endif // ELEMENTO1D_H

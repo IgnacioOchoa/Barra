@@ -4,6 +4,7 @@
 #include <QMultiMap>
 #include "nodoabstracto.h"
 #include "elementoabstracto.h"
+#include "nodo1d.h"
 
 class Malla
 {
@@ -13,19 +14,19 @@ class Malla
 public:
     Malla(tipoMalla);
 
-    void agregarNodo(NodoAbstracto* nodo);
-    void agregarNodo(QList<NodoAbstracto*> nodos);
-    void agregarNodo(double x);
-    void agregarNodo(double x, double y);
-    void agregarNodo(double x, double y, double z);
-    void agregarElemento(ElementoAbstracto* elemento);
-    void agregarElemento(QList<ElementoAbstracto*> elementos);
+    bool crearMalla(tipoMalla tipo, float longitud);
+    bool agregarNodo(QList<float> coord);
+
 
 private:
+    bool agregarNodo1D(QList<float> lista);
+
+
     QList<NodoAbstracto*> listaNodos;
     QList<ElementoAbstracto*> listaElementos;
     QMultiMap<int,NodoAbstracto*> mapaConectividad;
     tipoMalla malla;
+    float longitudBarra;
 
 };
 

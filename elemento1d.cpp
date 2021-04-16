@@ -5,13 +5,8 @@ Elemento1D::Elemento1D()
 
 }
 
-Elemento1D::Elemento1D(QList<NodoAbstracto *> nodos) :
-    ElementoAbstracto(nodos)
+Elemento1D::Elemento1D(Nodo1D* nodo, Elemento1D* elem)
 {
-
-}
-
-bool Elemento1D::setNodos(QList<NodoAbstracto *>) const
-{
-    return true;
+    nodoSiguiente = nodo;
+    elementoSiguiente = elem;
 }
