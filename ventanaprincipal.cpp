@@ -97,36 +97,25 @@ void VentanaPrincipal::crearIconos()
 
 void VentanaPrincipal::crearFrameDimension()
 {
-    qInfo() << "Se intenta ejectuar el frame";
     frDimension = new QFrame(this);
     frDimension->setStyleSheet("QFrame { background-color : white}");
     frDimension->setGeometry(20,170,300,500);
-    //frDim->setMinimumSize(QSize(300,500));
     frDimension->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    //frDimension->setFrameStyle(QFrame::Panel);
     frDimension->setFrameShape(QFrame::Panel);
-
-
-    QPushButton* bt1 = new QPushButton(*iconoDim1D, QString(), frDimension);
-    bt1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    bt1->setIconSize(QSize(frDimension->width()-30,frDimension->height()/3));
-    bt1->setStyleSheet("QPushButton {background-color : transparent}");
-    connect(bt1, &QAbstractButton::pressed, [this](){frDimension->hide();});
-    QPushButton* bt2 = new QPushButton(*iconoDim2D, QString(), frDimension);
-    bt2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    bt2->setIconSize(QSize(frDimension->width()-30,frDimension->height()/3));
-    bt2->setStyleSheet("QPushButton {background-color : transparent}");
-    connect(bt2, &QAbstractButton::pressed, [this](){frDimension->hide();});
-    QPushButton* bt3 = new QPushButton(*iconoDim3D, QString(), frDimension);
-    bt3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    bt3->setIconSize(QSize(frDimension->width()-30,frDimension->height()/3));
-    bt3->setStyleSheet("QPushButton {background-color : transparent}");
-    connect(bt3, &QAbstractButton::pressed, [this](){frDimension->hide();});
-
     QVBoxLayout* vbLay = new QVBoxLayout;
-    vbLay->addWidget(bt1);
-    vbLay->addWidget(bt2);
-    vbLay->addWidget(bt3);
+
+    QList<QIcon*> iconos = {iconoDim1D, iconoDim2D, iconoDim3D};
+
+    foreach (QIcon* icn, iconos)
+    {
+        QPushButton* bt = new QPushButton(*icn, QString(), frDimension);
+        bt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        bt->setIconSize(QSize(frDimension->width()-30,frDimension->height()/3));
+        bt->setStyleSheet("QPushButton {background-color : transparent}");
+        bt->setCursor(Qt::PointingHandCursor);
+        connect(bt, &QAbstractButton::pressed, [this](){frDimension->hide();});
+        vbLay->addWidget(bt);
+    }
 
     frDimension->setLayout(vbLay);
     frDimension->hide();
