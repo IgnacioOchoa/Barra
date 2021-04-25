@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QButtonGroup>
 #include <QMenu>
+#include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGraphicsScene>
@@ -31,15 +32,25 @@ private:
     QMenu* menuOpciones;
     QMenu* menuAjustes;
     QMenu* menuAyuda;
+
+    QIcon* iconoDim1D;
+    QIcon* iconoDim2D;
+    QIcon* iconoDim3D;
+
+    QFrame* frDimension;
+
     QButtonGroup* grBotonesModulos;
     QGraphicsScene* escena;
 
     void crearMenus();
     void crearFrameModelo();
+    void crearIconos();
+    void crearFrameDimension();
     void moduloSeleccionado(bool seleccionado);
 
 private slots:
     void lanzarVentanaModelo();
+    void seleccionarDimension();
 
 };
 #endif // MAINWINDOW_H

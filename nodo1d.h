@@ -4,6 +4,8 @@
 #include "nodoabstracto.h"
 #include "elemento1d.h"
 
+class Elemento1D;
+
 class Nodo1D : public NodoAbstracto
 {
 public:

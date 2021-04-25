@@ -3,6 +3,7 @@
 
 #include "elementoabstracto.h"
 #include "nodo1d.h"
+class Nodo1D;
 
 class Elemento1D : public ElementoAbstracto
 {

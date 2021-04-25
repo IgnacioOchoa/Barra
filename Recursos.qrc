@@ -6,5 +6,8 @@
         <file>Imagenes/iconoProblemaTermico.png</file>
         <file>Imagenes/iconoProblemaElectrico.png</file>
         <file>Imagenes/iconoProblemaEstructural.png</file>
+        <file>Imagenes/icono1D.png</file>
+        <file>Imagenes/icono2D.png</file>
+        <file>Imagenes/icono3D.png</file>
     </qresource>
 </RCC>
