@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QMouseEvent>
 
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"
@@ -45,6 +46,7 @@ private:
     void crearMenus();
     void crearFrameModelo();
     void crearIconos();
+    void crearBotonesPrincipales();
     void crearFrameDimension();
     void moduloSeleccionado(bool seleccionado);
 
@@ -52,5 +54,8 @@ private slots:
     void lanzarVentanaModelo();
     void seleccionarDimension();
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev) override;
+    virtual void mousePressEvent(QMouseEvent *event) override;
 };
 #endif // MAINWINDOW_H

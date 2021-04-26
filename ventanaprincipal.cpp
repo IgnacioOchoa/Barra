@@ -11,24 +11,10 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearFrameModelo();
     crearIconos();
     crearFrameDimension();
+    crearBotonesPrincipales();
 
     escena = new QGraphicsScene(this);
     ui->vistaGeometria->setScene(escena);
-
-    grBotonesModulos = new QButtonGroup;
-
-    QList<QPushButton*> listaBotones = {ui->pbGeometria, ui->pbMalla, ui->pbFisica, ui->pbCondBorde,
-                                       ui->pbSalida, ui->pbSimulacion};
-
-    for(int i=0; i < listaBotones.length(); i++)
-    {
-        grBotonesModulos->addButton(listaBotones[i],i);
-        listaBotones[i]->setCheckable(true);
-        connect(listaBotones[i], &QAbstractButton::clicked, this, &VentanaPrincipal::moduloSeleccionado);
-    }
-
-    grBotonesModulos->setExclusive(true);
-    listaBotones[0]->setChecked(true);
 
     ui->textEdit->setText("Aca van a aparecer mensajes copados");
 
@@ -78,6 +64,7 @@ void VentanaPrincipal::crearFrameModelo()
      pbModelo->setCursor(Qt::PointingHandCursor);
      pbModelo->setObjectName("pbModelo");
      pbModelo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+     pbModelo->installEventFilter(this);
 
      modelLayout->addWidget(pbModelo);
      modelLayout->addItem(labelLayout);
@@ -93,6 +80,25 @@ void VentanaPrincipal::crearIconos()
     iconoDim1D = new QIcon(QPixmap(":/imagenesIconos/Imagenes/icono1D.png"));
     iconoDim2D = new QIcon(QPixmap(":/imagenesIconos/Imagenes/icono2D.png"));
     iconoDim3D = new QIcon(QPixmap(":/imagenesIconos/Imagenes/icono3D.png"));
+}
+
+void VentanaPrincipal::crearBotonesPrincipales()
+{
+    grBotonesModulos = new QButtonGroup;
+
+    QList<QPushButton*> listaBotones = {ui->pbGeometria, ui->pbMalla, ui->pbFisica, ui->pbCondBorde,
+                                       ui->pbSalida, ui->pbSimulacion};
+
+    for(int i=0; i < listaBotones.length(); i++)
+    {
+        grBotonesModulos->addButton(listaBotones[i],i);
+        listaBotones[i]->setCheckable(true);
+        connect(listaBotones[i], &QAbstractButton::clicked, this, &VentanaPrincipal::moduloSeleccionado);
+        listaBotones[i]->installEventFilter(this);
+    }
+
+    grBotonesModulos->setExclusive(true);
+    listaBotones[0]->setChecked(true);
 }
 
 void VentanaPrincipal::crearFrameDimension()
@@ -137,4 +143,28 @@ void VentanaPrincipal::lanzarVentanaModelo()
 void VentanaPrincipal::seleccionarDimension()
 {
     frDimension->show();
+}
+
+bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)
+{
+    if (QString(obj->metaObject()->className()) == "QPushButton")
+    {
+        if(ev->type() == QEvent::MouseButtonPress)
+        {
+            mousePressEvent(static_cast<QMouseEvent*>(ev));
+        }
+    }
+    return false;
+}
+
+
+void VentanaPrincipal::mousePressEvent(QMouseEvent *event)
+{
+    // Si el frDimension esta desplegado y hago click en otro lugar que no sea el frame,
+    // quiero que el frame se minimize sin hacer nada mas.
+    if (frDimension->isVisible() && !(frDimension->geometry().contains(event->pos())))
+    {
+        frDimension->setVisible(false);
+    }
+    QMainWindow::mousePressEvent(event);
 }
