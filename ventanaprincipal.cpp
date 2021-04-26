@@ -18,6 +18,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 
     ui->textEdit->setText("Aca van a aparecer mensajes copados");
 
+    modeloElegido = -1;
+
 }
 
 VentanaPrincipal::~VentanaPrincipal()
@@ -54,17 +56,17 @@ void VentanaPrincipal::crearFrameModelo()
      pbDim->setCursor(Qt::PointingHandCursor);
      pbDim->setObjectName("pbDim");
      pbDim->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+     pbDim->installEventFilter(this);
 
      modelLayout->addWidget(pbDim);
 
-     QPixmap pixmapProblemaFisico(":/imagenesIconos/Imagenes/iconoProblemaTermico.png");
+     QPixmap pixmapProblemaFisico(":/imagenesIconos/Imagenes/iconoProblemaVacio.png");
      QIcon iconoModelo(pixmapProblemaFisico);
-     QPushButton* pbModelo = new QPushButton(iconoModelo, QString(), this);
+     pbModelo = new QPushButton(iconoModelo, QString(), this);
      pbModelo->setIconSize(QSize(100,100));
      pbModelo->setCursor(Qt::PointingHandCursor);
      pbModelo->setObjectName("pbModelo");
      pbModelo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-     pbModelo->installEventFilter(this);
 
      modelLayout->addWidget(pbModelo);
      modelLayout->addItem(labelLayout);
@@ -134,15 +136,24 @@ void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 
 void VentanaPrincipal::lanzarVentanaModelo()
 {
-    DialogSeleccionModelo* dlg = new DialogSeleccionModelo();
+    DialogSeleccionModelo* dlg = new DialogSeleccionModelo(this, modeloElegido);
 
     dlg->show();
+    connect(dlg, &DialogSeleccionModelo::sigModeloCambiado, this, &VentanaPrincipal::modeloCambiado);
 
 }
 
 void VentanaPrincipal::seleccionarDimension()
 {
     frDimension->show();
+}
+
+void VentanaPrincipal::modeloCambiado(int nroModelo)
+//Este slot es llamado desde DialogoSeleccionModelo con el nuevo modelo elegido
+{
+    QPixmap px(Modelos::getListaModelosFisicos()[nroModelo-1].imagenIcono);
+    pbModelo->setIcon(QIcon(px));
+    modeloElegido = nroModelo;
 }
 
 bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)
@@ -157,11 +168,10 @@ bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)
     return false;
 }
 
-
 void VentanaPrincipal::mousePressEvent(QMouseEvent *event)
 {
     // Si el frDimension esta desplegado y hago click en otro lugar que no sea el frame,
-    // quiero que el frame se minimize sin hacer nada mas.
+    // quiero que el frame se minimice sin hacer nada mas.
     if (frDimension->isVisible() && !(frDimension->geometry().contains(event->pos())))
     {
         frDimension->setVisible(false);

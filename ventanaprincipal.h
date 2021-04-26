@@ -40,8 +40,12 @@ private:
 
     QFrame* frDimension;
 
+    int modeloElegido;
+
     QButtonGroup* grBotonesModulos;
     QGraphicsScene* escena;
+
+    QPushButton* pbModelo;
 
     void crearMenus();
     void crearFrameModelo();
@@ -53,6 +57,7 @@ private:
 private slots:
     void lanzarVentanaModelo();
     void seleccionarDimension();
+    void modeloCambiado(int nroModelo);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
