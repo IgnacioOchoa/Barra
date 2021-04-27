@@ -23,7 +23,7 @@ QPushButton#pbModeloEstructural,
 QPushButton#pbDim
 {
 background-color: transparent;
-padding : 2px;
+padding : 6px;
 margin: 10px;
 }
 

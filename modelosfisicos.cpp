@@ -21,8 +21,9 @@ QList<Modelos::ModeloFisico> Modelos::getListaModelosFisicos()
     };
 
     return QList<Modelos::ModeloFisico>{
-                mfTermico,
+
                 mfElectrico,
+                mfTermico,
                 mfEstructural
            };
 }

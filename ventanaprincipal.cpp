@@ -69,6 +69,28 @@ void VentanaPrincipal::crearFrameModelo()
      pbModelo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
      modelLayout->addWidget(pbModelo);
+
+     QButtonGroup* bgDinEst = new QButtonGroup;
+     QVBoxLayout* DElayout = new QVBoxLayout;
+     QCheckBox* chBoxEstatico = new QCheckBox("Estático");
+     QCheckBox* chBoxDinamico = new QCheckBox("Dinámico");
+
+     bgDinEst->addButton(chBoxEstatico);
+     bgDinEst->addButton(chBoxDinamico);
+     DElayout->addWidget(chBoxEstatico);
+     DElayout->addWidget(chBoxDinamico);
+
+     chBoxEstatico->setChecked(true);
+
+     QFrame* frDinEst = new QFrame(this);
+     frDinEst->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+     frDinEst->setLayout(DElayout);
+
+     QFrame *linea1 = new QFrame(this);
+     linea1->setFrameShape(QFrame::VLine);
+
+     modelLayout->addWidget(frDinEst);
+     modelLayout->addWidget(linea1);
      modelLayout->addItem(labelLayout);
 
      ui->frameModelo->setLayout(modelLayout);

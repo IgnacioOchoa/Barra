@@ -10,6 +10,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QMouseEvent>
+#include <QCheckBox>
 
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"

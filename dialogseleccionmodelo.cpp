@@ -25,7 +25,8 @@ DialogSeleccionModelo::DialogSeleccionModelo(QWidget *parent, int modeloActivo) 
     connect(grupoBotonesModelos, SIGNAL(buttonToggled(QAbstractButton*,bool)),
             this, SLOT(botonSeleccionado(QAbstractButton*,bool)));
     ui->frModelos->setLayout(hlayout);
-
+    //ui->frModelos->setStyleSheet("QFrame {background-color: green}");
+    //ui->frModelos->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     connect(ui->pbCancelar, &QAbstractButton::clicked, this, &QDialog::close);
 
     //Este connect usa una funcion lambda para emitir una señal y cerrar el dialogo

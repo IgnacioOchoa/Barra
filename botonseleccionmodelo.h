@@ -2,6 +2,7 @@
 #define BOTONSELECCIONMODELO_H
 
 #include <QPushButton>
+#include <QDebug>
 
 class BotonSeleccionModelo : public QPushButton
 {
