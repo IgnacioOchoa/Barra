@@ -51,7 +51,7 @@ void VentanaPrincipal::crearFrameModelo()
 
      QPixmap pixmap1D(":/imagenesIconos/Imagenes/icono1D.png");
      QIcon icono1D(pixmap1D);
-     QPushButton* pbDim = new QPushButton(pixmap1D, QString(), this);
+     pbDim = new QPushButton(pixmap1D, QString(), this);
      pbDim->setIconSize(QSize(200,100));
      pbDim->setCursor(Qt::PointingHandCursor);
      pbDim->setObjectName("pbDim");
@@ -167,13 +167,14 @@ void VentanaPrincipal::lanzarVentanaModelo()
 
 void VentanaPrincipal::seleccionarDimension()
 {
-    frDimension->show();
+    if(!frDimension->isVisible()) frDimension->show();
 }
 
 void VentanaPrincipal::modeloCambiado(int nroModelo)
 //Este slot es llamado desde DialogoSeleccionModelo con el nuevo modelo elegido
 {
-    QPixmap px(Modelos::getListaModelosFisicos()[nroModelo-1].imagenIcono);
+    if (nroModelo == -1) return;
+    QPixmap px(Modelos::getListaModelosFisicos()[nroModelo].imagenIcono);
     pbModelo->setIcon(QIcon(px));
     modeloElegido = nroModelo;
 }
@@ -182,7 +183,7 @@ bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)
 {
     if (QString(obj->metaObject()->className()) == "QPushButton")
     {
-        if(ev->type() == QEvent::MouseButtonPress)
+        if(ev->type() == QEvent::MouseButtonPress || ev->type() == QEvent::WindowBlocked)
         {
             mousePressEvent(static_cast<QMouseEvent*>(ev));
         }
@@ -194,7 +195,9 @@ void VentanaPrincipal::mousePressEvent(QMouseEvent *event)
 {
     // Si el frDimension esta desplegado y hago click en otro lugar que no sea el frame,
     // quiero que el frame se minimice sin hacer nada mas.
-    if (frDimension->isVisible() && !(frDimension->geometry().contains(event->pos())))
+    if (frDimension->isVisible()
+            && !(frDimension->geometry().contains(event->pos()))
+            && !(pbDim->geometry().contains(event->pos())))
     {
         frDimension->setVisible(false);
     }

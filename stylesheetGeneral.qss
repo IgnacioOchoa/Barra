@@ -23,8 +23,8 @@ QPushButton#pbModeloEstructural,
 QPushButton#pbDim
 {
 background-color: transparent;
-padding : 6px;
-margin: 10px;
+padding : 0px;
+margin: 6px;
 }
 
 QPushButton#pbModeloTermico:checked,

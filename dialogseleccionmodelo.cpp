@@ -11,7 +11,7 @@ DialogSeleccionModelo::DialogSeleccionModelo(QWidget *parent, int modeloActivo) 
     listaModelos = Modelos::getListaModelosFisicos();
 
     QHBoxLayout* hlayout = new QHBoxLayout;
-    int id = 1;
+    int id = 0;
 
     foreach(Modelos::ModeloFisico mdl, listaModelos)
     {
@@ -25,25 +25,12 @@ DialogSeleccionModelo::DialogSeleccionModelo(QWidget *parent, int modeloActivo) 
     connect(grupoBotonesModelos, SIGNAL(buttonToggled(QAbstractButton*,bool)),
             this, SLOT(botonSeleccionado(QAbstractButton*,bool)));
     ui->frModelos->setLayout(hlayout);
-    //ui->frModelos->setStyleSheet("QFrame {background-color: green}");
-    //ui->frModelos->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     connect(ui->pbCancelar, &QAbstractButton::clicked, this, &QDialog::close);
 
     //Este connect usa una funcion lambda para emitir una señal y cerrar el dialogo
     connect(ui->pbSeleccionar, &QAbstractButton::clicked,
             [this](){emit sigModeloCambiado(grupoBotonesModelos->checkedId());
                      this->close();});
-
-    //Si al dialogo le pasaron algo distinto a -1 es que ya habia algun modelo activo, si
-    // es -1 selecciono el primer item por default para tener siempre algo seleccionado
-    if (modeloActivo==-1)
-    {
-        grupoBotonesModelos->button(1)->setChecked(true);
-    }
-    else
-    {
-        grupoBotonesModelos->button(modeloActivo)->setChecked(true);
-    }
 }
 
 DialogSeleccionModelo::~DialogSeleccionModelo()

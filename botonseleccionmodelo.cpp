@@ -10,7 +10,6 @@ BotonSeleccionModelo::BotonSeleccionModelo(const QPixmap &imagen,
     this->setObjectName("pbModelo" + nombre);
     pxMap = imagen;
     aplicarPropiedades();
-    qInfo() << "Object name: " << this->objectName();
 }
 
 void BotonSeleccionModelo::aplicarPropiedades()
@@ -20,10 +19,8 @@ void BotonSeleccionModelo::aplicarPropiedades()
     this->setCursor(Qt::PointingHandCursor);
     this->setCheckable(true);
     this->setIconSize(QSize(200,200));
-    QSizePolicy sp(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    //QSizePolicy sp = this->sizePolicy();
+    QSizePolicy sp(QSizePolicy::Expanding,QSizePolicy::Expanding);
     sp.setHeightForWidth(true);
     this->setSizePolicy(sp);
-    //this->setStyleSheet("QPushButton {background-color:red; margin = 22px;padding : 6px}");
 }
 

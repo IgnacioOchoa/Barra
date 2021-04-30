@@ -47,6 +47,7 @@ private:
     QGraphicsScene* escena;
 
     QPushButton* pbModelo;
+    QPushButton* pbDim;
 
     void crearMenus();
     void crearFrameModelo();
