@@ -70,6 +70,10 @@ void VentanaPrincipal::crearFrameModelo()
 
      modelLayout->addWidget(pbModelo);
 
+     //---------------------------------------------------------------------
+     //     Frame seleccion Estatico-Dinamico
+     //---------------------------------------------------------------------
+
      QButtonGroup* bgDinEst = new QButtonGroup;
      QVBoxLayout* DElayout = new QVBoxLayout;
      QCheckBox* chBoxEstatico = new QCheckBox("Estático");
@@ -83,13 +87,39 @@ void VentanaPrincipal::crearFrameModelo()
      chBoxEstatico->setChecked(true);
 
      QFrame* frDinEst = new QFrame(this);
+     frDinEst->setObjectName("FrameEstaticoDinamico");
      frDinEst->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
      frDinEst->setLayout(DElayout);
 
+     modelLayout->addWidget(frDinEst);
+
+     //---------------------------------------------------------------------
+     //     Frame seleccion Lineal-No Lineal
+     //---------------------------------------------------------------------
+
+     QButtonGroup* bgLinNoLin = new QButtonGroup;
+     QVBoxLayout* LNLlayout = new QVBoxLayout;
+     QCheckBox* chBoxLineal = new QCheckBox("Lineal");
+     QCheckBox* chBoxNoLineal = new QCheckBox("No Lineal");
+
+     bgLinNoLin->addButton(chBoxLineal);
+     bgLinNoLin->addButton(chBoxNoLineal);
+     LNLlayout->addWidget(chBoxLineal);
+     LNLlayout->addWidget(chBoxNoLineal);
+
+     chBoxLineal->setChecked(true);
+
+     QFrame* frLinNoLin = new QFrame(this);
+     frLinNoLin->setObjectName("FrameLinealNoLineal");
+     frLinNoLin->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+     frLinNoLin->setLayout(LNLlayout);
+
+     modelLayout->addWidget(frLinNoLin);
+
+     //---------------------------------------------------------------------------------
+
      QFrame *linea1 = new QFrame(this);
      linea1->setFrameShape(QFrame::VLine);
-
-     modelLayout->addWidget(frDinEst);
      modelLayout->addWidget(linea1);
      modelLayout->addItem(labelLayout);
 

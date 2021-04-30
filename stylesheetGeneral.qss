@@ -37,3 +37,13 @@ border-style : dashed;
 border-color : black;
 }
 
+#FrameEstaticoDinamico
+{
+background-color : #dfe2e8
+}
+
+#FrameLinealNoLineal
+{
+background-color : #ebe6e9
+}
+
