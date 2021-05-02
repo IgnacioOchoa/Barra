@@ -38,15 +38,6 @@ void VentanaPrincipal::crearMenus()
 
 void VentanaPrincipal::crearFrameModelo()
 {
-     QLabel* modelo = new QLabel("Transferencia térmica", this);
-     QLabel* estado = new QLabel("Estado estacionario", this);
-     QLabel* incognita = new QLabel("Incógnita: temperatura", this);
-
-     QVBoxLayout* labelLayout = new QVBoxLayout;
-     labelLayout->addWidget(modelo);
-     labelLayout->addWidget(estado);
-     labelLayout->addWidget(incognita);
-
      QHBoxLayout* modelLayout = new QHBoxLayout;
 
      QPixmap pixmap1D(":/imagenesIconos/Imagenes/icono1D.png");
@@ -121,7 +112,68 @@ void VentanaPrincipal::crearFrameModelo()
      QFrame *linea1 = new QFrame(this);
      linea1->setFrameShape(QFrame::VLine);
      modelLayout->addWidget(linea1);
-     modelLayout->addItem(labelLayout);
+
+     //---------------------------------------------------------------------
+     //     Seccion de checkboxes de status
+     //---------------------------------------------------------------------
+
+     int anguloRotacion = 45;
+
+     QCheckBox* chBoxGeomLista = new QCheckBox("Geometría");
+     QCheckBox* chBoxMallaLista = new QCheckBox("Malla");
+     QCheckBox* chBoxParamFisLista = new QCheckBox("Param Fis");
+     QCheckBox* chBoxCBLista = new QCheckBox("Cond Borde");
+     QCheckBox* chBoxOpSalidaLista = new QCheckBox("Op Salida");
+     QCheckBox* chBoxSimulacionLista = new QCheckBox("Simulación");
+
+     chBoxGeomLista->setObjectName("chBoxGeometriaLista");
+     chBoxMallaLista->setObjectName("chBoxMallaLista");
+     chBoxParamFisLista->setObjectName("chBoxParamFisLista");
+     chBoxCBLista->setObjectName("chBoxCBLista");
+     chBoxOpSalidaLista->setObjectName("chBoxOpSalidaLista");
+     chBoxSimulacionLista->setObjectName("chBoxSimulacionLista");
+
+     QList<QCheckBox*> listaCheckBoxes =
+     {chBoxGeomLista, chBoxMallaLista, chBoxParamFisLista,
+      chBoxCBLista, chBoxOpSalidaLista, chBoxSimulacionLista};
+
+     foreach(QCheckBox* cb, listaCheckBoxes)
+     {
+         cb->setLayoutDirection(Qt::RightToLeft);
+     }
+
+     QGraphicsScene* sceneStatusModulos = new QGraphicsScene(this);
+     QGraphicsView* viewStatusModulos = new QGraphicsView(this);
+     viewStatusModulos->setObjectName("vistaStatusModulos");
+     viewStatusModulos->setMaximumHeight(130);
+     viewStatusModulos->setMaximumWidth(350);
+     viewStatusModulos->setScene(sceneStatusModulos);
+     modelLayout->addWidget(viewStatusModulos);
+
+     QList<QGraphicsProxyWidget*> listaGPWidgets;
+     foreach(QCheckBox* cb, listaCheckBoxes)
+     {
+         cb->setFont(QFont("Arial",11,QFont::Bold));
+         listaGPWidgets.append(sceneStatusModulos->addWidget(cb));
+     }
+
+     viewStatusModulos->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+     QList<int> posicionesHorizontales = {-120,-80,-40,0,40,80};
+
+     //El TransformOriginPoint se mueve junto con el item al hacer moveBy, y no necesariamente
+     //coincide con el origen del graphics item.
+
+     int posIndx = 0;
+     foreach(QGraphicsProxyWidget* gpw, listaGPWidgets)
+     {
+         gpw->setTransformOriginPoint(QPointF(gpw->size().width(), 0));
+         gpw->moveBy(-gpw->size().width(), 0);
+         gpw->setRotation(anguloRotacion);
+         gpw->moveBy(posicionesHorizontales[posIndx++], 0);
+     }
+
+     //--------------------------------------------------------------------------------------------
 
      ui->frameModelo->setLayout(modelLayout);
      connect(pbModelo, &QAbstractButton::clicked, this, &VentanaPrincipal::lanzarVentanaModelo);

@@ -47,3 +47,42 @@ background-color : #dfe2e8
 background-color : #ebe6e9
 }
 
+QCheckBox#chBoxGeometriaLista,
+QCheckBox#chBoxMallaLista,
+QCheckBox#chBoxParamFisLista,
+QCheckBox#chBoxCBLista,
+QCheckBox#chBoxOpSalidaLista,
+QCheckBox#chBoxSimulacionLista
+{
+    text-align : right;
+    background-color: transparent
+}
+
+QCheckBox#chBoxGeometriaLista::indicator:checked,
+QCheckBox#chBoxMallaLista::indicator:checked,
+QCheckBox#chBoxParamFisLista::indicator:checked,
+QCheckBox#chBoxCBLista::indicator:checked,
+QCheckBox#chBoxOpSalidaLista::indicator:checked,
+QCheckBox#chBoxSimulacionLista::indicator:checked
+{
+     background-color : green;
+     image : url(:/imagenesIconos/Imagenes/tickCuadrado.png);
+}
+
+QCheckBox#chBoxGeometriaLista::indicator,
+QCheckBox#chBoxMallaLista::indicator,
+QCheckBox#chBoxParamFisLista::indicator,
+QCheckBox#chBoxCBLista::indicator,
+QCheckBox#chBoxOpSalidaLista::indicator,
+QCheckBox#chBoxSimulacionLista::indicator
+{
+     width: 30px;
+     height: 30px
+}
+
+QGraphicsView#vistaStatusModulos
+{
+    background-color: transparent;
+    border-style: none
+}
+

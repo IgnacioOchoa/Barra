@@ -11,6 +11,7 @@
 #include <QGraphicsItem>
 #include <QMouseEvent>
 #include <QCheckBox>
+#include <QGraphicsProxyWidget>
 
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"
