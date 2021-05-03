@@ -5,6 +5,9 @@
 #include <QButtonGroup>
 #include <QMenu>
 #include <QFrame>
+#include <QLineEdit>
+#include <QGroupBox>
+#include <QComboBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGraphicsScene>
@@ -56,6 +59,7 @@ private:
     void crearIconos();
     void crearBotonesPrincipales();
     void crearFrameDimension();
+    void crearPagGeometria();
     void moduloSeleccionado(bool seleccionado);
 
 private slots:

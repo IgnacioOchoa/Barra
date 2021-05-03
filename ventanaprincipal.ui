@@ -140,17 +140,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="pagGeometria">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Geometría</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <widget class="QWidget" name="pagGeometria"/>
       <widget class="QWidget" name="pagMalla">
        <layout class="QFormLayout" name="formLayout_2">
         <item row="0" column="0">

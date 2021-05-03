@@ -12,6 +12,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearIconos();
     crearFrameDimension();
     crearBotonesPrincipales();
+    crearPagGeometria();
 
     escena = new QGraphicsScene(this);
     ui->vistaGeometria->setScene(escena);
@@ -270,6 +271,45 @@ void VentanaPrincipal::crearFrameDimension()
 
     frDimension->setLayout(vbLay);
     frDimension->hide();
+}
+
+void VentanaPrincipal::crearPagGeometria()
+{
+    QWidget* pGeom = ui->pagGeometria;
+    QVBoxLayout* vLayGeneral = new QVBoxLayout(this);
+
+    QHBoxLayout* hbLayout = new QHBoxLayout;
+    QGridLayout* gdDimensiones = new QGridLayout;
+    gdDimensiones->setSpacing(10);
+
+
+    QLineEdit* leLongitud = new QLineEdit;
+    QLabel* lbLongitud = new QLabel("Longitud de la barra");
+    gdDimensiones->addWidget(lbLongitud,0,0);
+    gdDimensiones->addWidget(leLongitud,0,1);
+
+    QComboBox* cbArea = new QComboBox;
+    cbArea->addItems({"Uniforme", "Variación lineal", "Variación cuadrática", "Punto a punto"});
+    QLabel* lbArea = new QLabel("Area transversal");
+    gdDimensiones->addWidget(lbArea,1,0);
+    gdDimensiones->addWidget(cbArea,1,1);
+
+    QComboBox* cbCoord = new QComboBox();
+    cbCoord->addItems({"Inicio de la barra","Centro de la barra","Final de la barra", "Otro punto"});
+    QLabel* lbCoord = new QLabel("Posición del origen");
+    gdDimensiones->addWidget(lbCoord,2,0);
+    gdDimensiones->addWidget(cbCoord,2,1);
+
+    QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
+
+    hbLayout->addItem(gdDimensiones);
+    hbLayout->addStretch(1);
+
+    gbDimensiones->setLayout(hbLayout);
+
+    vLayGeneral->addWidget(gbDimensiones);
+
+    pGeom->setLayout(vLayGeneral);
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
