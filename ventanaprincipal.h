@@ -49,6 +49,7 @@ private:
 
     QPushButton* pbModelo;
     QPushButton* pbDim;
+    QPushButton* pbCalcular;
 
     void crearMenus();
     void crearFrameModelo();

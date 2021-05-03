@@ -79,7 +79,8 @@ void VentanaPrincipal::crearFrameModelo()
 
      QFrame* frDinEst = new QFrame(this);
      frDinEst->setObjectName("FrameEstaticoDinamico");
-     frDinEst->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+     frDinEst->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+     frDinEst->setMaximumWidth(140);
      frDinEst->setLayout(DElayout);
 
      modelLayout->addWidget(frDinEst);
@@ -102,16 +103,45 @@ void VentanaPrincipal::crearFrameModelo()
 
      QFrame* frLinNoLin = new QFrame(this);
      frLinNoLin->setObjectName("FrameLinealNoLineal");
-     frLinNoLin->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+     frLinNoLin->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+     frLinNoLin->setMaximumWidth(140);
      frLinNoLin->setLayout(LNLlayout);
 
      modelLayout->addWidget(frLinNoLin);
 
-     //---------------------------------------------------------------------------------
+     //--------------------------------------------------------------------------------
+     //     Linea Vertical
+     //--------------------------------------------------------------------------------
 
      QFrame *linea1 = new QFrame(this);
      linea1->setFrameShape(QFrame::VLine);
      modelLayout->addWidget(linea1);
+
+     //--------------------------------------------------------------------------------
+     //     Frame ecuacion
+     //--------------------------------------------------------------------------------
+
+     QFrame *frEcuacion = new QFrame(this);
+     frEcuacion->setObjectName("frameEcuacion");
+
+     QVBoxLayout* vbLayEcuacion = new QVBoxLayout;
+     QLabel* ecLabel = new QLabel("Ecuación");
+     vbLayEcuacion->addWidget(ecLabel);
+     ecLabel->setAlignment(Qt::AlignCenter);
+     frEcuacion->setLayout(vbLayEcuacion);
+
+     //frEcuacion->setMaximumWidth(250);
+     frEcuacion->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+     modelLayout->addWidget(frEcuacion);
+
+     //--------------------------------------------------------------------------------
+     //     Linea Vertical
+     //--------------------------------------------------------------------------------
+
+     QFrame *linea2 = new QFrame(this);
+     linea2->setFrameShape(QFrame::VLine);
+     modelLayout->addWidget(linea2);
+
 
      //---------------------------------------------------------------------
      //     Seccion de checkboxes de status
@@ -153,7 +183,7 @@ void VentanaPrincipal::crearFrameModelo()
      QList<QGraphicsProxyWidget*> listaGPWidgets;
      foreach(QCheckBox* cb, listaCheckBoxes)
      {
-         cb->setFont(QFont("Arial",11,QFont::Bold));
+         cb->setFont(QFont(QApplication::font().family(),11));
          listaGPWidgets.append(sceneStatusModulos->addWidget(cb));
      }
 
@@ -174,6 +204,15 @@ void VentanaPrincipal::crearFrameModelo()
      }
 
      //--------------------------------------------------------------------------------------------
+     //   Boton Calcular
+     //--------------------------------------------------------------------------------------------
+
+     pbCalcular = new QPushButton(this);
+     pbCalcular->setObjectName("pbCalcular");
+     pbCalcular->setText("Calcular");
+     pbCalcular->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+     pbCalcular->setMaximumWidth(200);
+     modelLayout->addWidget(pbCalcular);
 
      ui->frameModelo->setLayout(modelLayout);
      connect(pbModelo, &QAbstractButton::clicked, this, &VentanaPrincipal::lanzarVentanaModelo);
