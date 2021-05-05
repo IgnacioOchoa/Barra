@@ -5,8 +5,11 @@ Elemento1D::Elemento1D()
 
 }
 
-Elemento1D::Elemento1D(Nodo1D* nodo, Elemento1D* elem)
+/*/::Elemento1D(Nodo1D* nodo, Elemento1D* elem)
 {
     nodoSiguiente = nodo;
     elementoSiguiente = elem;
+}/*/
+Nodo1D nodoApuntado(){
+    return nodoSiguiente;
 }

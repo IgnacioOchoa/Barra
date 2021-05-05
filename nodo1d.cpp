@@ -1,5 +1,6 @@
 #include "nodo1d.h"
 
+
 Nodo1D::Nodo1D() :
    NodoAbstracto()
 {
@@ -23,6 +24,37 @@ Nodo1D::Nodo1D(float x)
 
 }
 
+QList<float> getCoordenadas(){}
+
+virtual void setCoordenadas(QList<float> coord){
+    QList<float>::iterator i;
+      for (i = list.constBegin(); i != list.constEnd(); ++i)
+          qDebug() << *i;
+
+}
+virtual Elemento1D getProximoElemento(){}
+
+virtual QList<Elemento1D> getElementos(){
+    return elementos;
+}
+
+void conectarNodo(Nodo1D nodo){}
+void desconectarNodo(Nodo1D nodo){}
+void conectarNodo(Nodo1D nodo, int pos){}
+bool esElemento(Nodo1D nodo){
+    bool res = false;
+    Nodo1D nodoAdy = QList::begin();
+    while ((!nodo == nodoAdy) && ()){
+    if (nodo == nodoAdy){
+        res = true;}
+    return res;
+    }
+}
+Elemento1D obtenerElemento(){
+    return Elemento1D
+}
+
+/*/
 QList<float> Nodo1D::getCoordenadas() const
 {
     return QList<float>();
@@ -68,3 +100,4 @@ bool Nodo1D::desconectarElemento(ElementoAbstracto *el)
     // Hacer lo que hay que hacer
     return elementos.removeOne(el1d);
 }
+/*/

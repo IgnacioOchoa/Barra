@@ -12,14 +12,12 @@ SOURCES += \
     botonseleccionmodelo.cpp \
     dialogseleccionmodelo.cpp \
     elemento1d.cpp \
-    elementoabstracto.cpp \
     kernel.cpp \
     main.cpp \
     malla.cpp \
     modelo.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
-    nodoabstracto.cpp \
     solver.cpp \
     ventanaprincipal.cpp
 
@@ -27,13 +25,11 @@ HEADERS += \
     botonseleccionmodelo.h \
     dialogseleccionmodelo.h \
     elemento1d.h \
-    elementoabstracto.h \
     kernel.h \
     malla.h \
     modelo.h \
     modelosfisicos.h \
     nodo1d.h \
-    nodoabstracto.h \
     solver.h \
     ventanaprincipal.h
 
