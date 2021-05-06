@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QButtonGroup>
 #include <QMenu>
+#include <QLabel>
 #include <QFrame>
 #include <QLineEdit>
 #include <QGroupBox>
@@ -13,8 +14,12 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QMouseEvent>
+#include <QHeaderView>
 #include <QCheckBox>
 #include <QGraphicsProxyWidget>
+#include <QTableWidget>
+#include <QStringList>
+#include <QString>
 
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"
@@ -54,6 +59,19 @@ private:
     QPushButton* pbDim;
     QPushButton* pbCalcular;
 
+    QHBoxLayout* hLayDimensiones;
+
+    QGridLayout* gdDimensiones;
+    QLabel* lbCol2;
+    QLabel* lbCol3;
+    QLabel* lbCol4;
+
+    QLineEdit* leCol2;
+    QLineEdit* leCol3;
+    QLineEdit* leCol4;
+
+    QTableWidget* twPuntos;
+
     void crearMenus();
     void crearFrameModelo();
     void crearIconos();
@@ -66,6 +84,7 @@ private slots:
     void lanzarVentanaModelo();
     void seleccionarDimension();
     void modeloCambiado(int nroModelo);
+    void modoAreaTransversalCambiado(const QString& s);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;

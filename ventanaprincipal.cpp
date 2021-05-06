@@ -276,36 +276,82 @@ void VentanaPrincipal::crearFrameDimension()
 void VentanaPrincipal::crearPagGeometria()
 {
     QWidget* pGeom = ui->pagGeometria;
-    QVBoxLayout* vLayGeneral = new QVBoxLayout(this);
 
-    QHBoxLayout* hbLayout = new QHBoxLayout;
-    QGridLayout* gdDimensiones = new QGridLayout;
-    gdDimensiones->setSpacing(10);
+    QVBoxLayout* vLayGeneral = new QVBoxLayout;
 
+    hLayDimensiones = new QHBoxLayout;
+    gdDimensiones = new QGridLayout;
+    gdDimensiones->setSpacing(0);
 
     QLineEdit* leLongitud = new QLineEdit;
     QLabel* lbLongitud = new QLabel("Longitud de la barra");
-    gdDimensiones->addWidget(lbLongitud,0,0);
-    gdDimensiones->addWidget(leLongitud,0,1);
+    leLongitud->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
 
     QComboBox* cbArea = new QComboBox;
     cbArea->addItems({"Uniforme", "Variación lineal", "Variación cuadrática", "Punto a punto"});
+    cbArea->setCurrentIndex(-1);
     QLabel* lbArea = new QLabel("Area transversal");
-    gdDimensiones->addWidget(lbArea,1,0);
-    gdDimensiones->addWidget(cbArea,1,1);
+
+    connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
+            &VentanaPrincipal::modoAreaTransversalCambiado);
+
+    lbCol2 = new QLabel(this);
+    lbCol3 = new QLabel(this);
+    lbCol4 = new QLabel(this);
+    lbCol2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    lbCol3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    lbCol4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+
+    leCol2 = new QLineEdit(this);
+    leCol3 = new QLineEdit(this);
+    leCol4 = new QLineEdit(this);
 
     QComboBox* cbCoord = new QComboBox();
     cbCoord->addItems({"Inicio de la barra","Centro de la barra","Final de la barra", "Otro punto"});
     QLabel* lbCoord = new QLabel("Posición del origen");
-    gdDimensiones->addWidget(lbCoord,2,0);
-    gdDimensiones->addWidget(cbCoord,2,1);
+
+    gdDimensiones->addWidget(lbLongitud,0,0);
+    gdDimensiones->addWidget(leLongitud,0,1);
+
+    gdDimensiones->addWidget(lbArea,2,0);
+    gdDimensiones->addWidget(cbArea,2,1);
+
+    gdDimensiones->addWidget(lbCoord,3,0);
+    gdDimensiones->addWidget(cbCoord,3,1);
+
+    gdDimensiones->addWidget(lbCol2,1,2);
+    gdDimensiones->addWidget(lbCol3,1,3);
+    gdDimensiones->addWidget(lbCol4,1,4);
+
+    gdDimensiones->addWidget(leCol2,2,2);
+    gdDimensiones->addWidget(leCol3,2,3);
+    gdDimensiones->addWidget(leCol4,2,4);
+
+    gdDimensiones->setHorizontalSpacing(15);
+
+    gdDimensiones->setAlignment(lbCol2,Qt::AlignHCenter);
+    gdDimensiones->setAlignment(lbCol3,Qt::AlignHCenter);
+    gdDimensiones->setAlignment(lbCol4,Qt::AlignHCenter);
+
+    twPuntos = new QTableWidget(8,2);
+    twPuntos->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    twPuntos->setMaximumHeight(200);
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
 
-    hbLayout->addItem(gdDimensiones);
-    hbLayout->addStretch(1);
+    hLayDimensiones->addItem(gdDimensiones);
+    hLayDimensiones->addStretch(1);
+    hLayDimensiones->addWidget(twPuntos);
+    hLayDimensiones->setStretchFactor(twPuntos,2);
+    hLayDimensiones->addStretch(1);
 
-    gbDimensiones->setLayout(hbLayout);
+    gbDimensiones->setLayout(hLayDimensiones);
+
+    cbArea->setCurrentIndex(0);
 
     vLayGeneral->addWidget(gbDimensiones);
 
@@ -338,6 +384,50 @@ void VentanaPrincipal::modeloCambiado(int nroModelo)
     QPixmap px(Modelos::getListaModelosFisicos()[nroModelo].imagenIcono);
     pbModelo->setIcon(QIcon(px));
     modeloElegido = nroModelo;
+}
+
+void VentanaPrincipal::modoAreaTransversalCambiado(const QString &s)
+{
+    lbCol2->hide();
+    lbCol3->hide();
+    lbCol4->hide();
+    leCol2->hide();
+    leCol3->hide();
+    leCol4->hide();
+    twPuntos->hide();
+
+    if (s == "Uniforme")
+    {
+        lbCol2->setText("Area");
+        lbCol2->show();
+        leCol2->show();
+
+    }
+    else if (s == "Variación lineal")
+    {
+        lbCol2->setText("Area inicial");
+        lbCol2->show();
+        leCol2->show();
+        lbCol3->setText("Area final");
+        lbCol3->show();
+        leCol3->show();
+    }
+    else if (s == "Variación cuadrática")
+    {
+        lbCol2->setText("Area inicial");
+        lbCol2->show();
+        leCol2->show();
+        lbCol3->setText("Area intermedia");
+        lbCol3->show();
+        leCol3->show();
+        lbCol4->setText("Area final");
+        lbCol4->show();
+        leCol4->show();
+    }
+    else if(s == "Punto a punto")
+    {
+        twPuntos->show();
+    }
 }
 
 bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)
