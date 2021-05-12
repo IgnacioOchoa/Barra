@@ -333,13 +333,15 @@ void VentanaPrincipal::crearPagGeometria()
     gdDimensiones->setAlignment(lbCol3,Qt::AlignHCenter);
     gdDimensiones->setAlignment(lbCol4,Qt::AlignHCenter);
 
-    twPuntos = new QTableWidget(8,2);
+    twPuntos = new QTableWidget(8,3);
     twPuntos->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    twPuntos->setHorizontalHeaderLabels({"Punto", "Pos relativa", "Pos absoluta"});
+    twPuntos->verticalHeader()->setVisible(false);
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    twPuntos->setMaximumHeight(200);
+    twPuntos->setMaximumHeight(170);
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
 
