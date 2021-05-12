@@ -6,7 +6,7 @@
 
 class Elemento1D;
 
-class Nodo1D : public NodoAbstracto
+class Nodo1D
 {
 public:
     Nodo1D();
@@ -14,12 +14,9 @@ public:
     Nodo1D(QList<float> coordenada);
     Nodo1D(float x);
 
-    virtual QList<float> getCoordenadas();
-    virtual void setCoordenadas(QList<float> coord);
-    virtual QList<Elemento1D> getElementos();
-    void conectarNodo(Nodo1D);
-    void desconectarNodo(Nodo1D);
-    void conectarNodo(Nodo1D nodo, int pos);
+    QList<float> getCoordenadas();
+    void setCoordenadas(QList<float> coord);
+    QList<Elemento1D> getElementos();
     bool esElemento(Nodo1D);
     Elemento1D obtenerElemento();
 
@@ -30,7 +27,7 @@ public:
     virtual bool conectarElemento(ElementoAbstracto* el) override;
     virtual bool desconectarElemento(ElementoAbstracto* el) override;/*/
 
-    virtual ~Nodo1D() {};
+    ~Nodo1D() {}
 
 private:
     QList<Elemento1D> elementos;

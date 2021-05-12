@@ -1,20 +1,17 @@
 #include "nodo1d.h"
 
 
-Nodo1D::Nodo1D() :
-   NodoAbstracto()
+Nodo1D::Nodo1D()
 {
 
 }
 
-Nodo1D::Nodo1D(int id) :
-   NodoAbstracto(id)
+Nodo1D::Nodo1D(int id)
 {
 
 }
 
-Nodo1D::Nodo1D(QList<float> coordenada) :
-   NodoAbstracto(coordenada)
+Nodo1D::Nodo1D(QList<float> coordenada)
 {
 
 }
@@ -26,32 +23,27 @@ Nodo1D::Nodo1D(float x)
 
 QList<float> getCoordenadas(){}
 
-virtual void setCoordenadas(QList<float> coord){
+void setCoordenadas(QList<float> coord){
     QList<float>::iterator i;
-      for (i = list.constBegin(); i != list.constEnd(); ++i)
+    for (i = coord.begin(); i != coord.end(); ++i)
           qDebug() << *i;
 
 }
-virtual Elemento1D getProximoElemento(){}
-
-virtual QList<Elemento1D> getElementos(){
+QList<Elemento1D> Nodo1D::getElementos(){
     return elementos;
 }
 
-void conectarNodo(Nodo1D nodo){}
-void desconectarNodo(Nodo1D nodo){}
-void conectarNodo(Nodo1D nodo, int pos){}
 bool esElemento(Nodo1D nodo){
     bool res = false;
-    Nodo1D nodoAdy = QList::begin();
-    while ((!nodo == nodoAdy) && ()){
-    if (nodo == nodoAdy){
-        res = true;}
+   // Nodo1D nodoAdy = QList::begin();
+    //while ((!nodo == nodoAdy) && ()){
+    //if (nodo == nodoAdy){
+    //    res = true;}
     return res;
     }
-}
-Elemento1D obtenerElemento(){
-    return Elemento1D
+
+Elemento1D Nodo1D::obtenerElemento(){
+    return Elemento1D();
 }
 
 /*/
