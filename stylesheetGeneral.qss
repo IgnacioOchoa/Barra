@@ -106,6 +106,7 @@ QPushButton#pbCalcular::pressed
     background-color: #cadbca
 }
 
+/*
 QTableWidget
 {
     background-color : #fefcff;
@@ -129,4 +130,4 @@ QHeaderView::section
     background-color : #efebf2;
     border-style : none
 }
-
+*/

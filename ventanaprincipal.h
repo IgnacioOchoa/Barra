@@ -8,6 +8,7 @@
 #include <QFrame>
 #include <QLineEdit>
 #include <QTextEdit>
+#include <QRadioButton>
 #include <QGroupBox>
 #include <QComboBox>
 #include <QVBoxLayout>

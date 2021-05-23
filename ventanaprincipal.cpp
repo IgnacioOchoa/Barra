@@ -277,87 +277,86 @@ void VentanaPrincipal::crearPagGeometria()
 {
     QWidget* pGeom = ui->pagGeometria;
 
-    QVBoxLayout* vLayGeneral = new QVBoxLayout;
+    QHBoxLayout* hLayGeneral = new QHBoxLayout;
+    QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
 
     hLayDimensiones = new QHBoxLayout;
-    gdDimensiones = new QGridLayout;
-    gdDimensiones->setSpacing(0);
 
+    QHBoxLayout* layLongitud = new QHBoxLayout;
     QLineEdit* leLongitud = new QLineEdit;
     QLabel* lbLongitud = new QLabel("Longitud de la barra");
     leLongitud->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
+    layLongitud->addWidget(lbLongitud);
+    layLongitud->addSpacing(20);
+    layLongitud->addWidget(leLongitud);
+    vBoxDimensiones->addItem(layLongitud);
+    vBoxDimensiones->addSpacing(30);
+
+    QVBoxLayout* vLayArea = new QVBoxLayout;
+
+    QGroupBox* gbAreaTransversal = new QGroupBox("Area transversal", this);
+    QHBoxLayout* hLayArea = new QHBoxLayout;
+    QHBoxLayout* hLaySimetria = new QHBoxLayout;
+    QButtonGroup* btgSimetria = new QButtonGroup;
+
+    QRadioButton* rbSim = new QRadioButton("Simetrica");
+    QRadioButton* rbUni = new QRadioButton("Unilateral");
+    btgSimetria->addButton(rbSim);
+    btgSimetria->addButton(rbUni);
+    hLaySimetria->addWidget(rbSim);
+    hLaySimetria->addSpacing(20);
+    hLaySimetria->addWidget(rbUni);
+    hLaySimetria->insertStretch(-1);
+
+    vLayArea->addItem(hLaySimetria);
 
     QComboBox* cbArea = new QComboBox;
     cbArea->addItems({"Uniforme", "Variación lineal", "Variación cuadrática", "Punto a punto"});
     cbArea->setCurrentIndex(-1);
     QLabel* lbArea = new QLabel("Area transversal");
+    hLayArea->addWidget(lbArea);
+    hLayArea->addWidget(cbArea);
+    vLayArea->addItem(hLayArea);
+
+    gbAreaTransversal->setLayout(vLayArea);
+
+
+
+
+    vBoxDimensiones->addWidget(gbAreaTransversal);
+    vBoxDimensiones->addSpacing(30);
 
     connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::modoAreaTransversalCambiado);
 
-    lbCol2 = new QLabel(this);
-    lbCol3 = new QLabel(this);
-    lbCol4 = new QLabel(this);
-    lbCol2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    lbCol3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    lbCol4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
-    leCol2 = new QLineEdit(this);
-    leCol3 = new QLineEdit(this);
-    leCol4 = new QLineEdit(this);
-
+    QHBoxLayout* layCoord = new QHBoxLayout;
     QComboBox* cbCoord = new QComboBox();
     cbCoord->addItems({"Inicio de la barra","Centro de la barra","Final de la barra", "Otro punto"});
     QLabel* lbCoord = new QLabel("Posición del origen");
-
-    gdDimensiones->addWidget(lbLongitud,0,0);
-    gdDimensiones->addWidget(leLongitud,0,1);
-
-    gdDimensiones->addWidget(lbArea,2,0);
-    gdDimensiones->addWidget(cbArea,2,1);
-
-    gdDimensiones->addWidget(lbCoord,3,0);
-    gdDimensiones->addWidget(cbCoord,3,1);
-
-    gdDimensiones->addWidget(lbCol2,1,2);
-    gdDimensiones->addWidget(lbCol3,1,3);
-    gdDimensiones->addWidget(lbCol4,1,4);
-
-    gdDimensiones->addWidget(leCol2,2,2);
-    gdDimensiones->addWidget(leCol3,2,3);
-    gdDimensiones->addWidget(leCol4,2,4);
-
-    gdDimensiones->setHorizontalSpacing(15);
-
-    gdDimensiones->setAlignment(lbCol2,Qt::AlignHCenter);
-    gdDimensiones->setAlignment(lbCol3,Qt::AlignHCenter);
-    gdDimensiones->setAlignment(lbCol4,Qt::AlignHCenter);
+    layCoord->addWidget(lbCoord);
+    layCoord->addWidget(cbCoord);
+    vBoxDimensiones->addItem(layCoord);
 
     twPuntos = new QTableWidget(8,3);
     twPuntos->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    twPuntos->setHorizontalHeaderLabels({"Punto", "Pos relativa", "Pos absoluta"});
+    twPuntos->setHorizontalHeaderLabels({"Punto", "Posicion", "Valor"});
     twPuntos->verticalHeader()->setVisible(false);
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    twPuntos->setMaximumHeight(170);
+    //twPuntos->setMaximumHeight(170);
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
-
-    hLayDimensiones->addItem(gdDimensiones);
-    hLayDimensiones->addStretch(1);
-    hLayDimensiones->addWidget(twPuntos);
-    hLayDimensiones->setStretchFactor(twPuntos,2);
-    hLayDimensiones->addStretch(1);
-
-    gbDimensiones->setLayout(hLayDimensiones);
+    gbDimensiones->setLayout(vBoxDimensiones);
 
     cbArea->setCurrentIndex(0);
 
-    vLayGeneral->addWidget(gbDimensiones);
+    hLayGeneral->addWidget(gbDimensiones);
+    hLayGeneral->addWidget(twPuntos);
 
-    pGeom->setLayout(vLayGeneral);
+    pGeom->setLayout(hLayGeneral);
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
@@ -412,45 +411,22 @@ void VentanaPrincipal::modeloCambiado(int nroModelo)
 
 void VentanaPrincipal::modoAreaTransversalCambiado(const QString &s)
 {
-    lbCol2->hide();
-    lbCol3->hide();
-    lbCol4->hide();
-    leCol2->hide();
-    leCol3->hide();
-    leCol4->hide();
-    twPuntos->hide();
-
     if (s == "Uniforme")
     {
-        lbCol2->setText("Area");
-        lbCol2->show();
-        leCol2->show();
+
 
     }
     else if (s == "Variación lineal")
     {
-        lbCol2->setText("Area inicial");
-        lbCol2->show();
-        leCol2->show();
-        lbCol3->setText("Area final");
-        lbCol3->show();
-        leCol3->show();
+
     }
     else if (s == "Variación cuadrática")
     {
-        lbCol2->setText("Area inicial");
-        lbCol2->show();
-        leCol2->show();
-        lbCol3->setText("Area intermedia");
-        lbCol3->show();
-        leCol3->show();
-        lbCol4->setText("Area final");
-        lbCol4->show();
-        leCol4->show();
+
     }
     else if(s == "Punto a punto")
     {
-        twPuntos->show();
+        //twPuntos->show();
     }
 }
 
