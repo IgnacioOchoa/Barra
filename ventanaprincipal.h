@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QFrame>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QGroupBox>
 #include <QComboBox>
 #include <QVBoxLayout>
@@ -79,6 +80,10 @@ private:
     void crearFrameDimension();
     void crearPagGeometria();
     void moduloSeleccionado(bool seleccionado);
+    void crearPanelMensajes();
+
+public slots:
+    void mensajeStatusBar(const QString& msj);
 
 private slots:
     void lanzarVentanaModelo();

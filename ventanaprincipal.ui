@@ -40,6 +40,9 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
+       <layout class="QGridLayout" name="gridLayout"/>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>2</number>
@@ -137,10 +140,35 @@
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="pagGeometria"/>
+      <widget class="QWidget" name="pagGeometria">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>300</height>
+        </size>
+       </property>
+      </widget>
       <widget class="QWidget" name="pagMalla">
        <layout class="QFormLayout" name="formLayout_2">
         <item row="0" column="0">
@@ -199,35 +227,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="tabletTracking">
-       <bool>false</bool>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::DefaultContextMenu</enum>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="textInteractionFlags">
-       <set>Qt::NoTextInteraction</set>
-      </property>
-     </widget>
+     <layout class="QGridLayout" name="panelMensajes"/>
     </item>
    </layout>
   </widget>

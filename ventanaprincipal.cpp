@@ -13,14 +13,14 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearFrameDimension();
     crearBotonesPrincipales();
     crearPagGeometria();
+    crearPanelMensajes();
 
     escena = new QGraphicsScene(this);
     ui->vistaGeometria->setScene(escena);
 
-    ui->textEdit->setText("Aca van a aparecer mensajes copados");
-
     modeloElegido = -1;
 
+    mensajeStatusBar("Aplicación lista");
 }
 
 VentanaPrincipal::~VentanaPrincipal()
@@ -363,6 +363,28 @@ void VentanaPrincipal::crearPagGeometria()
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 {
     if(seleccionado) ui->stackedWidget->setCurrentIndex(grBotonesModulos->checkedId());
+}
+
+void VentanaPrincipal::crearPanelMensajes()
+{
+    QTextEdit* teMensaje = new QTextEdit(this);
+    teMensaje->setText("Aca van a aparecer mensajes copados");
+
+    QPushButton* miBoton = new QPushButton("O",this);
+
+    ui->panelMensajes->addWidget(teMensaje,0,0,2,1);
+    ui->panelMensajes->addWidget(miBoton,1,1);
+
+    teMensaje->setMaximumHeight(50);
+
+    connect(miBoton, &QAbstractButton::pressed, [teMensaje](){
+        teMensaje->setMaximumHeight(teMensaje->maximumHeight() == 50 ? 200 : 50);
+    });
+}
+
+void VentanaPrincipal::mensajeStatusBar(const QString& msj)
+{
+    statusBar()->showMessage(msj);
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()
