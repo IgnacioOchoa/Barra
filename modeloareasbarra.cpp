@@ -6,8 +6,8 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     nroFilas = 1;
     nroColumnas = 2;
 
-    posiciones.append(0.f);
-    areas.append(1.f);
+    posiciones.append(1.0);
+    areas.append(1.0);
 }
 
 ModeloAreasBarra::ModeloAreasBarra(int nroFil, QObject *parent) :
@@ -18,8 +18,8 @@ ModeloAreasBarra::ModeloAreasBarra(int nroFil, QObject *parent) :
 
     for (int i=0; i<nroFil; i++)
     {
-        posiciones.append(0.0);
-        areas.append(0.0);
+        posiciones.append(1.0);
+        areas.append(1.0);
     }
 }
 
@@ -53,6 +53,12 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
                 break;
         }
     }
+
+    if (role == Qt::TextAlignmentRole)
+    {
+        return Qt::AlignCenter;
+    }
+
     return QVariant();
 }
 
@@ -61,7 +67,7 @@ bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, 
     if (index.isValid() && role == Qt::EditRole) {
         switch (index.column()) {
             case 0:
-                posiciones[index.row()] = value.toInt();
+                posiciones[index.row()] = value.toFloat();
                 break;
             case 1:
                 areas[index.row()] = value.toFloat();
@@ -89,23 +95,14 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
                     return "Area";
             }
         }
-        return QVariant();
 
-    if (orientation == Qt::Vertical) {
-            /*switch (section) {
-                case 0:
-                    return QVariant();
-                default:
-                    return "Hola";
-            }*/
-            return "Hola";
-        }
+    return QAbstractItemModel::headerData(section, orientation, role);
 
 }
 
 Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 {
-    return Qt::NoItemFlags;
+    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
 bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &index)

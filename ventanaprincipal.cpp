@@ -346,6 +346,7 @@ void VentanaPrincipal::crearPagGeometria()
     twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    twPuntos->verticalHeader()->setVisible(true);
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
     gbDimensiones->setLayout(vBoxDimensiones);
