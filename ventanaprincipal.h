@@ -25,6 +25,7 @@
 
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"
+#include "modeloareasbarra.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }
@@ -72,7 +73,8 @@ private:
     QLineEdit* leCol3;
     QLineEdit* leCol4;
 
-    QTableWidget* twPuntos;
+    ModeloAreasBarra* modeloAreasBarra;
+    QTableView* twPuntos;
 
     void crearMenus();
     void crearFrameModelo();
@@ -82,6 +84,7 @@ private:
     void crearPagGeometria();
     void moduloSeleccionado(bool seleccionado);
     void crearPanelMensajes();
+    void crearModeloAreas();
 
 public slots:
     void mensajeStatusBar(const QString& msj);

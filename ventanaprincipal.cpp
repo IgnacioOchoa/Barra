@@ -13,6 +13,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearFrameDimension();
     crearBotonesPrincipales();
     crearPagGeometria();
+    crearModeloAreas();
     crearPanelMensajes();
 
     escena = new QGraphicsScene(this);
@@ -275,6 +276,10 @@ void VentanaPrincipal::crearFrameDimension()
 
 void VentanaPrincipal::crearPagGeometria()
 {
+    modeloAreasBarra = new ModeloAreasBarra(3);
+    twPuntos = new QTableView;
+    twPuntos->setModel(modeloAreasBarra);
+
     QWidget* pGeom = ui->pagGeometria;
 
     QHBoxLayout* hLayGeneral = new QHBoxLayout;
@@ -321,8 +326,6 @@ void VentanaPrincipal::crearPagGeometria()
     gbAreaTransversal->setLayout(vLayArea);
 
 
-
-
     vBoxDimensiones->addWidget(gbAreaTransversal);
     vBoxDimensiones->addSpacing(30);
 
@@ -338,15 +341,11 @@ void VentanaPrincipal::crearPagGeometria()
     layCoord->addWidget(cbCoord);
     vBoxDimensiones->addItem(layCoord);
 
-    twPuntos = new QTableWidget(8,3);
     twPuntos->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    twPuntos->setHorizontalHeaderLabels({"Punto", "Posicion", "Valor"});
-    twPuntos->verticalHeader()->setVisible(false);
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    //twPuntos->setMaximumHeight(170);
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
     gbDimensiones->setLayout(vBoxDimensiones);
@@ -379,6 +378,11 @@ void VentanaPrincipal::crearPanelMensajes()
     connect(miBoton, &QAbstractButton::pressed, [teMensaje](){
         teMensaje->setMaximumHeight(teMensaje->maximumHeight() == 50 ? 200 : 50);
     });
+}
+
+void VentanaPrincipal::crearModeloAreas()
+{
+
 }
 
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)

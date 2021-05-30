@@ -16,6 +16,7 @@ SOURCES += \
     main.cpp \
     malla.cpp \
     modelo.cpp \
+    modeloareasbarra.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
     solver.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     kernel.h \
     malla.h \
     modelo.h \
+    modeloareasbarra.h \
     modelosfisicos.h \
     nodo1d.h \
     solver.h \
