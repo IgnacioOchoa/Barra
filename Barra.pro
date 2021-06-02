@@ -27,13 +27,13 @@ HEADERS += \
     dialogseleccionmodelo.h \
     elemento1d.h \
     kernel.h \
-    malla.h \
     modelo.h \
     modeloareasbarra.h \
     modelosfisicos.h \
     nodo1d.h \
     solver.h \
-    ventanaprincipal.h
+    ventanaprincipal.h \
+    malla1D.h
 
 FORMS += \
     dialogseleccionmodelo.ui \
