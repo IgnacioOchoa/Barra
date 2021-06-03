@@ -88,6 +88,7 @@ private:
 
 public slots:
     void mensajeStatusBar(const QString& msj);
+    void cbVariacionAreaCambiado(const QString& s);
 
 private slots:
     void lanzarVentanaModelo();

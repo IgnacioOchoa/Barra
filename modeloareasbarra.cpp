@@ -107,10 +107,23 @@ Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 
 bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &index)
 {
+    position = nroFilas;
+    beginInsertRows(QModelIndex(), position, position);
+    nroFilas++;
+    if(posiciones.size()<nroFilas)
+    {
+        posiciones.append(4.5f);
+        areas.append(3.3f);
+    }
+    endInsertRows();
     return true;
 }
 
 bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &index)
 {
+    position = nroFilas-1;
+    beginRemoveRows(QModelIndex(), position, position);
+    nroFilas--;
+    endRemoveRows();
     return true;
 }

@@ -276,7 +276,7 @@ void VentanaPrincipal::crearFrameDimension()
 
 void VentanaPrincipal::crearPagGeometria()
 {
-    modeloAreasBarra = new ModeloAreasBarra(3);
+    modeloAreasBarra = new ModeloAreasBarra(6);
     twPuntos = new QTableView;
     twPuntos->setModel(modeloAreasBarra);
 
@@ -316,12 +316,24 @@ void VentanaPrincipal::crearPagGeometria()
     vLayArea->addItem(hLaySimetria);
 
     QComboBox* cbArea = new QComboBox;
-    cbArea->addItems({"Uniforme", "Variación lineal", "Variación cuadrática", "Punto a punto"});
+    cbArea->addItems({"Uniforme", "Variación lineal", "Variación multipunto"});
     cbArea->setCurrentIndex(-1);
     QLabel* lbArea = new QLabel("Area transversal");
     hLayArea->addWidget(lbArea);
     hLayArea->addWidget(cbArea);
     vLayArea->addItem(hLayArea);
+
+    connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
+            &VentanaPrincipal::cbVariacionAreaCambiado);
+
+    QPushButton* pbRemove = new QPushButton;
+    QPushButton* pbAdd = new QPushButton;
+    pbAdd->setText("Agregar fila");
+    pbRemove->setText("Borrar fila");
+    vLayArea->addWidget(pbAdd);
+    vLayArea->addWidget(pbRemove);
+    connect(pbAdd, &QAbstractButton::pressed, [this](){modeloAreasBarra->insertRows(0,0);});
+    connect(pbRemove, &QAbstractButton::pressed, [this](){modeloAreasBarra->removeRows(0,0);});
 
     gbAreaTransversal->setLayout(vLayArea);
 
@@ -356,7 +368,13 @@ void VentanaPrincipal::crearPagGeometria()
     hLayGeneral->addWidget(gbDimensiones);
     hLayGeneral->addWidget(twPuntos);
 
+    gbDimensiones->setMinimumWidth(700);
+    twPuntos->hide();
+
+    hLayGeneral->setAlignment(gbDimensiones, Qt::AlignLeft);
     pGeom->setLayout(hLayGeneral);
+
+
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
@@ -389,6 +407,18 @@ void VentanaPrincipal::crearModeloAreas()
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)
 {
     statusBar()->showMessage(msj);
+}
+
+void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
+{
+    if(s == "Uniforme")
+    {
+        twPuntos->hide();
+    }
+    else
+    {
+        twPuntos->show();
+    }
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()
