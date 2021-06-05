@@ -55,6 +55,8 @@ private:
 
     int modeloElegido;
 
+    float longitudBarra;
+
     QButtonGroup* grBotonesModulos;
     QGraphicsScene* escena;
 
@@ -66,6 +68,8 @@ private:
 
     QButtonGroup* btgSimetria;
 
+    QLineEdit* leLongitudBarra;
+    QLabel* lbLongitudBarra;
     QLabel* lbValorArea;
     QLineEdit* leValorArea;
 
@@ -101,6 +105,7 @@ private slots:
     void seleccionarDimension();
     void modeloCambiado(int nroModelo);
     void cbVariacionAreaCambiado(const QString& s);
+    void longitudBarraCambiada();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;

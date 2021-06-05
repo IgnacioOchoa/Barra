@@ -2,6 +2,7 @@
 #define MODELOAREASBARRA_H
 
 #include <QObject>
+#include <QDebug>
 #include <QAbstractTableModel>
 
 /*       MODELO AREAS BARRA
@@ -20,7 +21,7 @@
 class ModeloAreasBarra : public QAbstractTableModel
 {
 public:
-    ModeloAreasBarra(QObject *parent = nullptr);
+    ModeloAreasBarra(float longitud, QObject *parent = nullptr);
     ModeloAreasBarra(int nroFil, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -34,6 +35,9 @@ public:
 
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+
+public slots:
+    void longitudCambiada(float nuevaLongitud);
 
 private:
     int nroColumnas;

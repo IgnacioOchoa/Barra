@@ -7,6 +7,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 {
     ui->setupUi(this);
 
+    longitudBarra = 10.0;
+
     crearMenus();
     crearFrameModelo();
     crearIconos();
@@ -280,6 +282,7 @@ void VentanaPrincipal::crearFrameDimension()
 void VentanaPrincipal::crearPagGeometria()
 {
     QWidget* pGeom = ui->pagGeometria;
+    modeloAreasBarra = new ModeloAreasBarra(longitudBarra);
 
     QHBoxLayout* hLayGeneral = new QHBoxLayout;
     QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
@@ -289,16 +292,19 @@ void VentanaPrincipal::crearPagGeometria()
     //---------------------------------------------------------------------
 
     QHBoxLayout* layLongitud = new QHBoxLayout;
-    QLineEdit* leLongitud = new QLineEdit;
-    leLongitud->setText("10.0");
-    leLongitud->setMaximumWidth(100);
-    QLabel* lbLongitud = new QLabel("Longitud de la barra");
-    leLongitud->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
-    layLongitud->addWidget(lbLongitud);
+    leLongitudBarra = new QLineEdit;
+    leLongitudBarra->setText("10.0");
+    leLongitudBarra->setMaximumWidth(100);
+    lbLongitudBarra = new QLabel("Longitud de la barra");
+    leLongitudBarra->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
+    layLongitud->addWidget(lbLongitudBarra);
     layLongitud->addSpacing(165);
-    layLongitud->addWidget(leLongitud);
-    layLongitud->setAlignment(leLongitud, Qt::AlignLeft);
+    layLongitud->addWidget(leLongitudBarra);
+    layLongitud->setAlignment(leLongitudBarra, Qt::AlignLeft);
     vBoxDimensiones->addItem(layLongitud);
+
+    connect(leLongitudBarra, SIGNAL(editingFinished()),
+            this, SLOT(longitudBarraCambiada()));
 
     //---------------------------------------------------------------------
     //  Creacion bloque seleccion de secciones
@@ -367,7 +373,6 @@ void VentanaPrincipal::crearPagGeometria()
     //  Creacion de tabla
     //---------------------------------------------------------------------
 
-    modeloAreasBarra = new ModeloAreasBarra();
     twPuntos = new QTableView;
     twPuntos->setModel(modeloAreasBarra);
 
@@ -475,6 +480,12 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         pbEliminarLineaTabla->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
     }
+}
+
+void VentanaPrincipal::longitudBarraCambiada()
+{
+    longitudBarra = leLongitudBarra->text().toDouble();
+    modeloAreasBarra->longitudCambiada(longitudBarra);
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()

@@ -1,12 +1,12 @@
 #include "modeloareasbarra.h"
 
-ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
+ModeloAreasBarra::ModeloAreasBarra(float longitud, QObject *parent) :
     QAbstractTableModel(parent)
 {
     nroFilas = 2;
     nroColumnas = 2;
 
-    posiciones << 0.0 << 10.0;
+    posiciones << 0.0 << longitud;
     areas << 1.0 << 1.0;
 }
 
@@ -100,6 +100,19 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
 
 }
 
+void ModeloAreasBarra::longitudCambiada(float nuevaLongitud)
+{
+    for(int i=0; i<posiciones.size(); i++)
+    {
+        if (posiciones[i] > nuevaLongitud)
+        {
+            posiciones[i] = nuevaLongitud;
+            emit dataChanged(QAbstractItemModel::createIndex(i,0),QAbstractItemModel::createIndex(i,0));
+        }
+    }
+
+}
+
 Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
@@ -112,8 +125,8 @@ bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &ind
     nroFilas++;
     if(posiciones.size()<nroFilas)
     {
-        posiciones.append(4.5f);
-        areas.append(3.3f);
+        posiciones.append(posiciones[nroFilas-2]);
+        areas.append(1.0f);
     }
     endInsertRows();
     return true;
