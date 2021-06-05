@@ -62,9 +62,16 @@ private:
     QPushButton* pbDim;
     QPushButton* pbCalcular;
 
-    QHBoxLayout* hLayDimensiones;
+    QGridLayout* gdArea;
 
-    QGridLayout* gdDimensiones;
+    QButtonGroup* btgSimetria;
+
+    QLabel* lbValorArea;
+    QLineEdit* leValorArea;
+
+    QPushButton* pbAgregarLineaTabla;
+    QPushButton* pbEliminarLineaTabla;
+
     QLabel* lbCol2;
     QLabel* lbCol3;
     QLabel* lbCol4;
@@ -88,13 +95,12 @@ private:
 
 public slots:
     void mensajeStatusBar(const QString& msj);
-    void cbVariacionAreaCambiado(const QString& s);
 
 private slots:
     void lanzarVentanaModelo();
     void seleccionarDimension();
     void modeloCambiado(int nroModelo);
-    void modoAreaTransversalCambiado(const QString& s);
+    void cbVariacionAreaCambiado(const QString& s);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;

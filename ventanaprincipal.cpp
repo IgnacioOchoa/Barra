@@ -18,6 +18,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 
     escena = new QGraphicsScene(this);
     ui->vistaGeometria->setScene(escena);
+    ui->vistaGeometria->setMinimumHeight(350);
+    ui->vistaGeometria->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     modeloElegido = -1;
 
@@ -178,6 +180,7 @@ void VentanaPrincipal::crearFrameModelo()
      QGraphicsView* viewStatusModulos = new QGraphicsView(this);
      viewStatusModulos->setObjectName("vistaStatusModulos");
      viewStatusModulos->setMaximumHeight(130);
+     viewStatusModulos->setMinimumHeight(120);
      viewStatusModulos->setMaximumWidth(350);
      viewStatusModulos->setScene(sceneStatusModulos);
      modelLayout->addWidget(viewStatusModulos);
@@ -276,34 +279,39 @@ void VentanaPrincipal::crearFrameDimension()
 
 void VentanaPrincipal::crearPagGeometria()
 {
-    modeloAreasBarra = new ModeloAreasBarra(6);
-    twPuntos = new QTableView;
-    twPuntos->setModel(modeloAreasBarra);
-
     QWidget* pGeom = ui->pagGeometria;
 
     QHBoxLayout* hLayGeneral = new QHBoxLayout;
     QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
 
-    hLayDimensiones = new QHBoxLayout;
+    //---------------------------------------------------------------------
+    //  Creacion linea de longitud de barra
+    //---------------------------------------------------------------------
 
     QHBoxLayout* layLongitud = new QHBoxLayout;
     QLineEdit* leLongitud = new QLineEdit;
+    leLongitud->setText("10.0");
+    leLongitud->setMaximumWidth(100);
     QLabel* lbLongitud = new QLabel("Longitud de la barra");
     leLongitud->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
     layLongitud->addWidget(lbLongitud);
-    layLongitud->addSpacing(20);
+    layLongitud->addSpacing(165);
     layLongitud->addWidget(leLongitud);
+    layLongitud->setAlignment(leLongitud, Qt::AlignLeft);
     vBoxDimensiones->addItem(layLongitud);
-    vBoxDimensiones->addSpacing(30);
+
+    //---------------------------------------------------------------------
+    //  Creacion bloque seleccion de secciones
+    //---------------------------------------------------------------------
 
     QVBoxLayout* vLayArea = new QVBoxLayout;
-
     QGroupBox* gbAreaTransversal = new QGroupBox("Area transversal", this);
-    QHBoxLayout* hLayArea = new QHBoxLayout;
-    QHBoxLayout* hLaySimetria = new QHBoxLayout;
-    QButtonGroup* btgSimetria = new QButtonGroup;
+    gbAreaTransversal->setMinimumHeight(150);
 
+    // ---------- Seccion simetria ----------------------------------------
+
+    QHBoxLayout* hLaySimetria = new QHBoxLayout;
+    btgSimetria = new QButtonGroup;
     QRadioButton* rbSim = new QRadioButton("Simetrica");
     QRadioButton* rbUni = new QRadioButton("Unilateral");
     btgSimetria->addButton(rbSim);
@@ -312,38 +320,40 @@ void VentanaPrincipal::crearPagGeometria()
     hLaySimetria->addSpacing(20);
     hLaySimetria->addWidget(rbUni);
     hLaySimetria->insertStretch(-1);
-
     vLayArea->addItem(hLaySimetria);
 
+    // ---------- Seccion areas -------------------------------------------
+    gdArea = new QGridLayout;
+    gdArea->setRowMinimumHeight(1, 50);
     QComboBox* cbArea = new QComboBox;
     cbArea->addItems({"Uniforme", "Variación lineal", "Variación multipunto"});
     cbArea->setCurrentIndex(-1);
     QLabel* lbArea = new QLabel("Area transversal");
-    hLayArea->addWidget(lbArea);
-    hLayArea->addWidget(cbArea);
-    vLayArea->addItem(hLayArea);
+    gdArea->addWidget(lbArea,0,0);
+    gdArea->addWidget(cbArea,0,1);
+
+    lbValorArea = new QLabel("Valor area");
+    leValorArea = new QLineEdit;
+    leValorArea->setMaximumWidth(100);
+    gdArea->addWidget(lbValorArea,1,0);
+    gdArea->addWidget(leValorArea,1,1,Qt::AlignLeft);
+
+    gdArea->setColumnStretch(0,5);
+    gdArea->setColumnStretch(1,3);
+    gdArea->setSpacing(5);
+    vLayArea->addItem(gdArea);
 
     connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::cbVariacionAreaCambiado);
 
-    QPushButton* pbRemove = new QPushButton;
-    QPushButton* pbAdd = new QPushButton;
-    pbAdd->setText("Agregar fila");
-    pbRemove->setText("Borrar fila");
-    vLayArea->addWidget(pbAdd);
-    vLayArea->addWidget(pbRemove);
-    connect(pbAdd, &QAbstractButton::pressed, [this](){modeloAreasBarra->insertRows(0,0);});
-    connect(pbRemove, &QAbstractButton::pressed, [this](){modeloAreasBarra->removeRows(0,0);});
-
     gbAreaTransversal->setLayout(vLayArea);
-
 
     vBoxDimensiones->addWidget(gbAreaTransversal);
     vBoxDimensiones->addSpacing(30);
 
-    connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
-            &VentanaPrincipal::modoAreaTransversalCambiado);
-
+    //---------------------------------------------------------------------
+    //  Creacion bloque seleccion de coordenadas
+    //---------------------------------------------------------------------
 
     QHBoxLayout* layCoord = new QHBoxLayout;
     QComboBox* cbCoord = new QComboBox();
@@ -353,27 +363,54 @@ void VentanaPrincipal::crearPagGeometria()
     layCoord->addWidget(cbCoord);
     vBoxDimensiones->addItem(layCoord);
 
-    twPuntos->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    //---------------------------------------------------------------------
+    //  Creacion de tabla
+    //---------------------------------------------------------------------
+
+    modeloAreasBarra = new ModeloAreasBarra();
+    twPuntos = new QTableView;
+    twPuntos->setModel(modeloAreasBarra);
+
+    QVBoxLayout* vLayTabla = new QVBoxLayout;
+
+    twPuntos->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
     twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     twPuntos->verticalHeader()->setVisible(true);
+    twPuntos->hide();
+
+    vLayTabla->addWidget(twPuntos);
+
+    //----------- Botones tabla ----------------------------------------
+
+    QHBoxLayout* hBoxBotTabla = new QHBoxLayout;
+    pbAgregarLineaTabla = new QPushButton;
+    pbEliminarLineaTabla = new QPushButton;
+    pbAgregarLineaTabla->setText("Agregar fila");
+    pbEliminarLineaTabla->setText("Borrar fila");
+    hBoxBotTabla->addWidget(pbAgregarLineaTabla);
+    hBoxBotTabla->addWidget(pbEliminarLineaTabla);
+    connect(pbAgregarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->insertRows(0,0);});
+    connect(pbEliminarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->removeRows(0,0);});
+
+    vLayTabla->addItem(hBoxBotTabla);
+
+    //---------------------------------------------------------------------
+    //  Layout general
+    //---------------------------------------------------------------------
 
     QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
     gbDimensiones->setLayout(vBoxDimensiones);
-
-    cbArea->setCurrentIndex(0);
+    gbDimensiones->setMinimumWidth(700);
 
     hLayGeneral->addWidget(gbDimensiones);
-    hLayGeneral->addWidget(twPuntos);
-
-    gbDimensiones->setMinimumWidth(700);
-    twPuntos->hide();
-
+    hLayGeneral->addItem(vLayTabla);
     hLayGeneral->setAlignment(gbDimensiones, Qt::AlignLeft);
-    pGeom->setLayout(hLayGeneral);
 
+    cbArea->setCurrentIndex(0);
+    pGeom->setLayout(hLayGeneral);
 
 }
 
@@ -414,10 +451,29 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
     if(s == "Uniforme")
     {
         twPuntos->hide();
+        lbValorArea->show();
+        leValorArea->show();
+        pbAgregarLineaTabla->hide();
+        pbEliminarLineaTabla->hide();
+        foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
+    }
+    else if (s == "Variación lineal")
+    {
+        twPuntos->show();
+        lbValorArea->hide();
+        leValorArea->hide();
+        pbAgregarLineaTabla->hide();
+        pbEliminarLineaTabla->hide();
+        foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
     }
     else
     {
         twPuntos->show();
+        lbValorArea->hide();
+        leValorArea->hide();
+        pbAgregarLineaTabla->show();
+        pbEliminarLineaTabla->show();
+        foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
     }
 }
 
@@ -442,27 +498,6 @@ void VentanaPrincipal::modeloCambiado(int nroModelo)
     QPixmap px(Modelos::getListaModelosFisicos()[nroModelo].imagenIcono);
     pbModelo->setIcon(QIcon(px));
     modeloElegido = nroModelo;
-}
-
-void VentanaPrincipal::modoAreaTransversalCambiado(const QString &s)
-{
-    if (s == "Uniforme")
-    {
-
-
-    }
-    else if (s == "Variación lineal")
-    {
-
-    }
-    else if (s == "Variación cuadrática")
-    {
-
-    }
-    else if(s == "Punto a punto")
-    {
-        //twPuntos->show();
-    }
 }
 
 bool VentanaPrincipal::eventFilter(QObject *obj, QEvent *ev)

@@ -3,11 +3,11 @@
 ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    nroFilas = 1;
+    nroFilas = 2;
     nroColumnas = 2;
 
-    posiciones.append(1.0);
-    areas.append(1.0);
+    posiciones << 0.0 << 10.0;
+    areas << 1.0 << 1.0;
 }
 
 ModeloAreasBarra::ModeloAreasBarra(int nroFil, QObject *parent) :

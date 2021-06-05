@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     Kernel k;
     k.setInterfaz(&w);
 
-    w.setMinimumSize(1400,900);
+    w.setMinimumSize(1400,1000);
 
     w.show();
     return a.exec();
