@@ -1,6 +1,6 @@
 #include "malla1D.h"
 
-Malla::Malla()
+Malla1D::Malla1D()
 {
 
 }

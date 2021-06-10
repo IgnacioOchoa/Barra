@@ -14,13 +14,13 @@ SOURCES += \
     elemento1d.cpp \
     kernel.cpp \
     main.cpp \
-    malla.cpp \
     modelo.cpp \
     modeloareasbarra.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
     solver.cpp \
-    ventanaprincipal.cpp
+    ventanaprincipal.cpp \
+    malla1D.cpp
 
 HEADERS += \
     botonseleccionmodelo.h \
