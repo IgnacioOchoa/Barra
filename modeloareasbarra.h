@@ -7,10 +7,10 @@
 
 /*       MODELO AREAS BARRA
  *
- *   COL1   |   COL2   |   COL3
- * -------------------------------
- * nro pto  |  pos abs | area abs
- *  (int)   |  (float) | (float)
+ *   COL1   |   COL2   |    COL3    |   COL4   |   COL5   |
+ * ------------------------------------------------------
+ * nro pto  |  pos abs |   por rel  | area abs | area real
+ *  (int)   |  (float) |   (float)  |  (float) |  (float)
  *
  * Nro punto: empieza en 1 y se usa para numerar los puntos donde se definiran las secciones
  * Pos absoluta: posicion absoulta en metros respecto al punto 1 del punto en cuestion
@@ -22,7 +22,6 @@ class ModeloAreasBarra : public QAbstractTableModel
 {
 public:
     ModeloAreasBarra(float longitud, QObject *parent = nullptr);
-    ModeloAreasBarra(int nroFil, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -38,10 +37,13 @@ public:
 
 public slots:
     void longitudCambiada(float nuevaLongitud);
+    void areaReferenciaCambiada(float nuevaArea);
 
 private:
     int nroColumnas;
     int nroFilas;
+    float longitudBarra;
+    float areaReferencia;
 
     QList<float> posiciones;
     QList<float> areas;

@@ -56,6 +56,7 @@ private:
     int modeloElegido;
 
     float longitudBarra;
+    float areaReferencia;
 
     QButtonGroup* grBotonesModulos;
     QGraphicsScene* escena;
@@ -106,6 +107,7 @@ private slots:
     void modeloCambiado(int nroModelo);
     void cbVariacionAreaCambiado(const QString& s);
     void longitudBarraCambiada();
+    void valorAreaCambiada();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;

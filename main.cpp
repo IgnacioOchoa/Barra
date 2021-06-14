@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
     VentanaPrincipal w;
     Kernel k;
     k.setInterfaz(&w);
-
     w.setMinimumSize(1400,1000);
 
     w.show();

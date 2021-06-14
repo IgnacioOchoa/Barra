@@ -296,7 +296,7 @@ void VentanaPrincipal::crearPagGeometria()
     leLongitudBarra->setText("10.0");
     leLongitudBarra->setMaximumWidth(100);
     lbLongitudBarra = new QLabel("Longitud de la barra");
-    leLongitudBarra->setValidator(new QDoubleValidator(0.0, 100.0, 1, this));
+    leLongitudBarra->setValidator(new QDoubleValidator(0.0, 1000.0, 1, this));
     layLongitud->addWidget(lbLongitudBarra);
     layLongitud->addSpacing(165);
     layLongitud->addWidget(leLongitudBarra);
@@ -351,6 +351,9 @@ void VentanaPrincipal::crearPagGeometria()
 
     connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::cbVariacionAreaCambiado);
+
+    connect(leValorArea, SIGNAL(editingFinished()),
+            this, SLOT(valorAreaCambiada()));
 
     gbAreaTransversal->setLayout(vLayArea);
 
@@ -486,6 +489,12 @@ void VentanaPrincipal::longitudBarraCambiada()
 {
     longitudBarra = leLongitudBarra->text().toDouble();
     modeloAreasBarra->longitudCambiada(longitudBarra);
+}
+
+void VentanaPrincipal::valorAreaCambiada()
+{
+    areaReferencia = leValorArea->text().toDouble();
+    modeloAreasBarra->areaReferenciaCambiada(areaReferencia);
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()

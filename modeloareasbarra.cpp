@@ -4,23 +4,12 @@ ModeloAreasBarra::ModeloAreasBarra(float longitud, QObject *parent) :
     QAbstractTableModel(parent)
 {
     nroFilas = 2;
-    nroColumnas = 2;
+    nroColumnas = 4;
+    longitudBarra = longitud;
+    areaReferencia = 1;
 
-    posiciones << 0.0 << longitud;
+    posiciones << 0.0 << 1.0;
     areas << 1.0 << 1.0;
-}
-
-ModeloAreasBarra::ModeloAreasBarra(int nroFil, QObject *parent) :
-    QAbstractTableModel(parent)
-{
-    nroColumnas = 2;
-    nroFilas = nroFil;
-
-    for (int i=0; i<nroFil; i++)
-    {
-        posiciones.append(1.0);
-        areas.append(1.0);
-    }
 }
 
 int ModeloAreasBarra::rowCount(const QModelIndex &parent) const
@@ -46,8 +35,12 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
             case 0:
-                return posiciones.at(index.row());
+                return posiciones.at(index.row())*longitudBarra;
             case 1:
+                return posiciones.at(index.row());
+            case 2:
+                return areas.at(index.row())*areaReferencia;
+            case 3:
                 return areas.at(index.row());
             default:
                 break;
@@ -67,9 +60,16 @@ bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, 
     if (index.isValid() && role == Qt::EditRole) {
         switch (index.column()) {
             case 0:
-                posiciones[index.row()] = value.toFloat();
+                posiciones[index.row()] = value.toFloat()/longitudBarra;
                 break;
             case 1:
+                if(value.toFloat()>1) return false;
+                posiciones[index.row()] = value.toFloat();
+            break;
+            case 2:
+                areas[index.row()] = value.toFloat()/areaReferencia;
+                break;
+            case 3:
                 areas[index.row()] = value.toFloat();
                 break;
             default:
@@ -90,9 +90,13 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
     if (orientation == Qt::Horizontal) {
             switch (section) {
                 case 0:
-                    return "Posicion";
+                    return "Pos";
                 case 1:
+                    return "Pos rel";
+                case 2:
                     return "Area";
+                case 3:
+                    return "Area rel";
             }
         }
 
@@ -102,15 +106,16 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
 
 void ModeloAreasBarra::longitudCambiada(float nuevaLongitud)
 {
-    for(int i=0; i<posiciones.size(); i++)
-    {
-        if (posiciones[i] > nuevaLongitud)
-        {
-            posiciones[i] = nuevaLongitud;
-            emit dataChanged(QAbstractItemModel::createIndex(i,0),QAbstractItemModel::createIndex(i,0));
-        }
-    }
+    longitudBarra = nuevaLongitud;
+    emit dataChanged(QAbstractItemModel::createIndex(0,0),QAbstractItemModel::createIndex(nroFilas-1,1));
+    return;
+}
 
+void ModeloAreasBarra::areaReferenciaCambiada(float nuevaArea)
+{
+    areaReferencia = nuevaArea;
+    emit dataChanged(QAbstractItemModel::createIndex(0,2),QAbstractItemModel::createIndex(nroFilas-1,3));
+    return;
 }
 
 Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
