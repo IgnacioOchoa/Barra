@@ -330,7 +330,7 @@ void VentanaPrincipal::crearPagGeometria()
 
     // ---------- Seccion areas -------------------------------------------
     gdArea = new QGridLayout;
-    gdArea->setRowMinimumHeight(1, 50);
+    //gdArea->setRowMinimumHeight(1, 50);
     QComboBox* cbArea = new QComboBox;
     cbArea->addItems({"Uniforme", "Variación lineal", "Variación multipunto"});
     cbArea->setCurrentIndex(-1);
@@ -338,6 +338,7 @@ void VentanaPrincipal::crearPagGeometria()
     gdArea->addWidget(lbArea,0,0);
     gdArea->addWidget(cbArea,0,1);
 
+    // ---------- Seleccion valor area ------------------------------------
     lbValorArea = new QLabel("Valor area");
     leValorArea = new QLineEdit;
     leValorArea->setMaximumWidth(100);
@@ -388,12 +389,15 @@ void VentanaPrincipal::crearPagGeometria()
     twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     twPuntos->verticalHeader()->setVisible(true);
     twPuntos->hide();
+    twPuntos->hideColumn(1);
+    twPuntos->hideColumn(3);
 
     vLayTabla->addWidget(twPuntos);
 
     //----------- Botones tabla ----------------------------------------
 
     QHBoxLayout* hBoxBotTabla = new QHBoxLayout;
+
     pbAgregarLineaTabla = new QPushButton;
     pbEliminarLineaTabla = new QPushButton;
     pbAgregarLineaTabla->setText("Agregar fila");
@@ -404,6 +408,24 @@ void VentanaPrincipal::crearPagGeometria()
     connect(pbEliminarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->removeRows(0,0);});
 
     vLayTabla->addItem(hBoxBotTabla);
+
+    // ---------- Seleccion valores relativos ------------------------------
+
+    QHBoxLayout* hBoxChckTabla = new QHBoxLayout;
+    hBoxChckTabla->addStretch();
+    chbMostrarPosRelativa = new QCheckBox("Posición relativa");
+    chbMostrarAreaRelativa = new QCheckBox("Area relativa");
+    hBoxChckTabla->addWidget(chbMostrarPosRelativa);
+    hBoxChckTabla->addSpacing(20);
+    hBoxChckTabla->addWidget(chbMostrarAreaRelativa);
+
+    connect(chbMostrarAreaRelativa, &QCheckBox::stateChanged, [this](int state){
+            state==Qt::Unchecked ? twPuntos->hideColumn(3) : twPuntos->showColumn(3);});
+
+    connect(chbMostrarPosRelativa, &QCheckBox::stateChanged, [this](int state){
+            state==Qt::Unchecked ? twPuntos->hideColumn(1) : twPuntos->showColumn(1);});
+
+    vLayTabla->addItem(hBoxChckTabla);
 
     //---------------------------------------------------------------------
     //  Layout general
@@ -463,6 +485,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         leValorArea->show();
         pbAgregarLineaTabla->hide();
         pbEliminarLineaTabla->hide();
+        chbMostrarPosRelativa->hide();
+        chbMostrarAreaRelativa->hide();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
     }
     else if (s == "Variación lineal")
@@ -472,6 +496,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         leValorArea->hide();
         pbAgregarLineaTabla->hide();
         pbEliminarLineaTabla->hide();
+        chbMostrarPosRelativa->show();
+        chbMostrarAreaRelativa->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
     }
     else
@@ -481,6 +507,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         leValorArea->hide();
         pbAgregarLineaTabla->show();
         pbEliminarLineaTabla->show();
+        chbMostrarPosRelativa->show();
+        chbMostrarAreaRelativa->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
     }
 }

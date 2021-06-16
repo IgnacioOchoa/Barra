@@ -125,13 +125,15 @@ Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 
 bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &index)
 {
+    Q_UNUSED(index);
+    Q_UNUSED(rows);
     position = nroFilas;
     beginInsertRows(QModelIndex(), position, position);
     nroFilas++;
     if(posiciones.size()<nroFilas)
     {
-        posiciones.append(posiciones[nroFilas-2]);
-        areas.append(1.0f);
+        posiciones.append(1);
+        areas.append(1);
     }
     endInsertRows();
     return true;
@@ -139,6 +141,9 @@ bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &ind
 
 bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &index)
 {
+    Q_UNUSED(index);
+    Q_UNUSED(rows);
+    if (nroFilas <= 2) return false;
     position = nroFilas-1;
     beginRemoveRows(QModelIndex(), position, position);
     nroFilas--;

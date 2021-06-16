@@ -1,3 +1,10 @@
+/*QWidget {
+    border-width: 1px;
+    border-color: blue;
+    border-style: solid;
+} ---> Usado para debugear,
+muestra los bordes de todos los widgets*/
+
 QPushButton {
 background-color : white;
 border-style : flat;

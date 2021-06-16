@@ -74,6 +74,9 @@ private:
     QLabel* lbValorArea;
     QLineEdit* leValorArea;
 
+    QCheckBox* chbMostrarPosRelativa;
+    QCheckBox* chbMostrarAreaRelativa;
+
     QPushButton* pbAgregarLineaTabla;
     QPushButton* pbEliminarLineaTabla;
 
