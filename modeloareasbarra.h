@@ -35,6 +35,9 @@ public:
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
 
+    int getNroEntradas() {return posiciones.size();}
+    int getNroFilas() {return nroFilas;}
+
 public slots:
     void longitudCambiada(float nuevaLongitud);
     void areaReferenciaCambiada(float nuevaArea);

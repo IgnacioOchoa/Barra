@@ -499,6 +499,13 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         chbMostrarPosRelativa->show();
         chbMostrarAreaRelativa->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+        if(modeloAreasBarra->getNroEntradas() > 2)
+        {
+            for (int i=1; i<modeloAreasBarra->getNroEntradas(); i++)
+            {
+                modeloAreasBarra->removeRows(0,0);
+            }
+        }
     }
     else
     {
@@ -510,6 +517,13 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         chbMostrarPosRelativa->show();
         chbMostrarAreaRelativa->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+        if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
+        {
+            for (int i=modeloAreasBarra->getNroFilas(); i<modeloAreasBarra->getNroEntradas(); i++)
+            {
+                modeloAreasBarra->insertRows(0,0);
+            }
+        }
     }
 }
 
