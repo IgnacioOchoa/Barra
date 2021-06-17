@@ -350,6 +350,17 @@ void VentanaPrincipal::crearPagGeometria()
     gdArea->setSpacing(5);
     vLayArea->addItem(gdArea);
 
+    //---------- Metodo interpolacion -----------------------------------
+
+    cbInterpolacion = new QComboBox;
+    cbInterpolacion->addItems({"Lineal", "Polinomial", "Splines cúbicos"});
+    lbInterpolacion = new QLabel("Método de interpolación");
+    gdArea->addWidget(lbInterpolacion,2,0);
+    gdArea->addWidget(cbInterpolacion,2,1);
+
+
+    //--------------------------------------------------------------------
+
     connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::cbVariacionAreaCambiado);
 
@@ -487,6 +498,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         pbEliminarLineaTabla->hide();
         chbMostrarPosRelativa->hide();
         chbMostrarAreaRelativa->hide();
+        cbInterpolacion->hide();
+        lbInterpolacion->hide();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
     }
     else if (s == "Variación lineal")
@@ -498,6 +511,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         pbEliminarLineaTabla->hide();
         chbMostrarPosRelativa->show();
         chbMostrarAreaRelativa->show();
+        cbInterpolacion->hide();
+        lbInterpolacion->hide();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
         if(modeloAreasBarra->getNroEntradas() > 2)
         {
@@ -516,6 +531,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         pbEliminarLineaTabla->show();
         chbMostrarPosRelativa->show();
         chbMostrarAreaRelativa->show();
+        cbInterpolacion->show();
+        lbInterpolacion->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
         if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
         {

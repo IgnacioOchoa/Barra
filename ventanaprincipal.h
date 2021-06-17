@@ -74,6 +74,9 @@ private:
     QLabel* lbValorArea;
     QLineEdit* leValorArea;
 
+    QComboBox* cbInterpolacion;
+    QLabel* lbInterpolacion;
+
     QCheckBox* chbMostrarPosRelativa;
     QCheckBox* chbMostrarAreaRelativa;
 
