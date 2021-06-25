@@ -104,6 +104,7 @@ private:
     void crearModeloAreas();
     void crearVistaPrincipal();
     void graficarBarra();
+    void borrarBarra();
 
 public slots:
     void mensajeStatusBar(const QString& msj);

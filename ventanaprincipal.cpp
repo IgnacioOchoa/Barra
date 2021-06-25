@@ -494,6 +494,12 @@ void VentanaPrincipal::crearVistaPrincipal()
     escena->addLine(-5,-5,5,5);
     escena->addLine(-5,5,5,-5);
 
+    QPushButton* btnBorrar = new QPushButton(ui->vistaGeometria);
+    btnBorrar->setText("Borrar");
+    btnBorrar->setStyleSheet("QPushButton {background-color: #eba29d; border-radius: 4;"
+                            "border-color:black; border-style: solid; border-width : 2}");
+    btnBorrar->move(5,55);
+
     poligonoBarra = new QPolygonF(QVector<QPointF>({{-400,-30.0},
                                                     {-120.0,-40.0},
                                                     {240.0,-25.0},
@@ -502,6 +508,7 @@ void VentanaPrincipal::crearVistaPrincipal()
                                                     {-400.0,30.0}}));
 
     connect(btnVista, &QAbstractButton::pressed, this, &VentanaPrincipal::graficarBarra);
+    connect(btnBorrar, &QAbstractButton::pressed, this, &VentanaPrincipal::borrarBarra);
 }
 
 void VentanaPrincipal::graficarBarra()
@@ -509,7 +516,15 @@ void VentanaPrincipal::graficarBarra()
     QPen p;
     QBrush br(QColor("#59d945"));
     p.setWidth(3);
+    ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
+    qInfo() << "Scene rect: " << escena->sceneRect();
+    qInfo() << "Visible scene: " << ui->vistaGeometria->mapToScene(ui->vistaGeometria->viewport()->rect());
+}
+
+void VentanaPrincipal::borrarBarra()
+{
+    escena->clear();
 }
 
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)
