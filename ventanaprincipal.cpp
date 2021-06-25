@@ -4,6 +4,7 @@
 VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ventanaPrincipal)
+    , escena(new QGraphicsScene(this))
 {
     ui->setupUi(this);
 
@@ -17,11 +18,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearPagGeometria();
     crearModeloAreas();
     crearPanelMensajes();
-
-    escena = new QGraphicsScene(this);
-    ui->vistaGeometria->setScene(escena);
-    ui->vistaGeometria->setMinimumHeight(350);
-    ui->vistaGeometria->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    crearVistaPrincipal();
 
     modeloElegido = -1;
 
@@ -282,7 +279,7 @@ void VentanaPrincipal::crearFrameDimension()
 void VentanaPrincipal::crearPagGeometria()
 {
     QWidget* pGeom = ui->pagGeometria;
-    modeloAreasBarra = new ModeloAreasBarra(longitudBarra);
+    crearModeloAreas();
 
     QHBoxLayout* hLayGeneral = new QHBoxLayout;
     QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
@@ -479,7 +476,40 @@ void VentanaPrincipal::crearPanelMensajes()
 
 void VentanaPrincipal::crearModeloAreas()
 {
+    modeloAreasBarra = new ModeloAreasBarra(longitudBarra);
+}
 
+void VentanaPrincipal::crearVistaPrincipal()
+{
+    ui->vistaGeometria->setScene(escena);
+    ui->vistaGeometria->setMinimumHeight(350);
+    ui->vistaGeometria->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    QPushButton* btnVista = new QPushButton(ui->vistaGeometria);
+    btnVista->setText("Graficar");
+    btnVista->setStyleSheet("QPushButton {background-color: #f7f3c6; border-radius: 4;"
+                            "border-color:black; border-style: solid; border-width : 2}");
+    btnVista->move(5,5);
+
+    escena->addLine(-5,-5,5,5);
+    escena->addLine(-5,5,5,-5);
+
+    poligonoBarra = new QPolygonF(QVector<QPointF>({{-400,-30.0},
+                                                    {-120.0,-40.0},
+                                                    {240.0,-25.0},
+                                                    {400.0,-30.0},
+                                                    {400.0,30.0},
+                                                    {-400.0,30.0}}));
+
+    connect(btnVista, &QAbstractButton::pressed, this, &VentanaPrincipal::graficarBarra);
+}
+
+void VentanaPrincipal::graficarBarra()
+{
+    QPen p;
+    QBrush br(QColor("#59d945"));
+    p.setWidth(3);
+    grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
 }
 
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)

@@ -83,13 +83,12 @@ private:
     QPushButton* pbAgregarLineaTabla;
     QPushButton* pbEliminarLineaTabla;
 
-    QLabel* lbCol2;
-    QLabel* lbCol3;
-    QLabel* lbCol4;
+    //--- Variables del grafico ---
 
-    QLineEdit* leCol2;
-    QLineEdit* leCol3;
-    QLineEdit* leCol4;
+    QPolygonF* poligonoBarra;
+    QGraphicsPolygonItem* grPolBarra;
+
+    //-----------------------------
 
     ModeloAreasBarra* modeloAreasBarra;
     QTableView* twPuntos;
@@ -103,6 +102,8 @@ private:
     void moduloSeleccionado(bool seleccionado);
     void crearPanelMensajes();
     void crearModeloAreas();
+    void crearVistaPrincipal();
+    void graficarBarra();
 
 public slots:
     void mensajeStatusBar(const QString& msj);
