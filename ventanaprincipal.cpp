@@ -506,6 +506,7 @@ void VentanaPrincipal::crearVistaPrincipal()
 void VentanaPrincipal::graficarBarra()
 {
     QVector<QPointF> puntosBarra;
+    QList<PuntoGrafico*> puntosGraficos;
     puntosBarra.append(QPointF(QPointF(modeloAreasBarra->getPosicion(0),0.0)));
     for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
     {
@@ -521,7 +522,12 @@ void VentanaPrincipal::graficarBarra()
     ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
 
-    qInfo() << "Transform: " << ui->vistaGeometria->transform();
+    //PuntoGrafico* ptGrafico = new PuntoGrafico(QPoint(-100,-100),70);
+    foreach(QPointF pto, puntosBarra)
+    {
+        puntosGraficos.append(new PuntoGrafico(pto,10));
+        escena->addItem(puntosGraficos.last());
+    }
 }
 
 void VentanaPrincipal::borrarBarra()

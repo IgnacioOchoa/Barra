@@ -26,6 +26,7 @@
 #include "dialogseleccionmodelo.h"
 #include "modelosfisicos.h"
 #include "modeloareasbarra.h"
+#include "puntografico.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }

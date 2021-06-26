@@ -18,6 +18,7 @@ SOURCES += \
     modeloareasbarra.cpp \
     modelosfisicos.cpp \
     nodo1d.cpp \
+    puntografico.cpp \
     solver.cpp \
     ventanaprincipal.cpp \
     malla1D.cpp
@@ -31,6 +32,7 @@ HEADERS += \
     modeloareasbarra.h \
     modelosfisicos.h \
     nodo1d.h \
+    puntografico.h \
     solver.h \
     ventanaprincipal.h \
     malla1D.h
