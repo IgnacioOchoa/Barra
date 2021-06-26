@@ -150,3 +150,23 @@ bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &ind
     endRemoveRows();
     return true;
 }
+
+float ModeloAreasBarra::getPosicion(int indx)
+{
+    if(indx >= nroFilas)
+    {
+        qInfo() << "ModeloAreasBarra::getPosicion --> indx: " << indx << " fuera de rango";
+        return 0.0f;
+    }
+    return posiciones.at(indx)*longitudBarra;
+}
+
+float ModeloAreasBarra::getArea(int indx)
+{
+    if(indx >= nroFilas)
+    {
+        qInfo() << "ModeloAreasBarra::getArea --> indx: " << indx << " fuera de rango";
+        return 0.0f;
+    }
+    return areas.at(indx)*areaReferencia;
+}

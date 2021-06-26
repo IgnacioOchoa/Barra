@@ -499,26 +499,29 @@ void VentanaPrincipal::crearVistaPrincipal()
                             "border-color:black; border-style: solid; border-width : 2}");
     btnBorrar->move(5,55);
 
-    poligonoBarra = new QPolygonF(QVector<QPointF>({{-400,-30.0},
-                                                    {-120.0,-40.0},
-                                                    {240.0,-25.0},
-                                                    {400.0,-30.0},
-                                                    {400.0,30.0},
-                                                    {-400.0,30.0}}));
-
     connect(btnVista, &QAbstractButton::pressed, this, &VentanaPrincipal::graficarBarra);
     connect(btnBorrar, &QAbstractButton::pressed, this, &VentanaPrincipal::borrarBarra);
 }
 
 void VentanaPrincipal::graficarBarra()
 {
+    QVector<QPointF> puntosBarra;
+    puntosBarra.append(QPointF(QPointF(modeloAreasBarra->getPosicion(0),0.0)));
+    for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
+    {
+        QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
+        puntosBarra.append(p);
+    }
+    puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
+    poligonoBarra = new QPolygonF(puntosBarra);
+
     QPen p;
     QBrush br(QColor("#59d945"));
     p.setWidth(3);
     ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
-    qInfo() << "Scene rect: " << escena->sceneRect();
-    qInfo() << "Visible scene: " << ui->vistaGeometria->mapToScene(ui->vistaGeometria->viewport()->rect());
+
+    qInfo() << "Transform: " << ui->vistaGeometria->transform();
 }
 
 void VentanaPrincipal::borrarBarra()

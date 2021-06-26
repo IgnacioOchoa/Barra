@@ -38,6 +38,9 @@ public:
     int getNroEntradas() {return posiciones.size();}
     int getNroFilas() {return nroFilas;}
 
+    float getPosicion(int indx);
+    float getArea(int indx);
+
 public slots:
     void longitudCambiada(float nuevaLongitud);
     void areaReferenciaCambiada(float nuevaArea);
