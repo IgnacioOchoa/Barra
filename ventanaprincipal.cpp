@@ -15,8 +15,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearIconos();
     crearFrameDimension();
     crearBotonesPrincipales();
-    crearPagGeometria();
     crearModeloAreas();
+    crearPagGeometria();
     crearPanelMensajes();
     crearVistaPrincipal();
 
@@ -279,7 +279,6 @@ void VentanaPrincipal::crearFrameDimension()
 void VentanaPrincipal::crearPagGeometria()
 {
     QWidget* pGeom = ui->pagGeometria;
-    crearModeloAreas();
 
     QHBoxLayout* hLayGeneral = new QHBoxLayout;
     QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
