@@ -3,6 +3,8 @@
 
 #include <QApplication>
 #include <QFile>
+#include <QDebug>
+#include "malla1D.h"
 
 int main(int argc, char *argv[])
 {
