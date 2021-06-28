@@ -26,8 +26,13 @@ float Nodo1D::obtener_coord_x(){
     return x;
 }
 
+float Nodo1D::obtener_coord_y(){
+    return y;
+}
+
 QList<float> Nodo1D::obtener_coordenadas(){
     return coordenadas;
 }
+
 
 
