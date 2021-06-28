@@ -20,10 +20,10 @@ void Malla1D::crearNodo(float coor){
 }
 //Distribuye los nodos en la barra comenzando en la posición (0,0)
 //Barra siempre sobre el eje y=0
-void Malla1D::nodos_equidistantes(int cant_nodos, float longitud_barra){
+void Malla1D::nodos_equidistantes(int cantidad_nodos, float longitud_barra){
   lista_de_nodos.clear();
-  float tramo = longitud_barra /(cant_nodos -1);
-  for(int i = 0; i < cant_nodos; i++){
+  float tramo = longitud_barra /(cantidad_nodos -1);
+  for(int i = 0; i < cantidad_nodos; i++){
     crearNodo(tramo*i);//se agrega a la lista desde método "crearNodo"
   }
 }
@@ -37,5 +37,13 @@ void Malla1D::info_en_consola(){
     }
 }
 
+/*/SECCION DE PRUEBA LISA
+ void Malla1D::probando_constructor_nodo(){
+        QList<float> l;
+        l << 3 << 5;
+        Nodo1D mi_nodo(l, 2);
+        qDebug() << "id:" << mi_nodo.obtener_id() << "  " <<mi_nodo.obtener_coordenadas();
+    }
+//FIN SECCION DE PRUEBA LISA/*/
 
 

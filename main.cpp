@@ -25,6 +25,14 @@ int main(int argc, char *argv[])
     k.setInterfaz(&w);
     w.setMinimumSize(1400,1000);
 
+    /*/COMIENZO SECCION DE PRUEBA LISA
+       qDebug() << 5;
+       Malla1D mi_malla;
+       mi_malla.nodos_equidistantes(4, 22.00);
+       mi_malla.info_en_consola();
+       mi_malla.probando_constructor_nodo();
+    //FIN SECCION DE PRUEBA LISA/*/
+
     w.show();
     return a.exec();
 }
