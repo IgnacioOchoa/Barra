@@ -134,7 +134,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QGraphicsView" name="vistaGeometria"/>
+       <widget class="VistaGraficoPrincipal" name="vistaGeometria"/>
       </item>
      </layout>
     </item>
@@ -243,6 +243,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VistaGraficoPrincipal</class>
+   <extends>QGraphicsView</extends>
+   <header>vistagraficoprincipal.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

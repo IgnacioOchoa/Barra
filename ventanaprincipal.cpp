@@ -4,7 +4,7 @@
 VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ventanaPrincipal)
-    , escena(new QGraphicsScene(this))
+    , escena(new GraficoPrincipal(this))
 {
     ui->setupUi(this);
 
@@ -490,8 +490,8 @@ void VentanaPrincipal::crearVistaPrincipal()
                             "border-color:black; border-style: solid; border-width : 2}");
     btnVista->move(5,5);
 
-    escena->addLine(-5,-5,5,5);
-    escena->addLine(-5,5,5,-5);
+    //escena->addLine(-5,-5,5,5);
+    //escena->addLine(-5,5,5,-5);
 
     QPushButton* btnBorrar = new QPushButton(ui->vistaGeometria);
     btnBorrar->setText("Borrar");
@@ -519,15 +519,19 @@ void VentanaPrincipal::graficarBarra()
     QPen p;
     QBrush br(QColor("#59d945"));
     p.setWidth(3);
+    p.setCosmetic(true);
     ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
 
-    //PuntoGrafico* ptGrafico = new PuntoGrafico(QPoint(-100,-100),70);
     foreach(QPointF pto, puntosBarra)
     {
-        puntosGraficos.append(new PuntoGrafico(pto,10));
-        escena->addItem(puntosGraficos.last());
+        PuntoGrafico* ptoG = new PuntoGrafico(pto,10);
+        puntosGraficos.append(ptoG);
+        escena->addItem(ptoG);
     }
+
+    ui->vistaGeometria->maximizarContenido();
+
 }
 
 void VentanaPrincipal::borrarBarra()

@@ -27,6 +27,7 @@
 #include "modelosfisicos.h"
 #include "modeloareasbarra.h"
 #include "puntografico.h"
+#include "graficoprincipal.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ventanaPrincipal; }
@@ -60,7 +61,8 @@ private:
     float areaReferencia;
 
     QButtonGroup* grBotonesModulos;
-    QGraphicsScene* escena;
+
+    GraficoPrincipal* escena;
 
     QPushButton* pbModelo;
     QPushButton* pbDim;
