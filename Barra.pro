@@ -12,6 +12,7 @@ SOURCES += \
     botonseleccionmodelo.cpp \
     dialogseleccionmodelo.cpp \
     elemento1d.cpp \
+    graficoprincipal.cpp \
     kernel.cpp \
     main.cpp \
     modelo.cpp \
@@ -21,12 +22,14 @@ SOURCES += \
     puntografico.cpp \
     solver.cpp \
     ventanaprincipal.cpp \
-    malla1D.cpp
+    malla1D.cpp \
+    vistagraficoprincipal.cpp
 
 HEADERS += \
     botonseleccionmodelo.h \
     dialogseleccionmodelo.h \
     elemento1d.h \
+    graficoprincipal.h \
     kernel.h \
     modelo.h \
     modeloareasbarra.h \
@@ -35,7 +38,8 @@ HEADERS += \
     puntografico.h \
     solver.h \
     ventanaprincipal.h \
-    malla1D.h
+    malla1D.h \
+    vistagraficoprincipal.h
 
 FORMS += \
     dialogseleccionmodelo.ui \
