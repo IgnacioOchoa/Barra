@@ -1,10 +1,10 @@
-#include "ventanaprincipal.h"
-#include "kernel.h"
+#include "interfaz/ventanaprincipal.h"
+#include "kernel/kernel.h"
 
 #include <QApplication>
 #include <QFile>
 #include <QDebug>
-#include "malla1D.h"
+#include "malla/malla1D.h"
 
 int main(int argc, char *argv[])
 {

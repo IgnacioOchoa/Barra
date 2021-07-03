@@ -15,6 +15,7 @@
 #include <QHBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QGraphicsView>
 #include <QMouseEvent>
 #include <QHeaderView>
 #include <QCheckBox>
@@ -23,14 +24,14 @@
 #include <QStringList>
 #include <QString>
 
-#include "dialogseleccionmodelo.h"
-#include "modelosfisicos.h"
-#include "modeloareasbarra.h"
-#include "puntografico.h"
-#include "graficoprincipal.h"
+#include "interfaz/dialogseleccionmodelo.h"
+#include "fisica/modelosfisicos.h"
+#include "datos/modeloareasbarra.h"
+#include "grafico/puntografico.h"
+#include "grafico/graficoprincipal.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ventanaPrincipal; }
+namespace Ui {class ventanaPrincipal; }
 QT_END_NAMESPACE
 
 class VentanaPrincipal : public QMainWindow

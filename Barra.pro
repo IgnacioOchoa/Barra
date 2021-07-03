@@ -9,41 +9,41 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    botonseleccionmodelo.cpp \
-    dialogseleccionmodelo.cpp \
-    elemento1d.cpp \
-    graficoprincipal.cpp \
-    kernel.cpp \
+    datos/modeloareasbarra.cpp \
+    fisica/modelo.cpp \
+    fisica/modelosfisicos.cpp \
+    grafico/graficoprincipal.cpp \
+    grafico/puntografico.cpp \
+    interfaz/botonseleccionmodelo.cpp \
+    interfaz/dialogseleccionmodelo.cpp \
+    interfaz/ventanaprincipal.cpp \
+    interfaz/vistagraficoprincipal.cpp \
+    kernel/kernel.cpp \
     main.cpp \
-    modelo.cpp \
-    modeloareasbarra.cpp \
-    modelosfisicos.cpp \
-    nodo1d.cpp \
-    puntografico.cpp \
-    solver.cpp \
-    ventanaprincipal.cpp \
-    malla1D.cpp \
-    vistagraficoprincipal.cpp
+    malla/elemento1d.cpp \
+    malla/malla1D.cpp \
+    malla/nodo1d.cpp \
+    solver/solver.cpp
 
 HEADERS += \
-    botonseleccionmodelo.h \
-    dialogseleccionmodelo.h \
-    elemento1d.h \
-    graficoprincipal.h \
-    kernel.h \
-    modelo.h \
-    modeloareasbarra.h \
-    modelosfisicos.h \
-    nodo1d.h \
-    puntografico.h \
-    solver.h \
-    ventanaprincipal.h \
-    malla1D.h \
-    vistagraficoprincipal.h
+    datos/modeloareasbarra.h \
+    fisica/modelo.h \
+    fisica/modelosfisicos.h \
+    grafico/graficoprincipal.h \
+    grafico/puntografico.h \
+    interfaz/botonseleccionmodelo.h \
+    interfaz/dialogseleccionmodelo.h \
+    interfaz/ventanaprincipal.h \
+    interfaz/vistagraficoprincipal.h \
+    kernel/kernel.h \
+    malla/elemento1d.h \
+    malla/malla1D.h \
+    malla/nodo1d.h \
+    solver/solver.h
 
 FORMS += \
-    dialogseleccionmodelo.ui \
-    ventanaprincipal.ui
+    interfaz/dialogseleccionmodelo.ui \
+    interfaz/ventanaprincipal.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

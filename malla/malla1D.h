@@ -2,8 +2,8 @@
 #define MALLA_H
 #include <QList>
 #include <QMultiMap>
-#include "nodo1d.h"
-#include "elemento1d.h"
+#include "malla/nodo1d.h"
+#include "malla/elemento1d.h"
 #include <QDebug>
 
 class Malla1D

@@ -2,7 +2,7 @@
 #define MODELO_H
 
 #include <QObject>
-#include "kernel.h"
+#include "kernel/kernel.h"
 
 class Modelo : public QObject
 {

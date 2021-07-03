@@ -247,7 +247,7 @@
   <customwidget>
    <class>VistaGraficoPrincipal</class>
    <extends>QGraphicsView</extends>
-   <header>vistagraficoprincipal.h</header>
+   <header>interfaz/vistagraficoprincipal.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

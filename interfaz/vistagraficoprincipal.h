@@ -2,8 +2,8 @@
 #define VISTAGRAFICOPRINCIPAL_H
 
 #include <QGraphicsView>
-#include "graficoprincipal.h"
-#include "puntografico.h"
+#include "grafico/graficoprincipal.h"
+#include "grafico/puntografico.h"
 #include <QDebug>
 
 class VistaGraficoPrincipal : public QGraphicsView
