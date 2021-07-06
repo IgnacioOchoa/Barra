@@ -505,32 +505,22 @@ void VentanaPrincipal::crearVistaPrincipal()
 
 void VentanaPrincipal::graficarBarra()
 {
+    borrarBarra();
     QVector<QPointF> puntosBarra;
-    QList<PuntoGrafico*> puntosGraficos;
-    puntosBarra.append(QPointF(QPointF(modeloAreasBarra->getPosicion(0),0.0)));
+    puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
     for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
     {
         QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
         puntosBarra.append(p);
     }
     puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
-    poligonoBarra = new QPolygonF(puntosBarra);
 
-    QPen p;
-    QBrush br(QColor("#59d945"));
-    p.setWidth(3);
-    p.setCosmetic(true);
     ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    grPolBarra = escena->addPolygon(*poligonoBarra,p,br);
 
-    foreach(QPointF pto, puntosBarra)
-    {
-        PuntoGrafico* ptoG = new PuntoGrafico(pto,10);
-        puntosGraficos.append(ptoG);
-        escena->addItem(ptoG);
-    }
+    escena->graficarBarra(puntosBarra);
 
     ui->vistaGeometria->maximizarContenido();
+
 
 }
 

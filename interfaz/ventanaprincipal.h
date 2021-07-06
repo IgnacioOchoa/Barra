@@ -90,7 +90,6 @@ private:
     //--- Variables del grafico ---
 
     QPolygonF* poligonoBarra;
-    QGraphicsPolygonItem* grPolBarra;
 
     //-----------------------------
 

@@ -13,6 +13,8 @@ public:
 
     void maximizarContenido();
     float escalaAmpliacion();
+    void centrarContenidos();
+
 };
 
 #endif // VISTAGRAFICOPRINCIPAL_H
