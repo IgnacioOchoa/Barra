@@ -499,8 +499,16 @@ void VentanaPrincipal::crearVistaPrincipal()
                             "border-color:black; border-style: solid; border-width : 2}");
     btnBorrar->move(5,55);
 
+    QPushButton* btnCentrar = new QPushButton(ui->vistaGeometria);
+    btnCentrar->setText("Centrar");
+    btnCentrar->setStyleSheet("QPushButton {background-color: #e1a8ff; border-radius: 4;"
+                              "border-color:black; border-style: solid; border-width : 2}");
+
+    btnCentrar->move(5,110);
+
     connect(btnVista, &QAbstractButton::pressed, this, &VentanaPrincipal::graficarBarra);
     connect(btnBorrar, &QAbstractButton::pressed, this, &VentanaPrincipal::borrarBarra);
+    connect(btnCentrar, &QAbstractButton::pressed, this, &VentanaPrincipal::centrarBarra);
 }
 
 void VentanaPrincipal::graficarBarra()
@@ -527,6 +535,11 @@ void VentanaPrincipal::graficarBarra()
 void VentanaPrincipal::borrarBarra()
 {
     escena->clear();
+}
+
+void VentanaPrincipal::centrarBarra()
+{
+     ui->vistaGeometria->centrarContenidos();
 }
 
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)

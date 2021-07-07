@@ -3,7 +3,7 @@
 GraficoPrincipal::GraficoPrincipal(QObject *parent) :
     QGraphicsScene(parent)
 {
-
+    setSceneRect(QRectF(-22,-26,84,48));
 }
 
 void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)

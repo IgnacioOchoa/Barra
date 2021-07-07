@@ -13,7 +13,6 @@ void VistaGraficoPrincipal::maximizarContenido()
     qInfo() << "Escala: " << escala;
     scale(escala, escala);
     centrarContenidos();
-
 }
 
 float VistaGraficoPrincipal::escalaAmpliacion()
@@ -38,4 +37,31 @@ void VistaGraficoPrincipal::centrarContenidos()
 {
     GraficoPrincipal* gp = dynamic_cast<GraficoPrincipal*>(this->scene());
     this->centerOn(gp->centroEscena());
+    centroVista = gp->centroEscena();
+}
+
+void VistaGraficoPrincipal::wheelEvent(QWheelEvent *event)
+{
+    QPoint p = event->angleDelta();
+    scale(1+p.y()/1000.0,1+p.y()/1000.0);
+}
+
+void VistaGraficoPrincipal::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() == Qt::MidButton)
+    {
+        QPointF movimiento = mapToScene(event->pos())-inicioRueda;
+        centroVista -= movimiento;
+        centerOn(centroVista);
+        inicioRueda = mapToScene(event->pos());
+    } 
+}
+
+void VistaGraficoPrincipal::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() == Qt::MidButton)
+    {
+        inicioRueda = mapToScene(event->pos());
+    }
+    QGraphicsView::mousePressEvent(event);
 }
