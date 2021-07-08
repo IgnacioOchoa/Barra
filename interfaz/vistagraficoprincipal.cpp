@@ -42,8 +42,16 @@ void VistaGraficoPrincipal::centrarContenidos()
 
 void VistaGraficoPrincipal::wheelEvent(QWheelEvent *event)
 {
+    QPointF ptoInicioEscena = mapToScene(event->pos());
+
     QPoint p = event->angleDelta();
     scale(1+p.y()/1000.0,1+p.y()/1000.0);
+
+    QPointF ptoFinalEscena = mapToScene(event->pos());
+
+    QPointF desplazamiento = ptoInicioEscena - ptoFinalEscena;
+    centroVista += desplazamiento;
+    centerOn(centroVista);
 }
 
 void VistaGraficoPrincipal::mouseMoveEvent(QMouseEvent *event)
