@@ -509,6 +509,15 @@ void VentanaPrincipal::crearVistaPrincipal()
     connect(btnVista, &QAbstractButton::pressed, this, &VentanaPrincipal::graficarBarra);
     connect(btnBorrar, &QAbstractButton::pressed, this, &VentanaPrincipal::borrarBarra);
     connect(btnCentrar, &QAbstractButton::pressed, this, &VentanaPrincipal::centrarBarra);
+
+    QPushButton* btnRotar = new QPushButton(ui->vistaGeometria);
+    btnRotar->setText("Rotar");
+    btnRotar->setStyleSheet("QPushButton {background-color: #e3e0bf; border-radius: 4;"
+                              "border-color:black; border-style: solid; border-width : 2}");
+
+    btnRotar->move(5,165);
+    connect(btnRotar, &QAbstractButton::pressed, this, &VentanaPrincipal::rotarBarra);
+
 }
 
 void VentanaPrincipal::graficarBarra()
@@ -523,10 +532,9 @@ void VentanaPrincipal::graficarBarra()
     }
     puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
 
-    ui->vistaGeometria->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-
     escena->graficarBarra(puntosBarra);
 
+    ui->vistaGeometria->ajustarViewport();
     ui->vistaGeometria->maximizarContenido();
 
 
@@ -539,7 +547,12 @@ void VentanaPrincipal::borrarBarra()
 
 void VentanaPrincipal::centrarBarra()
 {
-     ui->vistaGeometria->centrarContenidos();
+    ui->vistaGeometria->maximizarContenido();
+}
+
+void VentanaPrincipal::rotarBarra()
+{
+    ui->vistaGeometria->rotate(15);
 }
 
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)

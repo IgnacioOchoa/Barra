@@ -109,6 +109,7 @@ private:
     void graficarBarra();
     void borrarBarra();
     void centrarBarra();
+    void rotarBarra();
 
 public slots:
     void mensajeStatusBar(const QString& msj);

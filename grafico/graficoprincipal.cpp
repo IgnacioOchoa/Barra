@@ -3,12 +3,15 @@
 GraficoPrincipal::GraficoPrincipal(QObject *parent) :
     QGraphicsScene(parent)
 {
-    setSceneRect(QRectF(-22,-26,84,48));
+
 }
 
 void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)
 {
     poligonoBarra = new QPolygonF(puntosBarra);
+    float dx = poligonoBarra->boundingRect().width()/2 ;
+    float dy = poligonoBarra->boundingRect().height()/2 ;
+    poligonoBarra->translate(-dx,dy);
 
     QPen p;
     QBrush br(QColor("#59d945"));
@@ -21,7 +24,7 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)
     QList<PuntoGrafico*> puntosGraficos;
     foreach(QPointF pto, puntosBarra)
     {
-        PuntoGrafico* ptoG = new PuntoGrafico(pto,10);
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10);
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
     }
