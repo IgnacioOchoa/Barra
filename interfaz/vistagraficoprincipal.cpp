@@ -11,6 +11,14 @@ VistaGraficoPrincipal::VistaGraficoPrincipal(QWidget* parent) :
     max_Vh = -1;
     max_Vw = -1;
 
+    QLinearGradient* gd = new QLinearGradient();
+    gd->setCoordinateMode(QGradient::ObjectMode);
+    gd->setColorAt(0, "#EAECEE");
+    gd->setColorAt(1, "#ABB2B9");
+
+    QBrush br(*gd);
+    setBackgroundBrush(br);
+
 }
 
 void VistaGraficoPrincipal::maximizarContenido()
