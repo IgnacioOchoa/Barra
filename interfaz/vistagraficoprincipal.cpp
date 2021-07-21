@@ -18,7 +18,6 @@ VistaGraficoPrincipal::VistaGraficoPrincipal(QWidget* parent) :
 
     QBrush br(*gd);
     setBackgroundBrush(br);
-
 }
 
 void VistaGraficoPrincipal::maximizarContenido()
@@ -107,6 +106,7 @@ void VistaGraficoPrincipal::mouseMoveEvent(QMouseEvent *event)
         centroVista -= movimiento;
         centerOn(centroVista);
         inicioRueda = mapToScene(event->pos());
+        viewport()->update();
     } 
 }
 
