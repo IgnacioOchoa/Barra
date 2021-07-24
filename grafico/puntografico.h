@@ -18,7 +18,8 @@ public:
     void setDiametro(const float diametro);
     void escalarDiametro(const float escala);
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
-    void virtual hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
+    void virtual hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+    void virtual hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
     QRectF virtual boundingRect() const override;
     int type() const override {return Type;};
 
@@ -26,6 +27,12 @@ private:
     QPointF centroPunto;
     QRect rectContenedor;
     float diametroPunto;
+
+    QBrush brNormal;
+    QBrush brHover;
+    QBrush brSelect;
+
+    bool hovered;
 };
 
 #endif // PUNTOGRAFICO_H

@@ -13,6 +13,12 @@ PuntoGrafico::PuntoGrafico(const QPointF& centro, const float diametro, QGraphic
     setFlag(QGraphicsItem::ItemIsMovable);
 
     setAcceptHoverEvents(true);
+
+    brNormal = QBrush(QColor("black"));
+    brHover = QBrush(QColor("#d46a13"));
+    brSelect = QBrush(QColor("red"));
+
+    hovered = false;
 }
 
 void PuntoGrafico::setDiametro(const float diametro)
@@ -28,29 +34,37 @@ void PuntoGrafico::escalarDiametro(const float escala)
 
 void PuntoGrafico::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
-    QBrush br(QColor("black"));
-    p->setBrush(br);
-    p->drawEllipse(rectContenedor);
-    p->setBrush(Qt::NoBrush);
-    p->setPen(QPen(2));
-    p->drawEllipse(rectContenedor.adjusted(-5,-5,5,5));
+    if (!hovered)
+    {
+        p->setBrush(brNormal);
+        p->drawEllipse(rectContenedor);
+    }
+    else
+    {
+        p->setBrush(brHover);
+        p->setPen(QPen(brHover,2));
+        p->drawEllipse(rectContenedor);
+        p->setBrush(Qt::NoBrush);
+        p->drawEllipse(rectContenedor.adjusted(-5,-5,5,5));
+    }
 }
 
-void PuntoGrafico::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+void PuntoGrafico::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     if (event->type() == QEvent::GraphicsSceneHoverEnter)
     {
-
+        hovered = true;
     }
-    else if (event->type() == QEvent::GraphicsSceneHoverLeave)
+    QGraphicsItem::hoverEnterEvent(event);
+}
+
+void PuntoGrafico::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    if (event->type() == QEvent::GraphicsSceneHoverLeave)
     {
-
+        hovered = false;
     }
-    else if (event->type() == QEvent::GraphicsSceneHoverMove)
-    {
-
-    }
-    QGraphicsItem::hoverMoveEvent(event);
+    QGraphicsItem::hoverLeaveEvent(event);
 }
 
 QRectF PuntoGrafico::boundingRect() const
