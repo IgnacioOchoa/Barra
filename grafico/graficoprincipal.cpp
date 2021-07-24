@@ -3,7 +3,14 @@
 GraficoPrincipal::GraficoPrincipal(QObject *parent) :
     QGraphicsScene(parent)
 {
+     QLinearGradient* gd = new QLinearGradient();
+     gd->setCoordinateMode(QGradient::ObjectMode);
+     gd->setColorAt(0, "#EAECEE");
+     gd->setColorAt(1, "#ABB2B9");
 
+     QBrush br(*gd);
+     setBackgroundBrush(br);
+     //setForegroundBrush(br);
 }
 
 void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)

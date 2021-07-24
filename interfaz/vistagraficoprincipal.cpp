@@ -10,14 +10,6 @@ VistaGraficoPrincipal::VistaGraficoPrincipal(QWidget* parent) :
     factorZoom = 10;  //Cuanto mas chico puede ser la barra que el viewport = maximo zoomout
     max_Vh = -1;
     max_Vw = -1;
-
-    QLinearGradient* gd = new QLinearGradient();
-    gd->setCoordinateMode(QGradient::ObjectMode);
-    gd->setColorAt(0, "#EAECEE");
-    gd->setColorAt(1, "#ABB2B9");
-
-    QBrush br(*gd);
-    setBackgroundBrush(br);
 }
 
 void VistaGraficoPrincipal::maximizarContenido()
@@ -106,8 +98,9 @@ void VistaGraficoPrincipal::mouseMoveEvent(QMouseEvent *event)
         centroVista -= movimiento;
         centerOn(centroVista);
         inicioRueda = mapToScene(event->pos());
-        viewport()->update();
-    } 
+    }
+    QGraphicsView::mouseMoveEvent(event);
+    viewport()->update(); //Esto es clave para que no sucedan cosas raras en el fondo al mover los items
 }
 
 void VistaGraficoPrincipal::mousePressEvent(QMouseEvent *event)
