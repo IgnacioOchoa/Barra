@@ -11,18 +11,18 @@ class Malla1D
 
 public:
   Malla1D();
-  Malla1D(float longitud_barra, int cantidad_nodos);
+  Malla1D(float longitudBarra, int cantidadNodos);
 
   void crearNodo(float coor);
-  void nodos_equidistantes(int cantidad_nodos, float longitud_barra);
-  void info_en_consola(void);
+  void nodosEquidistantes(int cantidadNodos, float longitudBarra);
+  void infoEnConsola(void);
 
   /*/comienzo Prueba lisa
-  void probando_constructor_nodo();
+  void probandoConstructorNodo();
   //fin prueba lisa/*/
 
 private:
-  QList<Nodo1D> lista_de_nodos;
+  QList<Nodo1D> listaDeNodos;
 
 };
 

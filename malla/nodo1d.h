@@ -13,10 +13,10 @@ public:
     Nodo1D(float coord, int id);
     Nodo1D(QList<float> coord, int id);
 
-    int obtener_id();
-    float obtener_coord_x();
-    float obtener_coord_y();
-    QList<float> obtener_coordenadas();
+    int obtenerID();
+    float obtenerCoordX();
+    float obtenerCoordY();
+    QList<float> obtenerCoordenadas();
 
 private:
 

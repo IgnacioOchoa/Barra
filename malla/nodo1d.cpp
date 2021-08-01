@@ -18,19 +18,19 @@ Nodo1D::Nodo1D(QList<float> coord, int id){
 }
 
 //métodos públicos
-int Nodo1D::obtener_id(){
+int Nodo1D::obtenerID(){
     return ID;
 }
 
-float Nodo1D::obtener_coord_x(){
+float Nodo1D::obtenerCoordX(){
     return x;
 }
 
-float Nodo1D::obtener_coord_y(){
+float Nodo1D::obtenerCoordY(){
     return y;
 }
 
-QList<float> Nodo1D::obtener_coordenadas(){
+QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
 
