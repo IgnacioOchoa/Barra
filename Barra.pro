@@ -27,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     datos/modeloareasbarra.h \
+    datos/parametrosglobales.h \
     fisica/modelo.h \
     fisica/modelosfisicos.h \
     grafico/graficoprincipal.h \

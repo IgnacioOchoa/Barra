@@ -289,7 +289,7 @@ void VentanaPrincipal::crearPagGeometria()
 
     QHBoxLayout* layLongitud = new QHBoxLayout;
     leLongitudBarra = new QLineEdit;
-    leLongitudBarra->setText("10.0");
+    leLongitudBarra->setText(QString::number(PG.longBarraInicial));
     leLongitudBarra->setMaximumWidth(100);
     lbLongitudBarra = new QLabel("Longitud de la barra");
     leLongitudBarra->setValidator(new QDoubleValidator(0.0, 1000.0, 1, this));
@@ -337,6 +337,7 @@ void VentanaPrincipal::crearPagGeometria()
     // ---------- Seleccion valor area ------------------------------------
     lbValorArea = new QLabel("Valor area");
     leValorArea = new QLineEdit;
+    leValorArea->setText(QString::number(PG.areaBarraInicial));
     leValorArea->setMaximumWidth(100);
     gdArea->addWidget(lbValorArea,1,0);
     gdArea->addWidget(leValorArea,1,1,Qt::AlignLeft);
@@ -489,9 +490,6 @@ void VentanaPrincipal::crearVistaPrincipal()
     btnVista->setStyleSheet("QPushButton {background-color: #f7f3c6; border-radius: 4;"
                             "border-color:black; border-style: solid; border-width : 2}");
     btnVista->move(5,5);
-
-    //escena->addLine(-5,-5,5,5);
-    //escena->addLine(-5,5,5,-5);
 
     QPushButton* btnBorrar = new QPushButton(ui->vistaGeometria);
     btnBorrar->setText("Borrar");

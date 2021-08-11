@@ -29,6 +29,7 @@
 #include "datos/modeloareasbarra.h"
 #include "grafico/puntografico.h"
 #include "grafico/graficoprincipal.h"
+#include "datos/parametrosglobales.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {class ventanaPrincipal; }
@@ -95,6 +96,8 @@ private:
 
     ModeloAreasBarra* modeloAreasBarra;
     QTableView* twPuntos;
+
+    paramGlob PG;
 
     void crearMenus();
     void crearFrameModelo();
