@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QAbstractTableModel>
+#include "parametrosglobales.h"
 
 /*       MODELO AREAS BARRA
  *
@@ -21,7 +22,7 @@
 class ModeloAreasBarra : public QAbstractTableModel
 {
 public:
-    ModeloAreasBarra(float longitud, QObject *parent = nullptr);
+    ModeloAreasBarra(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -35,11 +36,15 @@ public:
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
 
-    int getNroEntradas() {return posiciones.size();}
+    int getNroEntradas() {return datos.size();}
     int getNroFilas() {return nroFilas;}
 
     float getPosicion(int indx);
     float getArea(int indx);
+
+    void actualizarValoresLongitud(int row, float longitud);
+    //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
+    //un reordenamiento.
 
 public slots:
     void longitudCambiada(float nuevaLongitud);
@@ -51,8 +56,11 @@ private:
     float longitudBarra;
     float areaReferencia;
 
-    QList<float> posiciones;
-    QList<float> areas;
+    paramGlob PG;
+
+    QList<QPair<float,float>> datos;  // Lista de QPair<posicion,area>
+    //QList<float> posiciones;
+    //QList<float> areas;
 
 };
 

@@ -59,9 +59,6 @@ private:
 
     int modeloElegido;
 
-    float longitudBarra;
-    float areaReferencia;
-
     QButtonGroup* grBotonesModulos;
 
     GraficoPrincipal* escena;

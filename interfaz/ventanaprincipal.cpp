@@ -8,8 +8,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 {
     ui->setupUi(this);
 
-    longitudBarra = 10.0;
-
     crearMenus();
     crearFrameModelo();
     crearIconos();
@@ -476,7 +474,7 @@ void VentanaPrincipal::crearPanelMensajes()
 
 void VentanaPrincipal::crearModeloAreas()
 {
-    modeloAreasBarra = new ModeloAreasBarra(longitudBarra);
+    modeloAreasBarra = new ModeloAreasBarra();
 }
 
 void VentanaPrincipal::crearVistaPrincipal()
@@ -617,13 +615,13 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 
 void VentanaPrincipal::longitudBarraCambiada()
 {
-    longitudBarra = leLongitudBarra->text().toDouble();
+    float longitudBarra = leLongitudBarra->text().toDouble();
     modeloAreasBarra->longitudCambiada(longitudBarra);
 }
 
 void VentanaPrincipal::valorAreaCambiada()
 {
-    areaReferencia = leValorArea->text().toDouble();
+    float areaReferencia = leValorArea->text().toDouble();
     modeloAreasBarra->areaReferenciaCambiada(areaReferencia);
 }
 
