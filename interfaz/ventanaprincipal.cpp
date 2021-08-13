@@ -20,6 +20,10 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 
     modeloElegido = -1;
 
+    connect(modeloAreasBarra, &ModeloAreasBarra::nuevaLongMaxima,
+            leLongitudBarra, &QLineEdit::setText);
+
+
     mensajeStatusBar("Aplicación lista");
 }
 

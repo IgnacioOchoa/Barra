@@ -10,8 +10,6 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
 
     datos.append(QPair<float,float>(0.0,1.0));
     datos.append(QPair<float,float>(1.0,1.0));
-    //posiciones << 0.0 << 1.0;
-    //areas << 1.0 << 1.0;
 }
 
 int ModeloAreasBarra::rowCount(const QModelIndex &parent) const
@@ -80,7 +78,6 @@ bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, 
         emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
         return true;
     }
-
     return false;
 }
 
@@ -92,13 +89,13 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
     if (orientation == Qt::Horizontal) {
             switch (section) {
                 case 0:
-                    return "Pos";
+                    return PG.cabecerasTablaGeometria[0];
                 case 1:
-                    return "Pos rel";
+                    return PG.cabecerasTablaGeometria[1];
                 case 2:
-                    return "Area";
+                    return PG.cabecerasTablaGeometria[2];
                 case 3:
-                    return "Area rel";
+                    return PG.cabecerasTablaGeometria[3];
             }
         }
 
@@ -122,6 +119,8 @@ void ModeloAreasBarra::areaReferenciaCambiada(float nuevaArea)
 
 Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 {
+    if(index.row()==0 && (index.column()==0 || index.column()==1))
+        return QAbstractTableModel::flags(index);
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
@@ -201,6 +200,7 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
         for(int i = 0; i<datos.size(); i++)
             datos[i].first = datos[i].first / datos[nroFilas-1].first;
         longitudBarra = longitud;
+        emit nuevaLongMaxima(QString::number(longitudBarra));
     }
 
 }

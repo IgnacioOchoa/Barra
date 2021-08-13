@@ -21,6 +21,8 @@
 
 class ModeloAreasBarra : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     ModeloAreasBarra(QObject *parent = nullptr);
 
@@ -50,6 +52,9 @@ public slots:
     void longitudCambiada(float nuevaLongitud);
     void areaReferenciaCambiada(float nuevaArea);
 
+signals:
+    void nuevaLongMaxima(QString longitud);
+
 private:
     int nroColumnas;
     int nroFilas;
@@ -59,9 +64,6 @@ private:
     paramGlob PG;
 
     QList<QPair<float,float>> datos;  // Lista de QPair<posicion,area>
-    //QList<float> posiciones;
-    //QList<float> areas;
-
 };
 
 #endif // MODELOAREASBARRA_H
