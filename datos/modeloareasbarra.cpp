@@ -174,5 +174,33 @@ float ModeloAreasBarra::getArea(int indx)
 
 void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
 {
-    datos[row].first = longitud/longitudBarra;
+    float valor = longitud/longitudBarra;
+    datos[row].first = valor;
+    bool reordenar = false;
+    if(row == 0)
+    {
+        if(valor>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+    }
+    else if (row == nroFilas-1)
+    {
+        if(valor<datos[row-1].first) reordenar=true; //Si esto es cierto hay que reordenar
+    }
+    else
+    {
+        if(valor<datos[row-1].first || valor>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+    }
+    if (reordenar) //uso la funcion std::sort, se prefiere sobre qSort
+    {
+        std::sort(datos.begin(),datos.end(),[](QPair<float,float> p1, QPair<float,float> p2)->bool
+                  {
+                      return p1.first < p2.first;
+                  });
+    }
+    if (datos[nroFilas-1].first > 1) // Reajuste por si el maximo cambió
+    {
+        for(int i = 0; i<datos.size(); i++)
+            datos[i].first = datos[i].first / datos[nroFilas-1].first;
+        longitudBarra = longitud;
+    }
+
 }
