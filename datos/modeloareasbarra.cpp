@@ -60,16 +60,20 @@ bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, 
     if (index.isValid() && role == Qt::EditRole) {
         switch (index.column()) {
             case 0:
+                if(value.toFloat()<=0) return false;
                 actualizarValoresLongitud(index.row(),value.toFloat());
                 break;
             case 1:
                 if(value.toFloat()>1) return false;
+                if(value.toFloat()<=0) return false;
                 datos[index.row()].first = value.toFloat();
             break;
             case 2:
+                if(value.toFloat()<=0) return false;
                 datos[index.row()].second = value.toFloat()/areaReferencia;
                 break;
             case 3:
+                if(value.toFloat()<=0) return false;
                 datos[index.row()].second = value.toFloat();
                 break;
             default:
@@ -192,7 +196,11 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
     {
         std::sort(datos.begin(),datos.end(),[](QPair<float,float> p1, QPair<float,float> p2)->bool
                   {
-                      return p1.first < p2.first;
+                        if(p1.first == p2.first)
+                        {
+                            return p1.second < p2.second;
+                        }
+                        return p1.first < p2.first;
                   });
     }
     if (datos[nroFilas-1].first > 1) // Reajuste por si el maximo cambió
