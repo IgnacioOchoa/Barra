@@ -231,7 +231,8 @@ bool ModeloAreasBarra::yaExiste(int row, int column, float value)
     qInfo() << "Posicion a buscar = (" << p.first << ","  << p.second << ")";
     if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
     {
-        qInfo() << "El valor que se quiere ingresar ya existe";
+        //qInfo() << "El valor que se quiere ingresar ya existe";
+        emit logMensaje("El valor que se quiere ingresar ya existe", tipoMensaje::ERROR);
         existe = true;
     }
     return existe;

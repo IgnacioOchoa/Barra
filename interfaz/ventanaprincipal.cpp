@@ -461,19 +461,21 @@ void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 
 void VentanaPrincipal::crearPanelMensajes()
 {
-    QTextEdit* teMensaje = new QTextEdit(this);
-    teMensaje->setText("Aca van a aparecer mensajes copados");
+    teLogMensaje = new QTextEdit(this);
+    teLogMensaje->setText("Aca van a aparecer mensajes copados");
 
     QPushButton* miBoton = new QPushButton("O",this);
 
-    ui->panelMensajes->addWidget(teMensaje,0,0,2,1);
+    ui->panelMensajes->addWidget(teLogMensaje,0,0,2,1);
     ui->panelMensajes->addWidget(miBoton,1,1);
 
-    teMensaje->setMaximumHeight(50);
+    teLogMensaje->setMaximumHeight(50);
 
-    connect(miBoton, &QAbstractButton::pressed, [teMensaje](){
-        teMensaje->setMaximumHeight(teMensaje->maximumHeight() == 50 ? 200 : 50);
+    connect(miBoton, &QAbstractButton::pressed, [this](){
+        teLogMensaje->setMaximumHeight(teLogMensaje->maximumHeight() == 50 ? 200 : 50);
     });
+
+    connect(modeloAreasBarra, &ModeloAreasBarra::logMensaje, this, &VentanaPrincipal::mensajeRecibido);
 }
 
 void VentanaPrincipal::crearModeloAreas()
@@ -558,6 +560,17 @@ void VentanaPrincipal::rotarBarra()
 void VentanaPrincipal::mensajeStatusBar(const QString& msj)
 {
     statusBar()->showMessage(msj);
+}
+
+void VentanaPrincipal::mensajeRecibido(const QString &msj, tipoMensaje t)
+{
+    QString msjEditado;
+    QString hora = "[" + QTime::currentTime().toString().trimmed() + "]  ";
+    if(t == tipoMensaje::ERROR)
+    {
+        msjEditado = R"(<p style="color:red">)" + hora + msj + R"(</p>)";
+    }
+    teLogMensaje->append(msjEditado);
 }
 
 void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)

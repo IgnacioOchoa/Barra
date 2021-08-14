@@ -50,6 +50,7 @@ public slots:
 
 signals:
     void nuevaLongMaxima(QString longitud);
+    void logMensaje(QString mensaje, tipoMensaje t);
 
 private:
     int nroColumnas;

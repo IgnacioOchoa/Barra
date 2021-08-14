@@ -85,6 +85,8 @@ private:
     QPushButton* pbAgregarLineaTabla;
     QPushButton* pbEliminarLineaTabla;
 
+    QTextEdit* teLogMensaje;
+
     //--- Variables del grafico ---
 
     QPolygonF* poligonoBarra;
@@ -113,6 +115,7 @@ private:
 
 public slots:
     void mensajeStatusBar(const QString& msj);
+    void mensajeRecibido(const QString& msj, tipoMensaje t);
 
 private slots:
     void lanzarVentanaModelo();

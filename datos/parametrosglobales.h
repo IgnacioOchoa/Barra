@@ -3,6 +3,8 @@
 
 #include <QtCore>
 
+enum class tipoMensaje {ERROR, REPORT};
+
 struct paramGlob
 {
     float longBarraInicial = 10.0;
