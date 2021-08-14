@@ -94,7 +94,8 @@ private:
     //-----------------------------
 
     ModeloAreasBarra* modeloAreasBarra;
-    QTableView* twPuntos;
+    QTableView* tvPuntos;
+    QItemSelectionModel* tvPuntosSelectionModel;
 
     paramGlob PG;
 

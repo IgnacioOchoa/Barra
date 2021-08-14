@@ -387,22 +387,30 @@ void VentanaPrincipal::crearPagGeometria()
     //  Creacion de tabla
     //---------------------------------------------------------------------
 
-    twPuntos = new QTableView;
-    twPuntos->setModel(modeloAreasBarra);
+    tvPuntos = new QTableView;
+    tvPuntos->setModel(modeloAreasBarra);
 
     QVBoxLayout* vLayTabla = new QVBoxLayout;
 
-    twPuntos->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-    twPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    twPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    twPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    twPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    twPuntos->verticalHeader()->setVisible(true);
-    twPuntos->hide();
-    twPuntos->hideColumn(1);
-    twPuntos->hideColumn(3);
+    tvPuntos->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+    tvPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    tvPuntos->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    tvPuntos->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    tvPuntos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tvPuntos->verticalHeader()->setVisible(true);
+    tvPuntos->hide();
+    tvPuntos->hideColumn(1);
+    tvPuntos->hideColumn(3);
 
-    vLayTabla->addWidget(twPuntos);
+    vLayTabla->addWidget(tvPuntos);
+    tvPuntosSelectionModel = tvPuntos->selectionModel();
+
+    //connect(tvPuntosSelectionModel,&QItemSelectionModel::currentChanged,
+    //        [](QModelIndex a,QModelIndex b){qInfo()<<"Seleccion cambiada";});
+    connect(modeloAreasBarra, &ModeloAreasBarra::filaCambiada,
+            [this](QModelIndex m){tvPuntosSelectionModel->select(m,QItemSelectionModel::ClearAndSelect);});
+
+    vLayTabla->addStretch(1);
 
     //----------- Botones tabla ----------------------------------------
 
@@ -430,10 +438,10 @@ void VentanaPrincipal::crearPagGeometria()
     hBoxChckTabla->addWidget(chbMostrarAreaRelativa);
 
     connect(chbMostrarAreaRelativa, &QCheckBox::stateChanged, [this](int state){
-            state==Qt::Unchecked ? twPuntos->hideColumn(3) : twPuntos->showColumn(3);});
+            state==Qt::Unchecked ? tvPuntos->hideColumn(3) : tvPuntos->showColumn(3);});
 
     connect(chbMostrarPosRelativa, &QCheckBox::stateChanged, [this](int state){
-            state==Qt::Unchecked ? twPuntos->hideColumn(1) : twPuntos->showColumn(1);});
+            state==Qt::Unchecked ? tvPuntos->hideColumn(1) : tvPuntos->showColumn(1);});
 
     vLayTabla->addItem(hBoxChckTabla);
 
@@ -577,7 +585,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 {
     if(s == "Uniforme")
     {
-        twPuntos->hide();
+        tvPuntos->hide();
         lbValorArea->show();
         leValorArea->show();
         pbAgregarLineaTabla->hide();
@@ -590,7 +598,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
     }
     else if (s == "Variación lineal")
     {
-        twPuntos->show();
+        tvPuntos->show();
         lbValorArea->hide();
         leValorArea->hide();
         pbAgregarLineaTabla->hide();
@@ -610,7 +618,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
     }
     else
     {
-        twPuntos->show();
+        tvPuntos->show();
         lbValorArea->hide();
         leValorArea->hide();
         pbAgregarLineaTabla->show();

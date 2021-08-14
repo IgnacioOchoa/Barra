@@ -55,29 +55,33 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    if (mIndex.isValid() && role == Qt::EditRole) {
         if(value.toFloat()<=0) return false;
-        if(yaExiste(index.row(), index.column(), value.toFloat())) return false;
-        switch (index.column()) {
+        QPair<float,float> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
+        if(yaExiste(p)) return false;
+        switch (mIndex.column()) {
             case 0:
-                actualizarValoresLongitud(index.row(),value.toFloat());
+                actualizarValoresLongitud(mIndex.row(),value.toFloat());
                 break;
             case 1:
-                if(value.toFloat()>1) return false;
-                datos[index.row()].first = value.toFloat();
-            break;
+                actualizarValoresLongitud(mIndex.row(),value.toFloat()*longitudBarra);
+                break;
             case 2:
-                datos[index.row()].second = value.toFloat()/areaReferencia;
+                datos[mIndex.row()].second = value.toFloat()/areaReferencia;
                 break;
             case 3:
-                datos[index.row()].second = value.toFloat();
+                datos[mIndex.row()].second = value.toFloat();
                 break;
             default:
                 return false;
         }
-        emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
+        emit dataChanged(mIndex, mIndex, {Qt::DisplayRole, Qt::EditRole});
+        if (datos.indexOf(p) != mIndex.row()) // Significa que esa linea se cambio de lugar
+        {
+            emit filaCambiada(index(datos.indexOf(p),mIndex.column()));
+        }
         return true;
     }
     return false;
@@ -208,12 +212,20 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
         longitudBarra = longitud;
         emit nuevaLongMaxima(QString::number(longitudBarra));
     }
-
 }
 
-bool ModeloAreasBarra::yaExiste(int row, int column, float value)
+bool ModeloAreasBarra::yaExiste(QPair<float, float> p)
 {
-    bool existe = false;
+    if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
+    {
+        emit logMensaje("El valor que se quiere ingresar ya existe", tipoMensaje::ERROR);
+        return true;
+    }
+    return false;
+}
+
+QPair<float, float> ModeloAreasBarra::puntoEditado(int row, int column, float value)
+{
     float valorRef = value;
     float posRef;
     float areaRef;
@@ -228,12 +240,5 @@ bool ModeloAreasBarra::yaExiste(int row, int column, float value)
         posRef = datos[row].first;
     }
     QPair<float, float> p(posRef,areaRef);
-    qInfo() << "Posicion a buscar = (" << p.first << ","  << p.second << ")";
-    if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
-    {
-        //qInfo() << "El valor que se quiere ingresar ya existe";
-        emit logMensaje("El valor que se quiere ingresar ya existe", tipoMensaje::ERROR);
-        existe = true;
-    }
-    return existe;
+    return p;
 }

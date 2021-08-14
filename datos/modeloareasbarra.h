@@ -51,6 +51,7 @@ public slots:
 signals:
     void nuevaLongMaxima(QString longitud);
     void logMensaje(QString mensaje, tipoMensaje t);
+    void filaCambiada(QModelIndex);
 
 private:
     int nroColumnas;
@@ -65,7 +66,8 @@ private:
     void actualizarValoresLongitud(int row, float longitud);
     //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
     //un reordenamiento.
-    bool yaExiste(int row, int column, float value);
+    bool yaExiste(QPair<float, float>);
+    QPair<float,float> puntoEditado(int row, int column, float value);
 };
 
 #endif // MODELOAREASBARRA_H
