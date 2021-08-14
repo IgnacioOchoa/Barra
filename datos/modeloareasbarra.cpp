@@ -58,22 +58,20 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
 bool ModeloAreasBarra::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
+        if(value.toFloat()<=0) return false;
+        if(yaExiste(index.row(), index.column(), value.toFloat())) return false;
         switch (index.column()) {
             case 0:
-                if(value.toFloat()<=0) return false;
                 actualizarValoresLongitud(index.row(),value.toFloat());
                 break;
             case 1:
                 if(value.toFloat()>1) return false;
-                if(value.toFloat()<=0) return false;
                 datos[index.row()].first = value.toFloat();
             break;
             case 2:
-                if(value.toFloat()<=0) return false;
                 datos[index.row()].second = value.toFloat()/areaReferencia;
                 break;
             case 3:
-                if(value.toFloat()<=0) return false;
                 datos[index.row()].second = value.toFloat();
                 break;
             default:
@@ -211,4 +209,30 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
         emit nuevaLongMaxima(QString::number(longitudBarra));
     }
 
+}
+
+bool ModeloAreasBarra::yaExiste(int row, int column, float value)
+{
+    bool existe = false;
+    float valorRef = value;
+    float posRef;
+    float areaRef;
+    if (column == 0 || column == 1)
+    {
+        posRef = (column == 0) ? valorRef/longitudBarra : valorRef;
+        areaRef = datos[row].second;
+    }
+    else if (column == 2 || column == 3)
+    {
+        areaRef = (column == 2) ? valorRef/areaReferencia : valorRef;
+        posRef = datos[row].first;
+    }
+    QPair<float, float> p(posRef,areaRef);
+    qInfo() << "Posicion a buscar = (" << p.first << ","  << p.second << ")";
+    if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
+    {
+        qInfo() << "El valor que se quiere ingresar ya existe";
+        existe = true;
+    }
+    return existe;
 }

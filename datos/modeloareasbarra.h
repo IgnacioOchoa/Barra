@@ -44,10 +44,6 @@ public:
     float getPosicion(int indx);
     float getArea(int indx);
 
-    void actualizarValoresLongitud(int row, float longitud);
-    //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
-    //un reordenamiento.
-
 public slots:
     void longitudCambiada(float nuevaLongitud);
     void areaReferenciaCambiada(float nuevaArea);
@@ -64,6 +60,11 @@ private:
     paramGlob PG;
 
     QList<QPair<float,float>> datos;  // Lista de QPair<posicion,area>
+
+    void actualizarValoresLongitud(int row, float longitud);
+    //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
+    //un reordenamiento.
+    bool yaExiste(int row, int column, float value);
 };
 
 #endif // MODELOAREASBARRA_H
