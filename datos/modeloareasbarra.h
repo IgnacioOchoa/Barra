@@ -44,6 +44,9 @@ public:
     float getPosicion(int indx);
     float getArea(int indx);
 
+    enum Perfil {CONST,VARIABLE};
+    void setPerfil(Perfil p);
+
 public slots:
     void longitudCambiada(float nuevaLongitud);
     void areaReferenciaCambiada(float nuevaArea);
@@ -54,6 +57,9 @@ signals:
     void filaCambiada(QModelIndex);
 
 private:
+
+    const int MIN_ROWS = 3;
+    Perfil perfilModelo;
     int nroColumnas;
     int nroFilas;
     float longitudBarra;
@@ -66,7 +72,8 @@ private:
     void actualizarValoresLongitud(int row, float longitud);
     //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
     //un reordenamiento.
-    bool yaExiste(QPair<float, float>);
+    bool puntoYaExiste(QPair<float, float>);
+    bool posicionYaExiste(float pos);
     QPair<float,float> puntoEditado(int row, int column, float value);
 };
 

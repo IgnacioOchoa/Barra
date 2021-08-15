@@ -9,6 +9,7 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     areaReferencia = PG.areaBarraInicial;
 
     datos.append(QPair<float,float>(0.0,1.0));
+    datos.append(QPair<float,float>(0.5,1.0));
     datos.append(QPair<float,float>(1.0,1.0));
 }
 
@@ -39,8 +40,10 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
             case 1:
                 return datos.at(index.row()).first;
             case 2:
+                if (perfilModelo == CONST && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second*areaReferencia;
             case 3:
+                if (perfilModelo == CONST && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second;
             default:
                 break;
@@ -60,12 +63,13 @@ bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value,
     if (mIndex.isValid() && role == Qt::EditRole) {
         if(value.toFloat()<=0) return false;
         QPair<float,float> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
-        if(yaExiste(p)) return false;
         switch (mIndex.column()) {
             case 0:
+                if(posicionYaExiste(value.toFloat()/longitudBarra)) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat());
                 break;
             case 1:
+                if(posicionYaExiste(value.toFloat())) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat()*longitudBarra);
                 break;
             case 2:
@@ -125,8 +129,15 @@ void ModeloAreasBarra::areaReferenciaCambiada(float nuevaArea)
 
 Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 {
-    if(index.row()==0 && (index.column()==0 || index.column()==1))
+    if(index.row()==0 && (index.column()==0 || index.column()==1)) //No se puede editar la posicion 0
         return QAbstractTableModel::flags(index);
+    else if (perfilModelo == CONST &&
+             (index.row() == nroFilas-1) &&
+             ((index.column() == nroColumnas-1) || index.column() == nroColumnas-2))
+    {
+        return QAbstractTableModel::flags(index);
+    }
+
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
@@ -149,7 +160,7 @@ bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &ind
 {
     Q_UNUSED(index);
     Q_UNUSED(rows);
-    if (nroFilas <= 2) return false;
+    if (nroFilas <= MIN_ROWS) return false;
     position = nroFilas-1;
     beginRemoveRows(QModelIndex(), position, position);
     nroFilas--;
@@ -175,6 +186,13 @@ float ModeloAreasBarra::getArea(int indx)
         return 0.0f;
     }
     return datos.at(indx).second*areaReferencia;
+}
+
+void ModeloAreasBarra::setPerfil(ModeloAreasBarra::Perfil p)
+{
+    perfilModelo = p;
+    emit dataChanged(QAbstractItemModel::createIndex(nroFilas-1,0),
+                     QAbstractItemModel::createIndex(nroFilas-1,nroColumnas-1));
 }
 
 void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
@@ -214,12 +232,25 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
     }
 }
 
-bool ModeloAreasBarra::yaExiste(QPair<float, float> p)
+bool ModeloAreasBarra::puntoYaExiste(QPair<float, float> p)
 {
     if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
     {
         emit logMensaje("El valor que se quiere ingresar ya existe", tipoMensaje::ERROR);
         return true;
+    }
+    return false;
+}
+
+bool ModeloAreasBarra::posicionYaExiste(float pos)
+{
+    for (int i=0; i<datos.length(); i++)
+    {
+        if(datos[i].first == pos)
+        {
+            emit logMensaje("La posición que se quiere ingresar ya existe", tipoMensaje::ERROR);
+            return true;
+        }
     }
     return false;
 }

@@ -657,6 +657,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         cbInterpolacion->hide();
         lbInterpolacion->hide();
 
+        modeloAreasBarra->setPerfil(ModeloAreasBarra::CONST);
+
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
         if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
         {
@@ -683,6 +685,9 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 
         cbInterpolacion->show();
         lbInterpolacion->show();
+
+        modeloAreasBarra->setPerfil(ModeloAreasBarra::VARIABLE);
+
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
         if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
         {
