@@ -286,6 +286,20 @@ void VentanaPrincipal::crearPagGeometria()
     QVBoxLayout* vBoxDimensiones = new QVBoxLayout;
 
     //---------------------------------------------------------------------
+    // Seleccion de tipo de perfil de barra
+    //---------------------------------------------------------------------
+
+    QHBoxLayout* layTipoBarra = new QHBoxLayout;
+    QComboBox* cbTipoBarra = new QComboBox;
+    cbTipoBarra->addItems(PG.geometriaPerfilBarra);
+    cbTipoBarra->setCurrentIndex(-1);
+    QLabel* lbTipoBarra = new QLabel(PG.lbPerfilBarra);
+    layTipoBarra->addWidget(lbTipoBarra);
+    layTipoBarra->addWidget(cbTipoBarra);
+
+    vBoxDimensiones->addItem(layTipoBarra);
+
+    //---------------------------------------------------------------------
     //  Creacion linea de longitud de barra
     //---------------------------------------------------------------------
 
@@ -293,10 +307,9 @@ void VentanaPrincipal::crearPagGeometria()
     leLongitudBarra = new QLineEdit;
     leLongitudBarra->setText(QString::number(PG.longBarraInicial));
     leLongitudBarra->setMaximumWidth(100);
-    lbLongitudBarra = new QLabel("Longitud de la barra");
+    lbLongitudBarra = new QLabel(PG.lbLongitudBarra);
     leLongitudBarra->setValidator(new QDoubleValidator(0.0, 1000.0, 1, this));
     layLongitud->addWidget(lbLongitudBarra);
-    layLongitud->addSpacing(165);
     layLongitud->addWidget(leLongitudBarra);
     layLongitud->setAlignment(leLongitudBarra, Qt::AlignLeft);
     vBoxDimensiones->addItem(layLongitud);
@@ -309,15 +322,15 @@ void VentanaPrincipal::crearPagGeometria()
     //---------------------------------------------------------------------
 
     QVBoxLayout* vLayArea = new QVBoxLayout;
-    QGroupBox* gbAreaTransversal = new QGroupBox("Area transversal", this);
+    QGroupBox* gbAreaTransversal = new QGroupBox(PG.gbAreaTransversal, this);
     gbAreaTransversal->setMinimumHeight(150);
 
     // ---------- Seccion simetria ----------------------------------------
 
     QHBoxLayout* hLaySimetria = new QHBoxLayout;
     btgSimetria = new QButtonGroup;
-    QRadioButton* rbSim = new QRadioButton("Simetrica");
-    QRadioButton* rbUni = new QRadioButton("Unilateral");
+    QRadioButton* rbSim = new QRadioButton(PG.geometriaSimetria[0]);
+    QRadioButton* rbUni = new QRadioButton(PG.geometriaSimetria[1]);
     btgSimetria->addButton(rbSim);
     btgSimetria->addButton(rbUni);
     hLaySimetria->addWidget(rbSim);
@@ -326,41 +339,37 @@ void VentanaPrincipal::crearPagGeometria()
     hLaySimetria->insertStretch(-1);
     vLayArea->addItem(hLaySimetria);
 
-    // ---------- Seccion areas -------------------------------------------
-    gdArea = new QGridLayout;
-    //gdArea->setRowMinimumHeight(1, 50);
-    QComboBox* cbArea = new QComboBox;
-    cbArea->addItems({"Uniforme", "Variación lineal", "Variación multipunto"});
-    cbArea->setCurrentIndex(-1);
-    QLabel* lbArea = new QLabel("Area transversal");
-    gdArea->addWidget(lbArea,0,0);
-    gdArea->addWidget(cbArea,0,1);
-
     // ---------- Seleccion valor area ------------------------------------
-    lbValorArea = new QLabel("Valor area");
+    gdArea = new QGridLayout;
+    lbValorArea = new QLabel();
     leValorArea = new QLineEdit;
     leValorArea->setText(QString::number(PG.areaBarraInicial));
     leValorArea->setMaximumWidth(100);
-    gdArea->addWidget(lbValorArea,1,0);
-    gdArea->addWidget(leValorArea,1,1,Qt::AlignLeft);
+    gdArea->addWidget(lbValorArea,0,0);
+    gdArea->addWidget(leValorArea,0,1,Qt::AlignLeft);
 
-    gdArea->setColumnStretch(0,5);
-    gdArea->setColumnStretch(1,3);
+    lbValorAreaFinal = new QLabel();
+    leValorAreaFinal = new QLineEdit;
+    leValorAreaFinal->setText(QString::number(PG.areaBarraInicial));
+    leValorAreaFinal->setMaximumWidth(100);
+    gdArea->addWidget(lbValorAreaFinal,1,0);
+    gdArea->addWidget(leValorAreaFinal,1,1,Qt::AlignLeft);
+
     gdArea->setSpacing(5);
     vLayArea->addItem(gdArea);
 
     //---------- Metodo interpolacion -----------------------------------
 
     cbInterpolacion = new QComboBox;
-    cbInterpolacion->addItems({"Lineal", "Polinomial", "Splines cúbicos"});
-    lbInterpolacion = new QLabel("Método de interpolación");
+    cbInterpolacion->addItems(PG.cbInterpolacion);
+    lbInterpolacion = new QLabel(PG.lbInterpolacion);
     gdArea->addWidget(lbInterpolacion,2,0);
     gdArea->addWidget(cbInterpolacion,2,1);
 
 
     //--------------------------------------------------------------------
 
-    connect(cbArea, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
+    connect(cbTipoBarra, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::cbVariacionAreaCambiado);
 
     connect(leValorArea, SIGNAL(editingFinished()),
@@ -377,8 +386,8 @@ void VentanaPrincipal::crearPagGeometria()
 
     QHBoxLayout* layCoord = new QHBoxLayout;
     QComboBox* cbCoord = new QComboBox();
-    cbCoord->addItems({"Inicio de la barra","Centro de la barra","Final de la barra", "Otro punto"});
-    QLabel* lbCoord = new QLabel("Posición del origen");
+    cbCoord->addItems(PG.cbPosCoord);
+    QLabel* lbCoord = new QLabel(PG.lbCoord);
     layCoord->addWidget(lbCoord);
     layCoord->addWidget(cbCoord);
     vBoxDimensiones->addItem(layCoord);
@@ -390,7 +399,7 @@ void VentanaPrincipal::crearPagGeometria()
     tvPuntos = new QTableView;
     tvPuntos->setModel(modeloAreasBarra);
 
-    QVBoxLayout* vLayTabla = new QVBoxLayout;
+    vLayTabla = new QVBoxLayout;
 
     tvPuntos->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
     tvPuntos->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -418,8 +427,8 @@ void VentanaPrincipal::crearPagGeometria()
 
     pbAgregarLineaTabla = new QPushButton;
     pbEliminarLineaTabla = new QPushButton;
-    pbAgregarLineaTabla->setText("Agregar fila");
-    pbEliminarLineaTabla->setText("Borrar fila");
+    pbAgregarLineaTabla->setText(PG.pbAgregarLineaTabla);
+    pbEliminarLineaTabla->setText(PG.pbEliminarLineaTabla);
     hBoxBotTabla->addWidget(pbAgregarLineaTabla);
     hBoxBotTabla->addWidget(pbEliminarLineaTabla);
     connect(pbAgregarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->insertRows(0,0);});
@@ -431,8 +440,8 @@ void VentanaPrincipal::crearPagGeometria()
 
     QHBoxLayout* hBoxChckTabla = new QHBoxLayout;
     hBoxChckTabla->addStretch();
-    chbMostrarPosRelativa = new QCheckBox("Posición relativa");
-    chbMostrarAreaRelativa = new QCheckBox("Area relativa");
+    chbMostrarPosRelativa = new QCheckBox(PG.chbMostrarPosRelativa);
+    chbMostrarAreaRelativa = new QCheckBox(PG.chbMostrarAreaRelativa);
     hBoxChckTabla->addWidget(chbMostrarPosRelativa);
     hBoxChckTabla->addSpacing(20);
     hBoxChckTabla->addWidget(chbMostrarAreaRelativa);
@@ -449,7 +458,7 @@ void VentanaPrincipal::crearPagGeometria()
     //  Layout general
     //---------------------------------------------------------------------
 
-    QGroupBox* gbDimensiones = new QGroupBox("Dimensiones",this);
+    QGroupBox* gbDimensiones = new QGroupBox(PG.gbDimensiones,this);
     gbDimensiones->setLayout(vBoxDimensiones);
     gbDimensiones->setMinimumWidth(700);
 
@@ -457,7 +466,7 @@ void VentanaPrincipal::crearPagGeometria()
     hLayGeneral->addItem(vLayTabla);
     hLayGeneral->setAlignment(gbDimensiones, Qt::AlignLeft);
 
-    cbArea->setCurrentIndex(0);
+    cbTipoBarra->setCurrentIndex(0);
     pGeom->setLayout(hLayGeneral);
 
 }
@@ -583,30 +592,44 @@ void VentanaPrincipal::mensajeRecibido(const QString &msj, tipoMensaje t)
 
 void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 {
-    if(s == "Uniforme")
+    if(s == PG.geometriaPerfilBarra[0])  //Uniforme
     {
-        tvPuntos->hide();
+
         lbValorArea->show();
+        lbValorArea->setText(PG.lbAreaUnica);
         leValorArea->show();
+        lbValorAreaFinal->hide();
+        leValorAreaFinal->hide();
+
+        tvPuntos->hide();
         pbAgregarLineaTabla->hide();
         pbEliminarLineaTabla->hide();
         chbMostrarPosRelativa->hide();
         chbMostrarAreaRelativa->hide();
+
         cbInterpolacion->hide();
         lbInterpolacion->hide();
+
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
     }
-    else if (s == "Variación lineal")
+    else if (s == PG.geometriaPerfilBarra[1]) //Variacion lineal
     {
-        tvPuntos->show();
-        lbValorArea->hide();
-        leValorArea->hide();
+        lbValorArea->show();
+        lbValorArea->setText(PG.lbAreaDual[0]);
+        leValorArea->show();
+        lbValorAreaFinal->show();
+        lbValorAreaFinal->setText(PG.lbAreaDual[1]);
+        leValorAreaFinal->show();
+
+        tvPuntos->hide();
         pbAgregarLineaTabla->hide();
         pbEliminarLineaTabla->hide();
-        chbMostrarPosRelativa->show();
-        chbMostrarAreaRelativa->show();
+        chbMostrarPosRelativa->hide();
+        chbMostrarAreaRelativa->hide();
+
         cbInterpolacion->hide();
         lbInterpolacion->hide();
+
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
         if(modeloAreasBarra->getNroEntradas() > 2)
         {
@@ -616,15 +639,48 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
             }
         }
     }
-    else
+    else if (s == PG.geometriaPerfilBarra[2]) // Constante por tramos
     {
+        leLongitudBarra->hide();
+        lbLongitudBarra->hide();
+
         tvPuntos->show();
         lbValorArea->hide();
         leValorArea->hide();
+        lbValorAreaFinal->hide();
+        leValorAreaFinal->hide();
         pbAgregarLineaTabla->show();
         pbEliminarLineaTabla->show();
         chbMostrarPosRelativa->show();
         chbMostrarAreaRelativa->show();
+
+        cbInterpolacion->hide();
+        lbInterpolacion->hide();
+
+        foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+        if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
+        {
+            for (int i=modeloAreasBarra->getNroFilas(); i<modeloAreasBarra->getNroEntradas(); i++)
+            {
+                modeloAreasBarra->insertRows(0,0);
+            }
+        }
+    }
+    else if (s == PG.geometriaPerfilBarra[3]) // Variacion multipunto
+    {
+        leLongitudBarra->hide();
+        lbLongitudBarra->hide();
+
+        tvPuntos->show();
+        lbValorArea->hide();
+        leValorArea->hide();
+        lbValorAreaFinal->hide();
+        leValorAreaFinal->hide();
+        pbAgregarLineaTabla->show();
+        pbEliminarLineaTabla->show();
+        chbMostrarPosRelativa->show();
+        chbMostrarAreaRelativa->show();
+
         cbInterpolacion->show();
         lbInterpolacion->show();
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);

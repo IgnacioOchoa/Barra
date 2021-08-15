@@ -73,8 +73,13 @@ private:
 
     QLineEdit* leLongitudBarra;
     QLabel* lbLongitudBarra;
+
+    //Areas
     QLabel* lbValorArea;
     QLineEdit* leValorArea;
+
+    QLabel* lbValorAreaFinal;
+    QLineEdit* leValorAreaFinal;
 
     QComboBox* cbInterpolacion;
     QLabel* lbInterpolacion;
@@ -82,8 +87,11 @@ private:
     QCheckBox* chbMostrarPosRelativa;
     QCheckBox* chbMostrarAreaRelativa;
 
+    // Tabla
+    QVBoxLayout* vLayTabla;
     QPushButton* pbAgregarLineaTabla;
     QPushButton* pbEliminarLineaTabla;
+    QTableView* tvPuntos;
 
     QTextEdit* teLogMensaje;
 
@@ -94,7 +102,6 @@ private:
     //-----------------------------
 
     ModeloAreasBarra* modeloAreasBarra;
-    QTableView* tvPuntos;
     QItemSelectionModel* tvPuntosSelectionModel;
 
     paramGlob PG;
