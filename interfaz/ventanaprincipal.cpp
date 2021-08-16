@@ -20,10 +20,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
 
     modeloElegido = -1;
 
-    connect(modeloAreasBarra, &ModeloAreasBarra::nuevaLongMaxima,
-            leLongitudBarra, &QLineEdit::setText);
-
-
     mensajeStatusBar("Aplicación lista");
 }
 
@@ -594,6 +590,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 {
     if(s == PG.geometriaPerfilBarra[0])  //Uniforme
     {
+        leLongitudBarra->show();
+        lbLongitudBarra->show();
 
         lbValorArea->show();
         lbValorArea->setText(PG.lbAreaUnica);
@@ -614,6 +612,9 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
     }
     else if (s == PG.geometriaPerfilBarra[1]) //Variacion lineal
     {
+        leLongitudBarra->show();
+        lbLongitudBarra->show();
+
         lbValorArea->show();
         lbValorArea->setText(PG.lbAreaDual[0]);
         leValorArea->show();
@@ -631,13 +632,6 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         lbInterpolacion->hide();
 
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
-        if(modeloAreasBarra->getNroEntradas() > 2)
-        {
-            for (int i=1; i<modeloAreasBarra->getNroEntradas(); i++)
-            {
-                modeloAreasBarra->removeRows(0,0);
-            }
-        }
     }
     else if (s == PG.geometriaPerfilBarra[2]) // Constante por tramos
     {
@@ -660,13 +654,6 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         modeloAreasBarra->setPerfil(ModeloAreasBarra::CONST);
 
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
-        if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
-        {
-            for (int i=modeloAreasBarra->getNroFilas(); i<modeloAreasBarra->getNroEntradas(); i++)
-            {
-                modeloAreasBarra->insertRows(0,0);
-            }
-        }
     }
     else if (s == PG.geometriaPerfilBarra[3]) // Variacion multipunto
     {
@@ -689,13 +676,6 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         modeloAreasBarra->setPerfil(ModeloAreasBarra::VARIABLE);
 
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
-        if(modeloAreasBarra->getNroEntradas() > modeloAreasBarra->getNroFilas())
-        {
-            for (int i=modeloAreasBarra->getNroFilas(); i<modeloAreasBarra->getNroEntradas(); i++)
-            {
-                modeloAreasBarra->insertRows(0,0);
-            }
-        }
     }
 }
 

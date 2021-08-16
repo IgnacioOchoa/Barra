@@ -3,14 +3,14 @@
 ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    nroFilas = 2;
+    nroFilas = MIN_ROWS;
     nroColumnas = 4;
     longitudBarra = PG.longBarraInicial;
     areaReferencia = PG.areaBarraInicial;
 
     datos.append(QPair<float,float>(0.0,1.0));
-    datos.append(QPair<float,float>(0.5,1.0));
-    datos.append(QPair<float,float>(1.0,1.0));
+    datos.append(QPair<float,float>(longitudBarra/2,1.0));
+    datos.append(QPair<float,float>(longitudBarra,1.0));
 }
 
 int ModeloAreasBarra::rowCount(const QModelIndex &parent) const
@@ -36,9 +36,9 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
             case 0:
-                return datos.at(index.row()).first*longitudBarra;
-            case 1:
                 return datos.at(index.row()).first;
+            case 1:
+                return datos.at(index.row()).first/longitudBarra;
             case 2:
                 if (perfilModelo == CONST && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second*areaReferencia;
@@ -148,10 +148,8 @@ bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &ind
     position = nroFilas;
     beginInsertRows(QModelIndex(), position, position);
     nroFilas++;
-    if(datos.size()<nroFilas)
-    {
-        datos.append({1.0,1.0});
-    }
+    datos.append({longitudBarra+1,1.0});
+    longitudCambiada(longitudBarra+1);
     endInsertRows();
     return true;
 }
@@ -164,6 +162,7 @@ bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &ind
     position = nroFilas-1;
     beginRemoveRows(QModelIndex(), position, position);
     nroFilas--;
+    datos.removeLast();
     endRemoveRows();
     return true;
 }
@@ -175,7 +174,7 @@ float ModeloAreasBarra::getPosicion(int indx)
         qInfo() << "ModeloAreasBarra::getPosicion --> indx: " << indx << " fuera de rango";
         return 0.0f;
     }
-    return datos.at(indx).first*longitudBarra;
+    return datos.at(indx).first;
 }
 
 float ModeloAreasBarra::getArea(int indx)
@@ -195,22 +194,21 @@ void ModeloAreasBarra::setPerfil(ModeloAreasBarra::Perfil p)
                      QAbstractItemModel::createIndex(nroFilas-1,nroColumnas-1));
 }
 
-void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
+void ModeloAreasBarra::actualizarValoresLongitud(int row, float posRelativa)
 {
-    float valor = longitud/longitudBarra;
-    datos[row].first = valor;
+    datos[row].first = posRelativa;
     bool reordenar = false;
     if(row == 0)
     {
-        if(valor>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posRelativa>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     else if (row == nroFilas-1)
     {
-        if(valor<datos[row-1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posRelativa<datos[row-1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     else
     {
-        if(valor<datos[row-1].first || valor>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posRelativa<datos[row-1].first || posRelativa>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     if (reordenar) //uso la funcion std::sort, se prefiere sobre qSort
     {
@@ -223,13 +221,8 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float longitud)
                         return p1.first < p2.first;
                   });
     }
-    if (datos[nroFilas-1].first > 1) // Reajuste por si el maximo cambió
-    {
-        for(int i = 0; i<datos.size(); i++)
-            datos[i].first = datos[i].first / datos[nroFilas-1].first;
-        longitudBarra = longitud;
-        emit nuevaLongMaxima(QString::number(longitudBarra));
-    }
+
+    longitudCambiada(datos[nroFilas-1].first);
 }
 
 bool ModeloAreasBarra::puntoYaExiste(QPair<float, float> p)
@@ -262,7 +255,7 @@ QPair<float, float> ModeloAreasBarra::puntoEditado(int row, int column, float va
     float areaRef;
     if (column == 0 || column == 1)
     {
-        posRef = (column == 0) ? valorRef/longitudBarra : valorRef;
+        posRef = (column == 0) ? valorRef : valorRef*longitudBarra;
         areaRef = datos[row].second;
     }
     else if (column == 2 || column == 3)

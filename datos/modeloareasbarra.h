@@ -52,7 +52,6 @@ public slots:
     void areaReferenciaCambiada(float nuevaArea);
 
 signals:
-    void nuevaLongMaxima(QString longitud);
     void logMensaje(QString mensaje, tipoMensaje t);
     void filaCambiada(QModelIndex);
 
