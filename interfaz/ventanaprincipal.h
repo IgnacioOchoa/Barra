@@ -74,6 +74,9 @@ private:
     QLineEdit* leLongitudBarra;
     QLabel* lbLongitudBarra;
 
+    //Perfil barra
+    QComboBox* cbTipoBarra;
+
     //Areas
     QLabel* lbValorArea;
     QLineEdit* leValorArea;

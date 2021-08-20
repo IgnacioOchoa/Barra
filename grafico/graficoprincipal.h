@@ -8,7 +8,7 @@ class GraficoPrincipal : public QGraphicsScene
 {
 public:
     GraficoPrincipal(QObject *parent = nullptr);
-    void graficarBarra(QVector<QPointF>);
+    void graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl);
     QRectF getRectBarra() {return rectBarra;};
     QPointF centroEscena();
 

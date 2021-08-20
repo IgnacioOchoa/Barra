@@ -13,12 +13,12 @@ GraficoPrincipal::GraficoPrincipal(QObject *parent) :
      //setForegroundBrush(br);
 }
 
-void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)
+void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl)
 {
-    poligonoBarra = new QPolygonF(puntosBarra);
+    poligonoBarra = new QPolygonF(verticesBarra);
     float dx = poligonoBarra->boundingRect().width()/2 ;
     float dy = poligonoBarra->boundingRect().height()/2 ;
-    poligonoBarra->translate(-dx,dy);
+    poligonoBarra->translate(-dx,dy);  //Centrar la barra
 
     QPen p;
     QBrush br(QColor("#59d945"));
@@ -29,7 +29,7 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> puntosBarra)
     rectBarra = grPolBarra->boundingRect();
 
     QList<PuntoGrafico*> puntosGraficos;
-    foreach(QPointF pto, puntosBarra)
+    foreach(QPointF pto, puntosControl)
     {
         PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10);
         puntosGraficos.append(ptoG);

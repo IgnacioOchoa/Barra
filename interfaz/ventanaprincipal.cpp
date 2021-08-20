@@ -286,7 +286,7 @@ void VentanaPrincipal::crearPagGeometria()
     //---------------------------------------------------------------------
 
     QHBoxLayout* layTipoBarra = new QHBoxLayout;
-    QComboBox* cbTipoBarra = new QComboBox;
+    cbTipoBarra = new QComboBox;
     cbTipoBarra->addItems(PG.geometriaPerfilBarra);
     cbTipoBarra->setCurrentIndex(-1);
     QLabel* lbTipoBarra = new QLabel(PG.lbPerfilBarra);
@@ -538,21 +538,55 @@ void VentanaPrincipal::crearVistaPrincipal()
 void VentanaPrincipal::graficarBarra()
 {
     borrarBarra();
-    QVector<QPointF> puntosBarra;
-    puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
-    for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
-    {
-        QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
-        puntosBarra.append(p);
-    }
-    puntosBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
+    QVector<QPointF> verticesBarra;
+    QVector<QPointF> puntosControl;
 
-    escena->graficarBarra(puntosBarra);
+    if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[0]) // Uniforme
+    {
+        verticesBarra.append(QPointF(0,0));
+        verticesBarra.append(QPointF(0,-leValorArea->text().toFloat()));
+        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),-leValorArea->text().toFloat()));
+        puntosControl.append(verticesBarra.last());
+        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),0));
+    }
+    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[1]) // Variacion lineal
+    {
+        verticesBarra.append(QPointF(0,0));
+        verticesBarra.append(QPointF(0,-leValorArea->text().toFloat()));
+        puntosControl.append(verticesBarra.last());
+        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),-leValorAreaFinal->text().toFloat()));
+        puntosControl.append(verticesBarra.last());
+        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),0));
+    }
+    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[2]) // Constante por tramos
+    {
+        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
+        for(int i=0; i<modeloAreasBarra->getNroFilas()-1; i++)
+        {
+            QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
+            QPointF p2(modeloAreasBarra->getPosicion(i+1), -modeloAreasBarra->getArea(i));
+            verticesBarra.append(p);
+            puntosControl.append(p);
+            verticesBarra.append(p2);
+        }
+        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
+    }
+    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[3]) // Variacion multipunto
+    {
+        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
+        for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
+        {
+            QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
+            verticesBarra.append(p);
+            puntosControl.append(p);
+        }
+        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
+    }
+
+    escena->graficarBarra(verticesBarra,puntosControl);
 
     ui->vistaGeometria->ajustarViewport();
     ui->vistaGeometria->maximizarContenido();
-
-
 }
 
 void VentanaPrincipal::borrarBarra()
