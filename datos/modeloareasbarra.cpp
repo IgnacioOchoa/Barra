@@ -65,11 +65,11 @@ bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value,
         QPair<float,float> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
         switch (mIndex.column()) {
             case 0:
-                if(posicionYaExiste(value.toFloat()/longitudBarra)) return false;
+                if(posicionYaExiste(value.toFloat())) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat());
                 break;
             case 1:
-                if(posicionYaExiste(value.toFloat())) return false;
+                if(posicionYaExiste(value.toFloat()*longitudBarra)) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat()*longitudBarra);
                 break;
             case 2:
@@ -241,7 +241,7 @@ bool ModeloAreasBarra::posicionYaExiste(float pos)
     {
         if(datos[i].first == pos)
         {
-            emit logMensaje("La posición que se quiere ingresar ya existe", tipoMensaje::ERROR);
+            emit logMensaje("Pos = " + QString::number(pos) + " : La posición que se quiere ingresar ya existe", tipoMensaje::ERROR);
             return true;
         }
     }
