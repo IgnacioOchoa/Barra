@@ -16,9 +16,20 @@ Nodo1D::Nodo1D(QList<float> coord, int id){
     x = coordenadas[0];
     y = coordenadas[1];
 }
+//constructor 3
+Nodo1D::Nodo1D(float coordX, float coordY)
+{
+
+}
+//constructor 4
+Nodo1D::Nodo1D(QList<float> coord)
+{
+
+}
+
 
 //métodos públicos
-int Nodo1D::obtenerID(){
+int Nodo1D::obtenerID() const{
     return ID;
 }
 
@@ -33,6 +44,35 @@ float Nodo1D::obtenerCoordY(){
 QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
+
+//Setters
+void Nodo1D::modificarCoordenadas(QList<float> l)
+{
+
+}
+
+void Nodo1D::modificarCoorX(float x)
+{
+
+}
+
+void Nodo1D::modificarCoorY(float y)
+{
+
+}
+
+void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
+{
+
+}
+
+void Nodo1D::modificarElementoAdyacente(Elemento1D ady)
+{
+
+}
+
+
+
 
 
 

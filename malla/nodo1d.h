@@ -12,11 +12,23 @@ public:
 
     Nodo1D(float coord, int id);
     Nodo1D(QList<float> coord, int id);
+    Nodo1D(float coordX, float coordY);
+    Nodo1D(QList<float> coord);
 
-    int obtenerID();
+    //Geters
+    int obtenerID() const;
     float obtenerCoordX();
     float obtenerCoordY();
     QList<float> obtenerCoordenadas();
+    bool operator==(const Nodo1D) const;
+
+    //Seters
+
+    void modificarCoordenadas(QList<float> l);
+    void modificarCoorX (float x);
+    void modificarCoorY (float y);
+    void modificarListaAdyacentes(QList<Elemento1D> adyacente);
+    void modificarElementoAdyacente(Elemento1D ady);
 
 private:
 
@@ -24,6 +36,7 @@ private:
     int ID;
     float x;
     QList<float> coordenadas;
+    QList<Elemento1D> adyacentes;
 };
 
 #endif // NODO1D_H
