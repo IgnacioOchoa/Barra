@@ -20,6 +20,7 @@ public:
     float obtenerCoordX();
     float obtenerCoordY();
     QList<float> obtenerCoordenadas();
+    QList<Elemento1D> obtenerAdyacentes();
     bool operator==(const Nodo1D) const;
 
     //Seters

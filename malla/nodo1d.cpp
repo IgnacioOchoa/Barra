@@ -28,6 +28,11 @@ Nodo1D::Nodo1D(QList<float> coord)
 }
 
 
+
+QList<Elemento1D> Nodo1D::obtenerAdyacentes()
+{
+    return adyacentes;
+}
 //métodos públicos
 int Nodo1D::obtenerID() const{
     return ID;

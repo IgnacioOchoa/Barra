@@ -17,6 +17,19 @@ public:
   void nodosEquidistantes(int cantidadNodos, float longitudBarra);
   void infoEnConsola(void);
 
+  void agregarNodo1d(Nodo1D);
+  void eliminarNodo1d(Nodo1D);
+  void conectarNodos1d(Nodo1D, Nodo1D);
+  void conectarNodosConPeso(Nodo1D, Nodo1D, int);
+  void desconectarNodos(Nodo1D, Nodo1D);
+  bool esAdyacente(Nodo1D, Nodo1D);
+  bool esVacio();
+  Nodo1D obtenerNodoPorID(int);
+  int elementoDato(Nodo1D, Nodo1D);
+  QList<Nodo1D> obtenerListaDeNodos();
+  QList<Elemento1D> obtenerListaDeAdyacentes(Nodo1D);
+
+
   /*/comienzo Prueba lisa
   void probandoConstructorNodo();
   //fin prueba lisa/*/
