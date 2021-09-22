@@ -34,5 +34,20 @@ QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
 
+void Nodo1D::modificarY(float)
+{
+
+}
+
+void Nodo1D::modificarX(float)
+{
+
+}
+
+void Nodo1D::modificarCoordenadas(QList<float>)
+{
+
+}
+
 
 

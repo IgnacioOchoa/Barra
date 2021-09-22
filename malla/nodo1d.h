@@ -18,6 +18,12 @@ public:
     float obtenerCoordY();
     QList<float> obtenerCoordenadas();
 
+    void modificarY(float);
+    void modificarX(float);
+    void modificarCoordenadas(QList<float>);
+
+
+
 private:
 
     float y;
