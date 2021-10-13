@@ -50,22 +50,36 @@ QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
 
+<<<<<<< HEAD
+void Nodo1D::modificarY(float)
+=======
 //Setters
 void Nodo1D::modificarCoordenadas(QList<float> l)
+>>>>>>> devlisa
 {
 
 }
 
+<<<<<<< HEAD
+void Nodo1D::modificarX(float)
+=======
 void Nodo1D::modificarCoorX(float x)
+>>>>>>> devlisa
 {
 
 }
 
+<<<<<<< HEAD
+void Nodo1D::modificarCoordenadas(QList<float>)
+=======
 void Nodo1D::modificarCoorY(float y)
+>>>>>>> devlisa
 {
 
 }
 
+<<<<<<< HEAD
+=======
 void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
 {
 
@@ -79,5 +93,6 @@ void Nodo1D::modificarElementoAdyacente(Elemento1D ady)
 
 
 
+>>>>>>> devlisa
 
 

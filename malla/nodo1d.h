@@ -33,7 +33,6 @@ public:
 
     void modificarY(float);
     void modificarX(float);
-    void modificarCoordenadas(QList<float>);
 
 
 
