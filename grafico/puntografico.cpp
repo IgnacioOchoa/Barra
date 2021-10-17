@@ -11,6 +11,7 @@ PuntoGrafico::PuntoGrafico(const QPointF& centro, const float diametro, QGraphic
 
     setFlag(QGraphicsItem::ItemIgnoresTransformations);
     setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
     setAcceptHoverEvents(true);
 
@@ -65,6 +66,14 @@ void PuntoGrafico::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
         hovered = false;
     }
     QGraphicsItem::hoverLeaveEvent(event);
+}
+
+QVariant PuntoGrafico::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemPositionChange && scene()) {
+        qInfo() << "Item se movio";
+    }
+    return QGraphicsItem::itemChange(change, value);
 }
 
 QRectF PuntoGrafico::boundingRect() const

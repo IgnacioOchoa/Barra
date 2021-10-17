@@ -20,6 +20,7 @@ public:
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
     void virtual hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
     void virtual hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+    QVariant virtual itemChange(GraphicsItemChange change, const QVariant &value) override;
     QRectF virtual boundingRect() const override;
     int type() const override {return Type;};
 
