@@ -55,4 +55,4 @@ compile_commands.json
 *.svg
 
 # Carpeta auxiliar
-*documentos_auxiliares/
+#*documentos_auxiliares/

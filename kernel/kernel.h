@@ -9,7 +9,7 @@ class Kernel : public QObject
     Q_OBJECT
 public:
     explicit Kernel(QObject *parent = nullptr);
-    void setInterfaz(QMainWindow* ventanaPpal) {interfaz = ventanaPpal;}
+    void setInterfaz(QMainWindow* ventanaPpal);
 
 signals:
 

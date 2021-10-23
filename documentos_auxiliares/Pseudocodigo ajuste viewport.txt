@@ -1,0 +1,34 @@
+Valores iniciales: Bw, Bh, Vw, Vh
+
+P = 10  //Las veces que como minimo tiene que entrar la barra en el viewport cuando el zoom out esta
+	//al maximo, en las dos direcciones, vertical y horizontal
+
+Br = Bh/Bw
+
+Vr = Vh/Vw
+
+if (Br > Vr)   // La barra tiene una relacion de aspecto mas vertical que el viewport
+	       // La distancia critica es la vertical
+
+	max_Vh = Bh*P  // En coordenadas de la escena
+
+
+else          // La barra tiene una relacion de aspecto mas horizontal que el viewport
+	      // La distancia critica es la horizontal
+
+	max_Vw = Bw*P  // En coordenadas de la escena
+
+//Ajusto el tamanio de la escena para que la barra pueda quedar justito fuera de la escena, 
+//en vertical y horizontal
+
+Sw = Bw + 2*max_Vw		
+Sh = Bh + 2*max_Vh
+
+//A la hora de escalar, hay que limitar el maximo de la escala
+
+Vh en coordenadas de escena
+Vw en coordenadas de escena
+
+max_scale = min(max_Vh/Vh, max_Vw/Vw)
+
+// quizas haya que redondear la scale, por ejemplo: if (abs(scale-1) < 0.02) scale = 1;
