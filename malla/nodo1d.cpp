@@ -19,11 +19,18 @@ Nodo1D::Nodo1D(QList<float> coord, int id){
 //constructor 3
 Nodo1D::Nodo1D(float coordX, float coordY)
 {
+    x = coordX;
+    y = coordY;
+    coordenadas[0] = coordX;
+    coordenadas[1] = coordY;
 
 }
 //constructor 4
 Nodo1D::Nodo1D(QList<float> coord)
 {
+    coordenadas = coord;
+    x = coord[0];
+    y = coord[1];
 
 }
 
