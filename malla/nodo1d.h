@@ -2,7 +2,6 @@
 #define NODO1D_H
 #include <QList>
 #include "elemento1d.h"
-#include <QList>
 
 class Elemento1D;
 
@@ -20,7 +19,8 @@ public:
     float obtenerCoordX();
     float obtenerCoordY();
     QList<float> obtenerCoordenadas();
-    QList<Elemento1D> obtenerAdyacentes();
+    QList<Elemento1D> obtenerElementosAdyacentes();
+    //QList<Elemento1D> obtenerAdyacentes();
     bool operator==(const Nodo1D) const;
 
     //Seters
@@ -28,8 +28,10 @@ public:
     void modificarCoordenadas(QList<float> l);
     void modificarCoorX (float coordX);
     void modificarCoorY (float coordY);
-    void modificarListaAdyacentes(QList<Elemento1D> adyacente);
-    void modificarElementoAdyacente(Elemento1D ady);
+
+    void modificarElementos();
+    /*/void modificarListaAdyacentes(QList<Elemento1D> adyacente);
+    void modificarElementoAdyacente(Elemento1D ady);/*/
 
     void modificarY(float);
     void modificarX(float);
@@ -42,7 +44,8 @@ private:
     int ID;
     float x;
     QList<float> coordenadas;
-    QList<Elemento1D> adyacentes;
+    Elemento1D* elementoAnterior;
+    Elemento1D* elementoSiguiente;
 };
 
 #endif // NODO1D_H

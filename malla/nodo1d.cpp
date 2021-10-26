@@ -54,10 +54,14 @@ QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
 
-QList<Elemento1D> Nodo1D::obtenerAdyacentes()
-{
-    return adyacentes;
+QList<Elemento1D> Nodo1D::obtenerElementosAdyacentes(){
+    QList<Elemento1D> elementos;
+    elementos[0] = *elementoAnterior;
+    elementos[1] = *elementoSiguiente;//buscar como s pone "a lo que apunta"
+
+    return elementos;
 }
+
 
 
 //Setters
@@ -84,7 +88,12 @@ void Nodo1D::modificarCoorY(float coordY)
 
 }
 
-void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
+void Nodo1D::modificarElementos()
+{
+
+}
+
+/*/void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
 {
 
 }
@@ -93,7 +102,7 @@ void Nodo1D::modificarElementoAdyacente(Elemento1D ady)
 {
 
 }
-
+/*/
 
 
 
