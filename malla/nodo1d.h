@@ -26,8 +26,8 @@ public:
     //Seters
 
     void modificarCoordenadas(QList<float> l);
-    void modificarCoorX (float x);
-    void modificarCoorY (float y);
+    void modificarCoorX (float coordX);
+    void modificarCoorY (float coordY);
     void modificarListaAdyacentes(QList<Elemento1D> adyacente);
     void modificarElementoAdyacente(Elemento1D ady);
 
