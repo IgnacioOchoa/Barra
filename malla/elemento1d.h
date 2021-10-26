@@ -10,15 +10,16 @@ public:
     Elemento1D();
     Elemento1D(Nodo1D nodo, Elemento1D elem);
     Nodo1D* getNodoSiguiente();
-    Elemento1D* getElementoSiguiente();
-    void crearElemento(Nodo1D nodo, Elemento1D elem);
+    Nodo1D* getNodoAnterior();
+    //void crearElemento(Nodo1D nodo, Elemento1D elem);
 
 
 
 
 private:
+    float distanciaTramo;
+    Nodo1D* nodoAnterior;
     Nodo1D* nodoSiguiente;
-    Elemento1D* elementoSiguiente;
 
 };
 
