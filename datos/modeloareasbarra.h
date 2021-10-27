@@ -44,8 +44,7 @@ public:
     float getPosicion(int indx);
     float getArea(int indx);
 
-    enum Perfil {CONST,VARIABLE};
-    void setPerfil(Perfil p);
+    void setPerfil(perfilVariacionArea p);
 
 public slots:
     void longitudCambiada(float nuevaLongitud);
@@ -58,7 +57,7 @@ signals:
 private:
 
     const int MIN_ROWS = 3;
-    Perfil perfilModelo;
+    perfilVariacionArea perfilModelo;
     int nroColumnas;
     int nroFilas;
     float longitudBarra;

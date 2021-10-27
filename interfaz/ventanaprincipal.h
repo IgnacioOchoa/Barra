@@ -24,9 +24,10 @@
 #include <QStringList>
 #include <QString>
 
+#include "kernel/kernel.h"
 #include "interfaz/dialogseleccionmodelo.h"
 #include "fisica/modelosfisicos.h"
-#include "datos/modeloareasbarra.h"
+//#include "datos/modeloareasbarra.h"
 #include "grafico/puntografico.h"
 #include "grafico/graficoprincipal.h"
 #include "datos/parametrosglobales.h"
@@ -35,42 +36,50 @@ QT_BEGIN_NAMESPACE
 namespace Ui {class ventanaPrincipal; }
 QT_END_NAMESPACE
 
+class Kernel;
+
 class VentanaPrincipal : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    VentanaPrincipal(QWidget *parent = nullptr);
+    VentanaPrincipal(Kernel* k, QWidget *parent = nullptr);
     ~VentanaPrincipal();
+
+    void printMensaje(const QString& msj, tipoMensaje t);
+    void enviarParametrosActuales();
+
+signals:
+
+    void sigValorArea1Cambiado(float area);
+    void sigValorArea2Cambiado(float area);
+    void sigLongitudBarraCambiado(float area);
+    void sigPerfilAreaCambiado (perfilVariacionArea perfil);
 
 private:
     Ui::ventanaPrincipal *ui;
+    const Kernel* ker;
+
     QMenu* menuArchivo;
     QMenu* menuProyecto;
     QMenu* menuOpciones;
     QMenu* menuAjustes;
     QMenu* menuAyuda;
-
     QIcon* iconoDim1D;
     QIcon* iconoDim2D;
     QIcon* iconoDim3D;
-
     QFrame* frDimension;
 
     int modeloElegido;
 
     QButtonGroup* grBotonesModulos;
-
     GraficoPrincipal* escena;
 
     QPushButton* pbModelo;
     QPushButton* pbDim;
     QPushButton* pbCalcular;
-
     QGridLayout* gdArea;
-
     QButtonGroup* btgSimetria;
-
     QLineEdit* leLongitudBarra;
     QLabel* lbLongitudBarra;
 
@@ -80,10 +89,8 @@ private:
     //Areas
     QLabel* lbValorArea;
     QLineEdit* leValorArea;
-
     QLabel* lbValorAreaFinal;
     QLineEdit* leValorAreaFinal;
-
     QComboBox* cbInterpolacion;
     QLabel* lbInterpolacion;
 
@@ -101,12 +108,6 @@ private:
     //--- Variables del grafico ---
 
     QPolygonF* poligonoBarra;
-
-    //-----------------------------
-
-    ModeloAreasBarra* modeloAreasBarra;
-    QItemSelectionModel* tvPuntosSelectionModel;
-
     paramGlob PG;
 
     void crearMenus();
@@ -117,7 +118,6 @@ private:
     void crearPagGeometria();
     void moduloSeleccionado(bool seleccionado);
     void crearPanelMensajes();
-    void crearModeloAreas();
     void crearVistaPrincipal();
     void graficarBarra();
     void borrarBarra();
@@ -126,7 +126,6 @@ private:
 
 public slots:
     void mensajeStatusBar(const QString& msj);
-    void mensajeRecibido(const QString& msj, tipoMensaje t);
 
 private slots:
     void lanzarVentanaModelo();
@@ -134,7 +133,8 @@ private slots:
     void modeloCambiado(int nroModelo);
     void cbVariacionAreaCambiado(const QString& s);
     void longitudBarraCambiada();
-    void valorAreaCambiada();
+    void valorAreaCambiado();
+    void valorAreaFinalCambiado();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;

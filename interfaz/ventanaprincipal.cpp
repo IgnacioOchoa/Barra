@@ -1,9 +1,10 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
 
-VentanaPrincipal::VentanaPrincipal(QWidget *parent)
+VentanaPrincipal::VentanaPrincipal(Kernel *k, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ventanaPrincipal)
+    , ker(k)
     , escena(new GraficoPrincipal(this))
 {
     ui->setupUi(this);
@@ -13,7 +14,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent)
     crearIconos();
     crearFrameDimension();
     crearBotonesPrincipales();
-    crearModeloAreas();
     crearPagGeometria();
     crearPanelMensajes();
     crearVistaPrincipal();
@@ -369,7 +369,9 @@ void VentanaPrincipal::crearPagGeometria()
             &VentanaPrincipal::cbVariacionAreaCambiado);
 
     connect(leValorArea, SIGNAL(editingFinished()),
-            this, SLOT(valorAreaCambiada()));
+            this, SLOT(valorAreaCambiado()));
+
+    connect(leValorAreaFinal, SIGNAL(editingFinished()), this, SLOT(valorAreaFinalCambiado()));
 
     gbAreaTransversal->setLayout(vLayArea);
 
@@ -393,7 +395,7 @@ void VentanaPrincipal::crearPagGeometria()
     //---------------------------------------------------------------------
 
     tvPuntos = new QTableView;
-    tvPuntos->setModel(modeloAreasBarra);
+    ker->conectarTVAreas(tvPuntos);
 
     vLayTabla = new QVBoxLayout;
 
@@ -408,12 +410,6 @@ void VentanaPrincipal::crearPagGeometria()
     tvPuntos->hideColumn(3);
 
     vLayTabla->addWidget(tvPuntos);
-    tvPuntosSelectionModel = tvPuntos->selectionModel();
-
-    //connect(tvPuntosSelectionModel,&QItemSelectionModel::currentChanged,
-    //        [](QModelIndex a,QModelIndex b){qInfo()<<"Seleccion cambiada";});
-    connect(modeloAreasBarra, &ModeloAreasBarra::filaCambiada,
-            [this](QModelIndex m){tvPuntosSelectionModel->select(m,QItemSelectionModel::ClearAndSelect);});
 
     vLayTabla->addStretch(1);
 
@@ -427,8 +423,8 @@ void VentanaPrincipal::crearPagGeometria()
     pbEliminarLineaTabla->setText(PG.pbEliminarLineaTabla);
     hBoxBotTabla->addWidget(pbAgregarLineaTabla);
     hBoxBotTabla->addWidget(pbEliminarLineaTabla);
-    connect(pbAgregarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->insertRows(0,0);});
-    connect(pbEliminarLineaTabla, &QAbstractButton::pressed, [this](){modeloAreasBarra->removeRows(0,0);});
+    connect(pbAgregarLineaTabla, &QAbstractButton::pressed, [this](){ker->modificarNroLineasModAreas(1);});
+    connect(pbEliminarLineaTabla, &QAbstractButton::pressed, [this](){ker->modificarNroLineasModAreas(-1);});
 
     vLayTabla->addItem(hBoxBotTabla);
 
@@ -487,13 +483,6 @@ void VentanaPrincipal::crearPanelMensajes()
     connect(miBoton, &QAbstractButton::pressed, [this](){
         teLogMensaje->setMaximumHeight(teLogMensaje->maximumHeight() == 50 ? 200 : 50);
     });
-
-    connect(modeloAreasBarra, &ModeloAreasBarra::logMensaje, this, &VentanaPrincipal::mensajeRecibido);
-}
-
-void VentanaPrincipal::crearModeloAreas()
-{
-    modeloAreasBarra = new ModeloAreasBarra();
 }
 
 void VentanaPrincipal::crearVistaPrincipal()
@@ -541,48 +530,7 @@ void VentanaPrincipal::graficarBarra()
     QVector<QPointF> verticesBarra;
     QVector<QPointF> puntosControl;
 
-    if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[0]) // Uniforme
-    {
-        verticesBarra.append(QPointF(0,0));
-        verticesBarra.append(QPointF(0,-leValorArea->text().toFloat()));
-        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),-leValorArea->text().toFloat()));
-        puntosControl.append(verticesBarra.last());
-        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),0));
-    }
-    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[1]) // Variacion lineal
-    {
-        verticesBarra.append(QPointF(0,0));
-        verticesBarra.append(QPointF(0,-leValorArea->text().toFloat()));
-        puntosControl.append(verticesBarra.last());
-        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),-leValorAreaFinal->text().toFloat()));
-        puntosControl.append(verticesBarra.last());
-        verticesBarra.append(QPointF(leLongitudBarra->text().toFloat(),0));
-    }
-    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[2]) // Constante por tramos
-    {
-        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
-        for(int i=0; i<modeloAreasBarra->getNroFilas()-1; i++)
-        {
-            QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
-            QPointF p2(modeloAreasBarra->getPosicion(i+1), -modeloAreasBarra->getArea(i));
-            verticesBarra.append(p);
-            puntosControl.append(p);
-            verticesBarra.append(p2);
-        }
-        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
-    }
-    else if (cbTipoBarra->currentText() == PG.geometriaPerfilBarra[3]) // Variacion multipunto
-    {
-        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(0),0.0));
-        for(int i=0; i<modeloAreasBarra->getNroFilas(); i++)
-        {
-            QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
-            verticesBarra.append(p);
-            puntosControl.append(p);
-        }
-        verticesBarra.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));
-    }
-
+    ker->calcularPuntosBarra(verticesBarra,puntosControl);
     escena->graficarBarra(verticesBarra,puntosControl);
 
     ui->vistaGeometria->ajustarViewport();
@@ -609,7 +557,7 @@ void VentanaPrincipal::mensajeStatusBar(const QString& msj)
     statusBar()->showMessage(msj);
 }
 
-void VentanaPrincipal::mensajeRecibido(const QString &msj, tipoMensaje t)
+void VentanaPrincipal::printMensaje(const QString &msj, tipoMensaje t)
 {
     QString msjEditado;
     QString hora = "[" + QTime::currentTime().toString().trimmed() + "]  ";
@@ -620,8 +568,17 @@ void VentanaPrincipal::mensajeRecibido(const QString &msj, tipoMensaje t)
     teLogMensaje->append(msjEditado);
 }
 
+void VentanaPrincipal::enviarParametrosActuales()
+{
+    valorAreaCambiado();
+    valorAreaFinalCambiado();
+    longitudBarraCambiada();
+    emit sigPerfilAreaCambiado (perfilVariacionArea::CONSTANTE);
+}
+
 void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 {
+
     if(s == PG.geometriaPerfilBarra[0])  //Uniforme
     {
         leLongitudBarra->show();
@@ -643,6 +600,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         lbInterpolacion->hide();
 
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
+
+        emit sigPerfilAreaCambiado(perfilVariacionArea::CONSTANTE);
     }
     else if (s == PG.geometriaPerfilBarra[1]) //Variacion lineal
     {
@@ -666,6 +625,8 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         lbInterpolacion->hide();
 
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+
+        emit sigPerfilAreaCambiado(perfilVariacionArea::LINEAL);
     }
     else if (s == PG.geometriaPerfilBarra[2]) // Constante por tramos
     {
@@ -685,9 +646,9 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         cbInterpolacion->hide();
         lbInterpolacion->hide();
 
-        modeloAreasBarra->setPerfil(ModeloAreasBarra::CONST);
-
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+
+        emit sigPerfilAreaCambiado(perfilVariacionArea::CONSTANTEPORTRAMOS);
     }
     else if (s == PG.geometriaPerfilBarra[3]) // Variacion multipunto
     {
@@ -707,22 +668,28 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         cbInterpolacion->show();
         lbInterpolacion->show();
 
-        modeloAreasBarra->setPerfil(ModeloAreasBarra::VARIABLE);
-
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
+
+        emit sigPerfilAreaCambiado(perfilVariacionArea::MULTIPUNTO);
     }
 }
 
 void VentanaPrincipal::longitudBarraCambiada()
 {
     float longitudBarra = leLongitudBarra->text().toDouble();
-    modeloAreasBarra->longitudCambiada(longitudBarra);
+    emit sigLongitudBarraCambiado(longitudBarra);
 }
 
-void VentanaPrincipal::valorAreaCambiada()
+void VentanaPrincipal::valorAreaCambiado()
 {
     float areaReferencia = leValorArea->text().toDouble();
-    modeloAreasBarra->areaReferenciaCambiada(areaReferencia);
+    emit sigValorArea1Cambiado(areaReferencia);
+}
+
+void VentanaPrincipal::valorAreaFinalCambiado()
+{
+    float areaReferencia = leValorAreaFinal->text().toDouble();
+    emit sigValorArea2Cambiado(areaReferencia);
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()
@@ -731,7 +698,6 @@ void VentanaPrincipal::lanzarVentanaModelo()
 
     dlg->show();
     connect(dlg, &DialogSeleccionModelo::sigModeloCambiado, this, &VentanaPrincipal::modeloCambiado);
-
 }
 
 void VentanaPrincipal::seleccionarDimension()

@@ -4,6 +4,7 @@
 #include <QtCore>
 
 enum class tipoMensaje {ERROR, REPORT};
+enum class perfilVariacionArea {CONSTANTE, LINEAL, CONSTANTEPORTRAMOS, MULTIPUNTO};
 
 struct paramGlob
 {

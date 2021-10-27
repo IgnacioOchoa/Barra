@@ -11,6 +11,7 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     datos.append(QPair<float,float>(0.0,1.0));
     datos.append(QPair<float,float>(longitudBarra/2,1.0));
     datos.append(QPair<float,float>(longitudBarra,1.0));
+
 }
 
 int ModeloAreasBarra::rowCount(const QModelIndex &parent) const
@@ -40,10 +41,10 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
             case 1:
                 return datos.at(index.row()).first/longitudBarra;
             case 2:
-                if (perfilModelo == CONST && (index.row()==nroFilas-1)) return "-";
+                if (perfilModelo == perfilVariacionArea::CONSTANTE && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second*areaReferencia;
             case 3:
-                if (perfilModelo == CONST && (index.row()==nroFilas-1)) return "-";
+                if (perfilModelo == perfilVariacionArea::CONSTANTE && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second;
             default:
                 break;
@@ -131,7 +132,7 @@ Qt::ItemFlags ModeloAreasBarra::flags(const QModelIndex &index) const
 {
     if(index.row()==0 && (index.column()==0 || index.column()==1)) //No se puede editar la posicion 0
         return QAbstractTableModel::flags(index);
-    else if (perfilModelo == CONST &&
+    else if (perfilModelo == perfilVariacionArea::CONSTANTE &&
              (index.row() == nroFilas-1) &&
              ((index.column() == nroColumnas-1) || index.column() == nroColumnas-2))
     {
@@ -187,7 +188,7 @@ float ModeloAreasBarra::getArea(int indx)
     return datos.at(indx).second*areaReferencia;
 }
 
-void ModeloAreasBarra::setPerfil(ModeloAreasBarra::Perfil p)
+void ModeloAreasBarra::setPerfil(perfilVariacionArea p)
 {
     perfilModelo = p;
     emit dataChanged(QAbstractItemModel::createIndex(nroFilas-1,0),

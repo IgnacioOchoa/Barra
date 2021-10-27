@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
            a.setStyleSheet(StyleSheet);
         }
 
-    VentanaPrincipal w;
-    Kernel k;
-    k.setInterfaz(&w);
+    Kernel* k = new Kernel();
+    VentanaPrincipal w(k);
+    k->setInterfaz(&w);
     w.setMinimumSize(1400,1000);
 
     /*/COMIENZO SECCION DE PRUEBA LISA

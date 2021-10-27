@@ -71,7 +71,7 @@ void PuntoGrafico::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 QVariant PuntoGrafico::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
-        qInfo() << "Item se movio";
+    // Avisar al kernel que el punto ha sido movido
     }
     return QGraphicsItem::itemChange(change, value);
 }
