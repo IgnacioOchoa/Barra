@@ -21,6 +21,7 @@ public:
     void conectarTVAreas(QTableView* tv) const;
     void modificarNroLineasModAreas(int c) const;
     void calcularPuntosBarra(QVector<QPointF>& vertices, QVector<QPointF>& ptosControl) const;
+    perfilVariacionArea getPerfilVariacionArea() const;
 
 public slots:
     void mensajeRecibido(QString mensaje, tipoMensaje tipo);

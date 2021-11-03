@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QButtonGroup>
 #include <QDebug>
-#include "fisica/modelosfisicos.h"
+#include "modelosfisicos.h"
 #include "botonseleccionmodelo.h"
 
 namespace Ui {

@@ -531,7 +531,7 @@ void VentanaPrincipal::graficarBarra()
     QVector<QPointF> puntosControl;
 
     ker->calcularPuntosBarra(verticesBarra,puntosControl);
-    escena->graficarBarra(verticesBarra,puntosControl);
+    escena->graficarBarra(verticesBarra,puntosControl, ker->getPerfilVariacionArea());
 
     ui->vistaGeometria->ajustarViewport();
     ui->vistaGeometria->maximizarContenido();

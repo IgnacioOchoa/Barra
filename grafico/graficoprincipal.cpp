@@ -11,10 +11,13 @@ GraficoPrincipal::GraficoPrincipal(QObject *parent) :
      QBrush br(*gd);
      setBackgroundBrush(br);
      //setForegroundBrush(br);
+     connect(static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::sigPerfilAreaCambiado, this, &GraficoPrincipal::perfilVariacionAreaCambiado);
 }
 
-void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl)
+void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl,
+                                     perfilVariacionArea perfil)
 {
+    perfVarArea = perfil;
     poligonoBarra = new QPolygonF(verticesBarra);
     float dx = poligonoBarra->boundingRect().width()/2 ;
     float dy = poligonoBarra->boundingRect().height()/2 ;
@@ -31,13 +34,44 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
     QList<PuntoGrafico*> puntosGraficos;
     foreach(QPointF pto, puntosControl)
     {
-        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10);
+        int indx = verticesBarra.indexOf(pto);
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx);
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
+        connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
     }
 }
 
 QPointF GraficoPrincipal::centroEscena()
 {
     return rectBarra.center();
+}
+
+void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
+{
+    (*poligonoBarra)[index] = pos;
+    grPolBarra->setPolygon(*poligonoBarra);
+
+    if(perfVarArea == perfilVariacionArea::CONSTANTE)
+    {
+        (*poligonoBarra)[index-1].setY(pos.y());
+        (*poligonoBarra)[index+1].setX(pos.x());
+    }
+
+    else if(perfVarArea == perfilVariacionArea::LINEAL)
+    {
+        if(index==1)
+        {
+            (*poligonoBarra)[index-1].setX(pos.x());
+        }
+        if(index==2)
+        {
+            (*poligonoBarra)[index+1].setX(pos.x());
+        }
+    }
+}
+
+void GraficoPrincipal::perfilVariacionAreaCambiado(perfilVariacionArea perf)
+{
+    perfVarArea = perf;
 }

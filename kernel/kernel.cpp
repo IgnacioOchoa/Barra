@@ -93,6 +93,11 @@ void Kernel::calcularPuntosBarra(QVector<QPointF>& vertices, QVector<QPointF>& p
     }
 }
 
+perfilVariacionArea Kernel::getPerfilVariacionArea() const
+{
+    return tipoVariacionAreaActivo;
+}
+
 void Kernel::setTipoVariacionArea(perfilVariacionArea tipo)
 {
     tipoVariacionAreaActivo = tipo;
