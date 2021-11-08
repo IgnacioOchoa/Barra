@@ -1,10 +1,12 @@
 #include "puntografico.h"
 
-PuntoGrafico::PuntoGrafico(const QPointF& centro, const float diametro, int index, QGraphicsItem *parent) :
+PuntoGrafico::PuntoGrafico(const QPointF& centro, const float diametro, int index,
+                           movimiento mov, QGraphicsItem *parent) :
     QGraphicsObject(parent),
     centroPunto(centro),
     diametroPunto(diametro),
-    numeroOrden(index)
+    numeroOrden(index),
+    movim(mov)
 {
     setPos(centroPunto);
     rectContenedor = QRect(-diametro/2,-diametro/2,diametro,diametro);
@@ -71,8 +73,13 @@ void PuntoGrafico::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 QVariant PuntoGrafico::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
-    // Avisar al kernel que el punto ha sido movido
-    emit sigPosicionCambiada(numeroOrden, value.toPointF());
+        // Avisar al kernel que el punto ha sido movido
+        QPointF nuevaPos = value.toPointF();
+        if (movim == movimiento::VERT) {
+            nuevaPos.setX(pos().x());
+        }
+        emit sigPosicionCambiada(numeroOrden, nuevaPos);
+        return nuevaPos;
     }
     return QGraphicsItem::itemChange(change, value);
 }
@@ -86,7 +93,6 @@ void PuntoGrafico::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void PuntoGrafico::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
-    emit sigPosicionCambiada(numeroOrden, this->pos());
 }
 
 QRectF PuntoGrafico::boundingRect() const

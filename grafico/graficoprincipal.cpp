@@ -35,7 +35,9 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
     foreach(QPointF pto, puntosControl)
     {
         int indx = verticesBarra.indexOf(pto);
-        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx);
+        PuntoGrafico::movimiento m = PuntoGrafico::movimiento::LIBRE;
+        if(indx == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx, m);
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
         connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
@@ -50,8 +52,6 @@ QPointF GraficoPrincipal::centroEscena()
 void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
 {
     (*poligonoBarra)[index] = pos;
-    grPolBarra->setPolygon(*poligonoBarra);
-
     if(perfVarArea == perfilVariacionArea::CONSTANTE)
     {
         (*poligonoBarra)[index-1].setY(pos.y());
@@ -69,6 +69,9 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
             (*poligonoBarra)[index+1].setX(pos.x());
         }
     }
+    grPolBarra->setPolygon(*poligonoBarra);
+
+
 }
 
 void GraficoPrincipal::perfilVariacionAreaCambiado(perfilVariacionArea perf)
