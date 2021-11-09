@@ -75,7 +75,7 @@ void Kernel::calcularPuntosBarra(QVector<QPointF>& vertices, QVector<QPointF>& p
             QPointF p(modeloAreasBarra->getPosicion(i), -modeloAreasBarra->getArea(i));
             QPointF p2(modeloAreasBarra->getPosicion(i+1), -modeloAreasBarra->getArea(i));
             vertices.append(p);
-            ptosControl.append(p);
+            ptosControl.append(p2);
             vertices.append(p2);
         }
         vertices.append(QPointF(modeloAreasBarra->getPosicion(modeloAreasBarra->getNroFilas()-1),0.0));

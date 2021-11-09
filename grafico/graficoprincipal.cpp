@@ -55,7 +55,6 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
     if(perfVarArea == perfilVariacionArea::CONSTANTE)
     {
         (*poligonoBarra)[index-1].setY(pos.y());
-        (*poligonoBarra)[index+1].setX(pos.x());
     }
 
     else if(perfVarArea == perfilVariacionArea::LINEAL)
@@ -64,14 +63,25 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
         {
             (*poligonoBarra)[index-1].setX(pos.x());
         }
-        if(index==2)
+    }
+    else if(perfVarArea == perfilVariacionArea::CONSTANTEPORTRAMOS)
+    {
+        if(index!=0 && index!=(poligonoBarra->length()-1))
         {
+            (*poligonoBarra)[index-1].setY(pos.y());
             (*poligonoBarra)[index+1].setX(pos.x());
         }
     }
+    else if(perfVarArea == perfilVariacionArea::MULTIPUNTO)
+    {
+        // Nada que implementar, están todos los casos cubiertos
+    }
+
+    if(index==(poligonoBarra->length()-2)) //El ultimo punto arrastra el extremo de la barra
+    {
+        (*poligonoBarra)[index+1].setX(pos.x());
+    }
     grPolBarra->setPolygon(*poligonoBarra);
-
-
 }
 
 void GraficoPrincipal::perfilVariacionAreaCambiado(perfilVariacionArea perf)
