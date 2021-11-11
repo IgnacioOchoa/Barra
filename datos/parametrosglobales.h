@@ -10,6 +10,7 @@ struct paramGlob
 {
     float longBarraInicial = 10.0;
     float areaBarraInicial = 1.0;
+    float areaMin = 0.01;
 
     QString gbDimensiones = "Dimensiones";
     QStringList cabecerasTablaGeometria = {"Pos", "Pos rel", "Area", "Area rel"};

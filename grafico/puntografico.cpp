@@ -1,11 +1,12 @@
 #include "puntografico.h"
 
 PuntoGrafico::PuntoGrafico(const QPointF& centro, const float diametro, int index,
-                           movimiento mov, QGraphicsItem *parent) :
+                           movimiento mov, float ylim, QGraphicsItem *parent) :
     QGraphicsObject(parent),
     centroPunto(centro),
     diametroPunto(diametro),
     numeroOrden(index),
+    yLim(ylim),
     movim(mov)
 {
     setPos(centroPunto);
@@ -77,6 +78,10 @@ QVariant PuntoGrafico::itemChange(QGraphicsItem::GraphicsItemChange change, cons
         QPointF nuevaPos = value.toPointF();
         if (movim == movimiento::VERT) {
             nuevaPos.setX(pos().x());
+        }
+        if (nuevaPos.y()>yLim)
+        {
+            nuevaPos.setY(yLim);
         }
         emit sigPosicionCambiada(numeroOrden, nuevaPos);
         return nuevaPos;

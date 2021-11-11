@@ -16,7 +16,8 @@ class PuntoGrafico : public QGraphicsObject
 public:
     enum {Type = UserType + 1};
     enum class movimiento {LIBRE, VERT, HOR};
-    PuntoGrafico(const QPointF& centro, const float diametro, int index, movimiento mov, QGraphicsItem *parent = nullptr);
+    PuntoGrafico(const QPointF& centro, const float diametro, int index, movimiento mov,
+                 float ylim, QGraphicsItem *parent = nullptr);
     void setDiametro(const float diametro);
     void escalarDiametro(const float escala);
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
@@ -35,6 +36,7 @@ private:
     QPointF centroPunto;
     QRect rectContenedor;
     float diametroPunto;
+    float yLim;
 
     QBrush brNormal;
     QBrush brHover;

@@ -27,6 +27,8 @@ private:
     QVector<QPointF> bufferVertices;
     QVector<QPointF> bufferPtosControl;
     perfilVariacionArea perfVarArea;
+
+    paramGlob PG;
 };
 
 #endif // GRAFICOPRINCIPAL_H

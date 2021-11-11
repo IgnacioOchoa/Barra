@@ -37,7 +37,7 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
         int indx = verticesBarra.indexOf(pto);
         PuntoGrafico::movimiento m = PuntoGrafico::movimiento::LIBRE;
         if(indx == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
-        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx, m);
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx, m, dy - PG.areaMin);
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
         connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
