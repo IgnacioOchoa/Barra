@@ -17,11 +17,12 @@ GraficoPrincipal::GraficoPrincipal(QObject *parent) :
 void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl,
                                      perfilVariacionArea perfil)
 {
+    puntosGraficos.clear();
     perfVarArea = perfil;
     poligonoBarra = new QPolygonF(verticesBarra);
-    float dx = poligonoBarra->boundingRect().width()/2 ;
-    float dy = poligonoBarra->boundingRect().height()/2 ;
-    poligonoBarra->translate(-dx,dy);  //Centrar la barra
+    centroBarra.setX(poligonoBarra->boundingRect().width()/2) ;
+    centroBarra.setY(poligonoBarra->boundingRect().height()/2) ;
+    poligonoBarra->translate(-centroBarra.x(),centroBarra.y());  //Centrar la barra
 
     QPen p;
     QBrush br(QColor("#59d945"));
@@ -31,17 +32,19 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
     grPolBarra = this->addPolygon(*poligonoBarra,p,br);
     rectBarra = grPolBarra->boundingRect();
 
-    QList<PuntoGrafico*> puntosGraficos;
     foreach(QPointF pto, puntosControl)
     {
         int indx = verticesBarra.indexOf(pto);
         PuntoGrafico::movimiento m = PuntoGrafico::movimiento::LIBRE;
         if(indx == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
-        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-dx,dy),10, indx, m, dy - PG.areaMin);
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-centroBarra.x(),centroBarra.y()),10, indx, m, centroBarra.y() - PG.areaMin);
+        qInfo() << "Punto grafico creado: indx = " << indx;
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
         connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
+        connect(ptoG, &PuntoGrafico::nuevaPosicionAceptada, this, &GraficoPrincipal::actualizarLimitesPuntos);
     }
+    actualizarLimitesPuntos();
 }
 
 QPointF GraficoPrincipal::centroEscena()
@@ -87,4 +90,24 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
 void GraficoPrincipal::perfilVariacionAreaCambiado(perfilVariacionArea perf)
 {
     perfVarArea = perf;
+}
+
+void GraficoPrincipal::actualizarLimitesPuntos()
+{
+    int i=0; //Asi uso el valor de i cuando termina el lazo
+    qInfo() << "Length puntos graficos: " << puntosGraficos.length();
+    if(puntosGraficos.length() == 1) {
+        Limites limiteCorriente{true,false,-centroBarra.x()+PG.longMin,0};
+        puntosGraficos[0]->setXLims(limiteCorriente);
+    }
+    else {
+        Limites limiteCorriente{true,true,-centroBarra.x()+PG.longMin,puntosGraficos[1]->pos().x()-PG.longMin};
+        puntosGraficos[0]->setXLims(limiteCorriente);
+        for(i=1; i<puntosGraficos.length()-1; i++) {
+            limiteCorriente = {true,true,puntosGraficos[i-1]->pos().x()+PG.longMin,puntosGraficos[i+1]->pos().x()-PG.longMin};
+            puntosGraficos[i]->setXLims(limiteCorriente);
+        }
+        puntosGraficos.last()->setXLims({true,false,puntosGraficos[i-1]->pos().x()+PG.longMin,0});
+        qInfo() << limiteCorriente.print();
+    }
 }

@@ -33,7 +33,12 @@ void PuntoGrafico::setDiametro(const float diametro)
 void PuntoGrafico::escalarDiametro(const float escala)
 {
     rectContenedor = QRect(-diametroPunto*escala/2,-diametroPunto*escala/2,
-               diametroPunto*escala,diametroPunto*escala);
+                           diametroPunto*escala,diametroPunto*escala);
+}
+
+void PuntoGrafico::setXLims(Limites lim)
+{
+    xLims = lim;
 }
 
 void PuntoGrafico::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w)
@@ -79,9 +84,14 @@ QVariant PuntoGrafico::itemChange(QGraphicsItem::GraphicsItemChange change, cons
         if (movim == movimiento::VERT) {
             nuevaPos.setX(pos().x());
         }
-        if (nuevaPos.y()>yLim)
-        {
+        if (nuevaPos.y()>yLim) {
             nuevaPos.setY(yLim);
+        }
+        if ((nuevaPos.x() < xLims.limMin) && (xLims.limMinOn)) {
+            nuevaPos.setX(xLims.limMin);
+        }
+        else if ((nuevaPos.x() > xLims.limMax) && (xLims.limMaxOn)) {
+            nuevaPos.setX(xLims.limMax);
         }
         emit sigPosicionCambiada(numeroOrden, nuevaPos);
         return nuevaPos;
@@ -97,6 +107,7 @@ void PuntoGrafico::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void PuntoGrafico::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    emit nuevaPosicionAceptada(numeroOrden, event->pos());
     QGraphicsItem::mouseReleaseEvent(event);
 }
 

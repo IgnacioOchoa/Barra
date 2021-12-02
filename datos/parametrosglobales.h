@@ -10,7 +10,8 @@ struct paramGlob
 {
     float longBarraInicial = 10.0;
     float areaBarraInicial = 1.0;
-    float areaMin = 0.01;
+    double areaMin = 0.01;
+    double longMin = 0.05;
 
     QString gbDimensiones = "Dimensiones";
     QStringList cabecerasTablaGeometria = {"Pos", "Pos rel", "Area", "Area rel"};
@@ -31,5 +32,15 @@ struct paramGlob
     QString chbMostrarAreaRelativa = "Area relativa";
 };
 
+struct Limites
+{
+    bool limMinOn;
+    bool limMaxOn;
+    double limMin;
+    double limMax;
+    QString print() {return "Limite inf: " + QString((limMinOn ? "ON" : "OFF")) +
+                ", Limite sup: " + QString(limMaxOn ? "ON" : "OFF" ) + " || "
+                + QString::number(limMin) + " - " + QString::number(limMax);}
+};
 
 #endif // PARAMETROSGLOBALES_H

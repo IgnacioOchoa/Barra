@@ -9,6 +9,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QtCore>
+#include "parametrosglobales.h"
 
 class PuntoGrafico : public QGraphicsObject
 {
@@ -20,6 +21,8 @@ public:
                  float ylim, QGraphicsItem *parent = nullptr);
     void setDiametro(const float diametro);
     void escalarDiametro(const float escala);
+    void setXLims(Limites lims);
+    int indx() {return numeroOrden;};
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
     void virtual hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
     void virtual hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
@@ -31,12 +34,14 @@ public:
 
 signals:
     void sigPosicionCambiada(int index, QPointF nuevaPos);
+    void nuevaPosicionAceptada(int index, QPointF nuevaPos);
 
 private:
     QPointF centroPunto;
     QRect rectContenedor;
     float diametroPunto;
     float yLim;
+    Limites xLims;
 
     QBrush brNormal;
     QBrush brHover;

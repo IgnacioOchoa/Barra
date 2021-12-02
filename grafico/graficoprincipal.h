@@ -19,15 +19,16 @@ public:
 public slots:
     void actualizarPoligonoBarra(int index, QPointF pos);
     void perfilVariacionAreaCambiado(perfilVariacionArea perf);
+    void actualizarLimitesPuntos();
 
 private:
+    QPointF centroBarra; //Localizacion de la barra que va a estar en el (0,0) del grafico
     QPolygonF* poligonoBarra;
     QGraphicsPolygonItem* grPolBarra;
     QRectF rectBarra;
     QVector<QPointF> bufferVertices;
-    QVector<QPointF> bufferPtosControl;
+    QList<PuntoGrafico*> puntosGraficos;
     perfilVariacionArea perfVarArea;
-
     paramGlob PG;
 };
 
