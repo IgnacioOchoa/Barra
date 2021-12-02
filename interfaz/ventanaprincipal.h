@@ -52,9 +52,9 @@ public:
 
 signals:
 
-    void sigValorArea1Cambiado(float area);
-    void sigValorArea2Cambiado(float area);
-    void sigLongitudBarraCambiado(float area);
+    void sigValorArea1Cambiado(double area);
+    void sigValorArea2Cambiado(double area);
+    void sigLongitudBarraCambiado(double area);
     void sigPerfilAreaCambiado (perfilVariacionArea perfil);
 
 private:
@@ -88,10 +88,10 @@ private:
     QComboBox* cbTipoBarra;
 
     //Areas
-    QLabel* lbValorArea;
-    QLineEdit* leValorArea;
-    QLabel* lbValorAreaFinal;
-    QLineEdit* leValorAreaFinal;
+    QLabel* lbValorArea1;
+    QLineEdit* leValorArea1;
+    QLabel* lbValorArea2;
+    QLineEdit* leValorArea2;
     QComboBox* cbInterpolacion;
     QLabel* lbInterpolacion;
 
@@ -127,6 +127,7 @@ private:
 
 public slots:
     void mensajeStatusBar(const QString& msj);
+    void actualizarBarra(double area1, double area2, double longitud);
 
 private slots:
     void lanzarVentanaModelo();

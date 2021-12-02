@@ -337,19 +337,19 @@ void VentanaPrincipal::crearPagGeometria()
 
     // ---------- Seleccion valor area ------------------------------------
     gdArea = new QGridLayout;
-    lbValorArea = new QLabel();
-    leValorArea = new QLineEdit;
-    leValorArea->setText(QString::number(PG.areaBarraInicial));
-    leValorArea->setMaximumWidth(100);
-    gdArea->addWidget(lbValorArea,0,0);
-    gdArea->addWidget(leValorArea,0,1,Qt::AlignLeft);
+    lbValorArea1 = new QLabel();
+    leValorArea1 = new QLineEdit;
+    leValorArea1->setText(QString::number(PG.areaBarraInicial));
+    leValorArea1->setMaximumWidth(100);
+    gdArea->addWidget(lbValorArea1,0,0);
+    gdArea->addWidget(leValorArea1,0,1,Qt::AlignLeft);
 
-    lbValorAreaFinal = new QLabel();
-    leValorAreaFinal = new QLineEdit;
-    leValorAreaFinal->setText(QString::number(PG.areaBarraInicial));
-    leValorAreaFinal->setMaximumWidth(100);
-    gdArea->addWidget(lbValorAreaFinal,1,0);
-    gdArea->addWidget(leValorAreaFinal,1,1,Qt::AlignLeft);
+    lbValorArea2 = new QLabel();
+    leValorArea2 = new QLineEdit;
+    leValorArea2->setText(QString::number(PG.areaBarraInicial));
+    leValorArea2->setMaximumWidth(100);
+    gdArea->addWidget(lbValorArea2,1,0);
+    gdArea->addWidget(leValorArea2,1,1,Qt::AlignLeft);
 
     gdArea->setSpacing(5);
     vLayArea->addItem(gdArea);
@@ -368,10 +368,10 @@ void VentanaPrincipal::crearPagGeometria()
     connect(cbTipoBarra, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this,
             &VentanaPrincipal::cbVariacionAreaCambiado);
 
-    connect(leValorArea, SIGNAL(editingFinished()),
+    connect(leValorArea1, SIGNAL(editingFinished()),
             this, SLOT(valorAreaCambiado()));
 
-    connect(leValorAreaFinal, SIGNAL(editingFinished()), this, SLOT(valorAreaFinalCambiado()));
+    connect(leValorArea2, SIGNAL(editingFinished()), this, SLOT(valorAreaFinalCambiado()));
 
     gbAreaTransversal->setLayout(vLayArea);
 
@@ -557,6 +557,24 @@ void VentanaPrincipal::mensajeStatusBar(const QString& msj)
     statusBar()->showMessage(msj);
 }
 
+void VentanaPrincipal::actualizarBarra(double area1, double area2, double longitud)
+{
+    if(leValorArea1->text().toDouble() != area1) {
+        leValorArea1->setText(QString::number(area1,'g',2));
+        emit sigValorArea1Cambiado(area1);
+    }
+
+    if(leValorArea2->text().toDouble() != area2) {
+        leValorArea2->setText(QString::number(area2,'g',2));
+        emit sigValorArea2Cambiado(area2);
+    }
+
+    if(leLongitudBarra->text().toDouble() != longitud) {
+        leLongitudBarra->setText(QString::number(longitud,'g',2));
+        emit sigLongitudBarraCambiado(longitud);
+    }
+}
+
 void VentanaPrincipal::printMensaje(const QString &msj, tipoMensaje t)
 {
     QString msjEditado;
@@ -584,11 +602,11 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         leLongitudBarra->show();
         lbLongitudBarra->show();
 
-        lbValorArea->show();
-        lbValorArea->setText(PG.lbAreaUnica);
-        leValorArea->show();
-        lbValorAreaFinal->hide();
-        leValorAreaFinal->hide();
+        lbValorArea1->show();
+        lbValorArea1->setText(PG.lbAreaUnica);
+        leValorArea1->show();
+        lbValorArea2->hide();
+        leValorArea2->hide();
 
         tvPuntos->hide();
         pbAgregarLineaTabla->hide();
@@ -608,12 +626,12 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         leLongitudBarra->show();
         lbLongitudBarra->show();
 
-        lbValorArea->show();
-        lbValorArea->setText(PG.lbAreaDual[0]);
-        leValorArea->show();
-        lbValorAreaFinal->show();
-        lbValorAreaFinal->setText(PG.lbAreaDual[1]);
-        leValorAreaFinal->show();
+        lbValorArea1->show();
+        lbValorArea1->setText(PG.lbAreaDual[0]);
+        leValorArea1->show();
+        lbValorArea2->show();
+        lbValorArea2->setText(PG.lbAreaDual[1]);
+        leValorArea2->show();
 
         tvPuntos->hide();
         pbAgregarLineaTabla->hide();
@@ -634,10 +652,10 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         lbLongitudBarra->hide();
 
         tvPuntos->show();
-        lbValorArea->hide();
-        leValorArea->hide();
-        lbValorAreaFinal->hide();
-        leValorAreaFinal->hide();
+        lbValorArea1->hide();
+        leValorArea1->hide();
+        lbValorArea2->hide();
+        leValorArea2->hide();
         pbAgregarLineaTabla->show();
         pbEliminarLineaTabla->show();
         chbMostrarPosRelativa->show();
@@ -656,10 +674,10 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         lbLongitudBarra->hide();
 
         tvPuntos->show();
-        lbValorArea->hide();
-        leValorArea->hide();
-        lbValorAreaFinal->hide();
-        leValorAreaFinal->hide();
+        lbValorArea1->hide();
+        leValorArea1->hide();
+        lbValorArea2->hide();
+        leValorArea2->hide();
         pbAgregarLineaTabla->show();
         pbEliminarLineaTabla->show();
         chbMostrarPosRelativa->show();
@@ -682,13 +700,13 @@ void VentanaPrincipal::longitudBarraCambiada()
 
 void VentanaPrincipal::valorAreaCambiado()
 {
-    float areaReferencia = leValorArea->text().toDouble();
+    float areaReferencia = leValorArea1->text().toDouble();
     emit sigValorArea1Cambiado(areaReferencia);
 }
 
 void VentanaPrincipal::valorAreaFinalCambiado()
 {
-    float areaReferencia = leValorAreaFinal->text().toDouble();
+    float areaReferencia = leValorArea2->text().toDouble();
     emit sigValorArea2Cambiado(areaReferencia);
 }
 

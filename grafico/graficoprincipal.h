@@ -21,6 +21,9 @@ public slots:
     void perfilVariacionAreaCambiado(perfilVariacionArea perf);
     void actualizarLimitesPuntos();
 
+signals:
+    void barraModificada(double area1, double area2, double longitud);
+
 private:
     QPointF centroBarra; //Localizacion de la barra que va a estar en el (0,0) del grafico
     QPolygonF* poligonoBarra;

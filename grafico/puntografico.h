@@ -23,6 +23,7 @@ public:
     void escalarDiametro(const float escala);
     void setXLims(Limites lims);
     int indx() {return numeroOrden;};
+
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
     void virtual hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
     void virtual hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
@@ -34,7 +35,7 @@ public:
 
 signals:
     void sigPosicionCambiada(int index, QPointF nuevaPos);
-    void nuevaPosicionAceptada(int index, QPointF nuevaPos);
+    void nuevaPosicionAceptada();
 
 private:
     QPointF centroPunto;

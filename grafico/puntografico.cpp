@@ -107,7 +107,7 @@ void PuntoGrafico::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void PuntoGrafico::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    emit nuevaPosicionAceptada(numeroOrden, event->pos());
+    emit nuevaPosicionAceptada();
     QGraphicsItem::mouseReleaseEvent(event);
 }
 

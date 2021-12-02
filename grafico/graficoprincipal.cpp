@@ -12,6 +12,7 @@ GraficoPrincipal::GraficoPrincipal(QObject *parent) :
      setBackgroundBrush(br);
      //setForegroundBrush(br);
      connect(static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::sigPerfilAreaCambiado, this, &GraficoPrincipal::perfilVariacionAreaCambiado);
+     connect(this, &GraficoPrincipal::barraModificada,static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::actualizarBarra);
 }
 
 void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl,
@@ -58,6 +59,7 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
     if(perfVarArea == perfilVariacionArea::CONSTANTE)
     {
         (*poligonoBarra)[index-1].setY(pos.y());
+        emit barraModificada(-pos.y()+centroBarra.y(),-pos.y()+centroBarra.y(),pos.x()+centroBarra.x());
     }
 
     else if(perfVarArea == perfilVariacionArea::LINEAL)
@@ -66,6 +68,9 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
         {
             (*poligonoBarra)[index-1].setX(pos.x());
         }
+        emit barraModificada(-(*poligonoBarra)[1].y()+centroBarra.y(),
+                             -(*poligonoBarra)[2].y()+centroBarra.y(),
+                              (*poligonoBarra)[2].x()+centroBarra.x());
     }
     else if(perfVarArea == perfilVariacionArea::CONSTANTEPORTRAMOS)
     {
