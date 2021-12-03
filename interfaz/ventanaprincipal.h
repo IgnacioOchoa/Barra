@@ -24,13 +24,13 @@
 #include <QStringList>
 #include <QString>
 
-#include "kernel.h"
-#include "dialogseleccionmodelo.h"
-#include "modelosfisicos.h"
-#include "modeloareasbarra.h"
-#include "puntografico.h"
-#include "graficoprincipal.h"
-#include "parametrosglobales.h"
+#include "kernel/kernel.h"
+#include "interfaz/dialogseleccionmodelo.h"
+#include "fisica/modelosfisicos.h"
+#include "datos/modeloareasbarra.h"
+#include "grafico/puntografico.h"
+#include "grafico/graficoprincipal.h"
+#include "datos/parametrosglobales.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {class ventanaPrincipal; }

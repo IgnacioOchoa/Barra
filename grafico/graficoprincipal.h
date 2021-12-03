@@ -2,9 +2,9 @@
 #define GRAFICOPRINCIPAL_H
 
 #include <QGraphicsScene>
-#include "puntografico.h"
-#include "parametrosglobales.h"
-#include "ventanaprincipal.h"
+#include "grafico/puntografico.h"
+#include "datos/parametrosglobales.h"
+#include "interfaz/ventanaprincipal.h"
 
 class GraficoPrincipal : public QGraphicsScene
 {

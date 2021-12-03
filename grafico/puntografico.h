@@ -9,7 +9,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QtCore>
-#include "parametrosglobales.h"
+#include "datos/parametrosglobales.h"
 
 class PuntoGrafico : public QGraphicsObject
 {

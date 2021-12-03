@@ -8,13 +8,13 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += C:\Users\Ignacio\Proyectos\Barra\datos \
-               C:\Users\Ignacio\Proyectos\Barra\fisica \
-               C:\Users\Ignacio\Proyectos\Barra\grafico \
-               C:\Users\Ignacio\Proyectos\Barra\interfaz \
-               C:\Users\Ignacio\Proyectos\Barra\kernel \
-               C:\Users\Ignacio\Proyectos\Barra\malla \
-               C:\Users\Ignacio\Proyectos\Barra\solver
+#INCLUDEPATH += C:\Users\Ignacio\Proyectos\Barra\datos \
+#               C:\Users\Ignacio\Proyectos\Barra\fisica \
+#               C:\Users\Ignacio\Proyectos\Barra\grafico \
+#               C:\Users\Ignacio\Proyectos\Barra\interfaz \
+#               C:\Users\Ignacio\Proyectos\Barra\kernel \
+#               C:\Users\Ignacio\Proyectos\Barra\malla \
+#               C:\Users\Ignacio\Proyectos\Barra\solver
 
 DEPENDPATH += C:\Users\Ignacio\Proyectos\Barra\datos
 
