@@ -14,6 +14,7 @@ void Kernel::setInterfaz(VentanaPrincipal *ventanaPpal)
     connect(interfaz, &VentanaPrincipal::sigValorArea1Cambiado, this, &Kernel::setValorArea1);
     connect(interfaz, &VentanaPrincipal::sigValorArea2Cambiado, this, &Kernel::setValorArea2);
     connect(interfaz, &VentanaPrincipal::sigLongitudBarraCambiado, this, &Kernel::setLongitudBarra);
+    connect(interfaz, &VentanaPrincipal::sigPuntoCambiado, this, &Kernel::modificarPuntoBarra);
     ventanaPpal->enviarParametrosActuales();
 }
 
@@ -123,6 +124,12 @@ void Kernel::setLongitudBarra(float longitud)
 void Kernel::setPerfilArea(perfilVariacionArea perfil)
 {
     modeloAreasBarra->setPerfil(perfil);
+}
+
+void Kernel::modificarPuntoBarra(int pto, double pos, double area)
+{
+    modeloAreasBarra->setData(modeloAreasBarra->index(pto,0), pos);
+    modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
 }
 
 void Kernel::mensajeRecibido(QString mensaje, tipoMensaje tipo)

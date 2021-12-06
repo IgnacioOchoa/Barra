@@ -256,7 +256,7 @@ QPair<float, float> ModeloAreasBarra::puntoEditado(int row, int column, float va
     float areaRef;
     if (column == 0 || column == 1)
     {
-        posRef = (column == 0) ? valorRef : valorRef*longitudBarra;
+        posRef = (column == 0) ? valorRef : valorRef/longitudBarra;
         areaRef = datos[row].second;
     }
     else if (column == 2 || column == 3)

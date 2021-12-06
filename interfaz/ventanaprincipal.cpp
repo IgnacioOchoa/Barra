@@ -575,6 +575,12 @@ void VentanaPrincipal::actualizarBarra(double area1, double area2, double longit
     }
 }
 
+void VentanaPrincipal::actualizarPuntoBarra(int pto, double pos, double area)
+{
+    pto--;
+    emit sigPuntoCambiado(pto, pos, area);
+}
+
 void VentanaPrincipal::printMensaje(const QString &msj, tipoMensaje t)
 {
     QString msjEditado;

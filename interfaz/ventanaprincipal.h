@@ -51,11 +51,29 @@ public:
     void enviarParametrosActuales();
 
 signals:
-
     void sigValorArea1Cambiado(double area);
     void sigValorArea2Cambiado(double area);
     void sigLongitudBarraCambiado(double area);
     void sigPerfilAreaCambiado (perfilVariacionArea perfil);
+    void sigPuntoCambiado(int pto, double pos, double area);
+
+public slots:
+    void mensajeStatusBar(const QString& msj);
+    void actualizarBarra(double area1, double area2, double longitud);
+    void actualizarPuntoBarra(int pto, double pos, double area);
+
+private slots:
+    void lanzarVentanaModelo();
+    void seleccionarDimension();
+    void modeloCambiado(int nroModelo);
+    void cbVariacionAreaCambiado(const QString& s);
+    void longitudBarraCambiada();
+    void valorAreaCambiado();
+    void valorAreaFinalCambiado();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev) override;
+    virtual void mousePressEvent(QMouseEvent *event) override;
 
 private:
     Ui::ventanaPrincipal *ui;
@@ -125,21 +143,5 @@ private:
     void centrarBarra();
     void rotarBarra();
 
-public slots:
-    void mensajeStatusBar(const QString& msj);
-    void actualizarBarra(double area1, double area2, double longitud);
-
-private slots:
-    void lanzarVentanaModelo();
-    void seleccionarDimension();
-    void modeloCambiado(int nroModelo);
-    void cbVariacionAreaCambiado(const QString& s);
-    void longitudBarraCambiada();
-    void valorAreaCambiado();
-    void valorAreaFinalCambiado();
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *ev) override;
-    virtual void mousePressEvent(QMouseEvent *event) override;
 };
 #endif // MAINWINDOW_H

@@ -13,6 +13,7 @@ GraficoPrincipal::GraficoPrincipal(QObject *parent) :
      //setForegroundBrush(br);
      connect(static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::sigPerfilAreaCambiado, this, &GraficoPrincipal::perfilVariacionAreaCambiado);
      connect(this, &GraficoPrincipal::barraModificada,static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::actualizarBarra);
+     connect(this, &GraficoPrincipal::puntoBarraModificado, static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::actualizarPuntoBarra);
 }
 
 void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl,
@@ -39,7 +40,6 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
         PuntoGrafico::movimiento m = PuntoGrafico::movimiento::LIBRE;
         if(indx == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
         PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-centroBarra.x(),centroBarra.y()),10, indx, m, centroBarra.y() - PG.areaMin);
-        qInfo() << "Punto grafico creado: indx = " << indx;
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
         connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
@@ -79,10 +79,14 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
             (*poligonoBarra)[index-1].setY(pos.y());
             (*poligonoBarra)[index+1].setX(pos.x());
         }
+        emit puntoBarraModificado(index, (*poligonoBarra)[index].x()+centroBarra.x(),
+                                         -(*poligonoBarra)[index].y()+centroBarra.y());
     }
     else if(perfVarArea == perfilVariacionArea::MULTIPUNTO)
     {
         // Nada que implementar, están todos los casos cubiertos
+        emit puntoBarraModificado(index, (*poligonoBarra)[index].x()+centroBarra.x(),
+                                         -(*poligonoBarra)[index].y()+centroBarra.y());
     }
 
     if(index==(poligonoBarra->length()-2)) //El ultimo punto arrastra el extremo de la barra
@@ -100,7 +104,6 @@ void GraficoPrincipal::perfilVariacionAreaCambiado(perfilVariacionArea perf)
 void GraficoPrincipal::actualizarLimitesPuntos()
 {
     int i=0; //Asi uso el valor de i cuando termina el lazo
-    qInfo() << "Length puntos graficos: " << puntosGraficos.length();
     if(puntosGraficos.length() == 1) {
         Limites limiteCorriente{true,false,-centroBarra.x()+PG.longMin,0};
         puntosGraficos[0]->setXLims(limiteCorriente);
@@ -113,6 +116,5 @@ void GraficoPrincipal::actualizarLimitesPuntos()
             puntosGraficos[i]->setXLims(limiteCorriente);
         }
         puntosGraficos.last()->setXLims({true,false,puntosGraficos[i-1]->pos().x()+PG.longMin,0});
-        qInfo() << limiteCorriente.print();
     }
 }
