@@ -16,6 +16,12 @@
  * Nro punto: empieza en 1 y se usa para numerar los puntos donde se definiran las secciones
  * Pos absoluta: posicion absoulta en metros respecto al punto 1 del punto en cuestion
  * Area absoluta: magnitud del area, en metros cuadrados en el punto en cuestion
+ *
+ * La informacion se guarda en una lista de QPoint<double,double>, donde el primer elemento
+ * es la posicion absoulta y el segundo elemento es el area relativa. Para obtener el area
+ * absoluta hay que multiplicarla por el area de referencia
+ *
+ *
  */
 
 
@@ -41,8 +47,8 @@ public:
     int getNroEntradas() {return datos.size();}
     int getNroFilas() {return nroFilas;}
 
-    float getPosicion(int indx);
-    float getArea(int indx);
+    double getPosicion(int indx);
+    double getArea(int indx);
 
     void setPerfil(perfilVariacionArea p);
 
@@ -53,6 +59,7 @@ public slots:
 signals:
     void logMensaje(QString mensaje, tipoMensaje t);
     void filaCambiada(QModelIndex);
+    void sigReversionPuntos(int nroPuntoPrimero, int nroPuntoSegundo);
 
 private:
 
@@ -65,14 +72,14 @@ private:
 
     paramGlob PG;
 
-    QList<QPair<float,float>> datos;  // Lista de QPair<posicion,area>
+    QList<QPair<double,double>> datos;  // Lista de QPair<posicion,area>
 
-    void actualizarValoresLongitud(int row, float longitud);
+    void actualizarValoresLongitud(int row, double longitud);
     //function para procesar cambios en la lista de posiciones, por ejemplo cuando se necesita
     //un reordenamiento.
-    bool puntoYaExiste(QPair<float, float>);
+    bool puntoYaExiste(QPair<double, double>);
     bool posicionYaExiste(float pos);
-    QPair<float,float> puntoEditado(int row, int column, float value);
+    QPair<double, double> puntoEditado(int row, int column, float value);
 };
 
 #endif // MODELOAREASBARRA_H

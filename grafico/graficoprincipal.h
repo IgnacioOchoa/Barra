@@ -17,7 +17,7 @@ public:
     QPointF centroEscena();
 
 public slots:
-    void actualizarPoligonoBarra(int index, QPointF pos);
+    void actualizarPoligonoBarra(int nroPtoVertice, int nroPtoControl, QPointF pos);
     void perfilVariacionAreaCambiado(perfilVariacionArea perf);
     void actualizarLimitesPuntos();
 

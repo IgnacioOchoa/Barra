@@ -34,14 +34,17 @@ void GraficoPrincipal::graficarBarra(QVector<QPointF> verticesBarra, QVector<QPo
     grPolBarra = this->addPolygon(*poligonoBarra,p,br);
     rectBarra = grPolBarra->boundingRect();
 
+    int indxPtoCtrl = 0;
     foreach(QPointF pto, puntosControl)
     {
-        int indx = verticesBarra.indexOf(pto);
+        int indxPtoVertice = verticesBarra.indexOf(pto);
         PuntoGrafico::movimiento m = PuntoGrafico::movimiento::LIBRE;
-        if(indx == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
-        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-centroBarra.x(),centroBarra.y()),10, indx, m, centroBarra.y() - PG.areaMin);
+        if(indxPtoVertice == 1) m = PuntoGrafico::movimiento::VERT; //Restrinjo el movimiento si el punto esta al inicio de la barra
+        PuntoGrafico* ptoG = new PuntoGrafico(pto+QPointF(-centroBarra.x(),centroBarra.y()),10, indxPtoVertice,
+                                              indxPtoCtrl, m, centroBarra.y() - PG.areaMin);
         puntosGraficos.append(ptoG);
         this->addItem(ptoG);
+        indxPtoCtrl++;
         connect(ptoG, &PuntoGrafico::sigPosicionCambiada, this, &GraficoPrincipal::actualizarPoligonoBarra);
         connect(ptoG, &PuntoGrafico::nuevaPosicionAceptada, this, &GraficoPrincipal::actualizarLimitesPuntos);
     }
@@ -53,20 +56,20 @@ QPointF GraficoPrincipal::centroEscena()
     return rectBarra.center();
 }
 
-void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
+void GraficoPrincipal::actualizarPoligonoBarra(int nroPtoVertice, int nroPtoControl, QPointF pos)
 {
-    (*poligonoBarra)[index] = pos;
+    (*poligonoBarra)[nroPtoVertice] = pos;
     if(perfVarArea == perfilVariacionArea::CONSTANTE)
     {
-        (*poligonoBarra)[index-1].setY(pos.y());
+        (*poligonoBarra)[nroPtoVertice-1].setY(pos.y());
         emit barraModificada(-pos.y()+centroBarra.y(),-pos.y()+centroBarra.y(),pos.x()+centroBarra.x());
     }
 
     else if(perfVarArea == perfilVariacionArea::LINEAL)
     {
-        if(index==1)
+        if(nroPtoVertice==1)
         {
-            (*poligonoBarra)[index-1].setX(pos.x());
+            (*poligonoBarra)[nroPtoVertice-1].setX(pos.x());
         }
         emit barraModificada(-(*poligonoBarra)[1].y()+centroBarra.y(),
                              -(*poligonoBarra)[2].y()+centroBarra.y(),
@@ -74,24 +77,26 @@ void GraficoPrincipal::actualizarPoligonoBarra(int index, QPointF pos)
     }
     else if(perfVarArea == perfilVariacionArea::CONSTANTEPORTRAMOS)
     {
-        if(index!=0 && index!=(poligonoBarra->length()-1))
+        if(nroPtoVertice!=0 && nroPtoVertice!=(poligonoBarra->length()-1))
         {
-            (*poligonoBarra)[index-1].setY(pos.y());
-            (*poligonoBarra)[index+1].setX(pos.x());
+            (*poligonoBarra)[nroPtoVertice-1].setY(pos.y());
+            (*poligonoBarra)[nroPtoVertice+1].setX(pos.x());
         }
-        emit puntoBarraModificado(index, (*poligonoBarra)[index].x()+centroBarra.x(),
-                                         -(*poligonoBarra)[index].y()+centroBarra.y());
+
+
+        emit puntoBarraModificado(nroPtoControl, (*poligonoBarra)[nroPtoVertice].x()+centroBarra.x(),
+                                         -(*poligonoBarra)[nroPtoVertice].y()+centroBarra.y());
     }
     else if(perfVarArea == perfilVariacionArea::MULTIPUNTO)
     {
         // Nada que implementar, están todos los casos cubiertos
-        emit puntoBarraModificado(index, (*poligonoBarra)[index].x()+centroBarra.x(),
-                                         -(*poligonoBarra)[index].y()+centroBarra.y());
+        emit puntoBarraModificado(nroPtoControl, (*poligonoBarra)[nroPtoVertice].x()+centroBarra.x(),
+                                         -(*poligonoBarra)[nroPtoVertice].y()+centroBarra.y());
     }
 
-    if(index==(poligonoBarra->length()-2)) //El ultimo punto arrastra el extremo de la barra
+    if(nroPtoVertice==(poligonoBarra->length()-2)) //El ultimo punto arrastra el extremo de la barra
     {
-        (*poligonoBarra)[index+1].setX(pos.x());
+        (*poligonoBarra)[nroPtoVertice+1].setX(pos.x());
     }
     grPolBarra->setPolygon(*poligonoBarra);
 }

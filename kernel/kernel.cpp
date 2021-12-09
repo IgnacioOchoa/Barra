@@ -14,7 +14,7 @@ void Kernel::setInterfaz(VentanaPrincipal *ventanaPpal)
     connect(interfaz, &VentanaPrincipal::sigValorArea1Cambiado, this, &Kernel::setValorArea1);
     connect(interfaz, &VentanaPrincipal::sigValorArea2Cambiado, this, &Kernel::setValorArea2);
     connect(interfaz, &VentanaPrincipal::sigLongitudBarraCambiado, this, &Kernel::setLongitudBarra);
-    connect(interfaz, &VentanaPrincipal::sigPuntoCambiado, this, &Kernel::modificarPuntoBarra);
+    connect(interfaz, &VentanaPrincipal::sigPuntoCambiado, this, &Kernel::setPuntoBarra);
     ventanaPpal->enviarParametrosActuales();
 }
 
@@ -102,6 +102,7 @@ perfilVariacionArea Kernel::getPerfilVariacionArea() const
 void Kernel::setTipoVariacionArea(perfilVariacionArea tipo)
 {
     tipoVariacionAreaActivo = tipo;
+    modeloAreasBarra->setPerfil(tipo);
 }
 
 void Kernel::setValorArea1(float area)
@@ -121,15 +122,18 @@ void Kernel::setLongitudBarra(float longitud)
     longitudBarra = longitud;
 }
 
-void Kernel::setPerfilArea(perfilVariacionArea perfil)
+void Kernel::setPuntoBarra(int pto, double pos, double area)
 {
-    modeloAreasBarra->setPerfil(perfil);
-}
-
-void Kernel::modificarPuntoBarra(int pto, double pos, double area)
-{
-    modeloAreasBarra->setData(modeloAreasBarra->index(pto,0), pos);
-    modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
+    if(tipoVariacionAreaActivo == perfilVariacionArea::CONSTANTEPORTRAMOS)
+    {
+        modeloAreasBarra->setData(modeloAreasBarra->index(pto+1,0), pos);
+        modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
+    }
+    else if(tipoVariacionAreaActivo == perfilVariacionArea::MULTIPUNTO)
+    {
+        modeloAreasBarra->setData(modeloAreasBarra->index(pto,0), pos);
+        modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
+    }
 }
 
 void Kernel::mensajeRecibido(QString mensaje, tipoMensaje tipo)

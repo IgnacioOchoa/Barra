@@ -29,8 +29,7 @@ public slots:
     void setValorArea1(float area);
     void setValorArea2(float area);
     void setLongitudBarra(float longitud);
-    void setPerfilArea(perfilVariacionArea perfil);
-    void modificarPuntoBarra(int pto, double pos, double area);
+    void setPuntoBarra(int pto, double pos, double area);
 
 private:
 

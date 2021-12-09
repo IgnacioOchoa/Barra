@@ -8,9 +8,9 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     longitudBarra = PG.longBarraInicial;
     areaReferencia = PG.areaBarraInicial;
 
-    datos.append(QPair<float,float>(0.0,1.0));
-    datos.append(QPair<float,float>(longitudBarra/2,1.0));
-    datos.append(QPair<float,float>(longitudBarra,1.0));
+    datos.append(QPair<double,double>(0.0,1.0));
+    datos.append(QPair<double,double>(longitudBarra/2,1.0));
+    datos.append(QPair<double,double>(longitudBarra,1.0));
 
 }
 
@@ -41,10 +41,10 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
             case 1:
                 return datos.at(index.row()).first/longitudBarra;
             case 2:
-                if (perfilModelo == perfilVariacionArea::CONSTANTE && (index.row()==nroFilas-1)) return "-";
+                if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second*areaReferencia;
             case 3:
-                if (perfilModelo == perfilVariacionArea::CONSTANTE && (index.row()==nroFilas-1)) return "-";
+                if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (index.row()==nroFilas-1)) return "-";
                 return datos.at(index.row()).second;
             default:
                 break;
@@ -63,21 +63,26 @@ bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value,
 {
     if (mIndex.isValid() && role == Qt::EditRole) {
         if(value.toFloat()<=0) return false;
-        QPair<float,float> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
+        if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (mIndex.row()==nroFilas-1)) return false;
+        QPair<double,double> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
+        // Esto significa que estoy manteniendo la posicion pero cambiando el area,
+        // cuando esto sucede no hay que chequear si la posicion existe porque se va
+        // a encontrar a si mismo
+        bool mismoPunto = (p.first == datos[mIndex.row()].first);
         switch (mIndex.column()) {
             case 0:
-                if(posicionYaExiste(value.toFloat())) return false;
+                if(!mismoPunto && posicionYaExiste(value.toFloat())) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat());
                 break;
             case 1:
-                if(posicionYaExiste(value.toFloat()*longitudBarra)) return false;
+                if(!mismoPunto && posicionYaExiste(value.toFloat()*longitudBarra)) return false;
                 actualizarValoresLongitud(mIndex.row(),value.toFloat()*longitudBarra);
                 break;
             case 2:
-                datos[mIndex.row()].second = value.toFloat()/areaReferencia;
+                datos[mIndex.row()].second = value.toDouble()/areaReferencia;
                 break;
             case 3:
-                datos[mIndex.row()].second = value.toFloat();
+                datos[mIndex.row()].second = value.toDouble();
                 break;
             default:
                 return false;
@@ -168,7 +173,7 @@ bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &ind
     return true;
 }
 
-float ModeloAreasBarra::getPosicion(int indx)
+double ModeloAreasBarra::getPosicion(int indx)
 {
     if(indx >= nroFilas)
     {
@@ -178,7 +183,7 @@ float ModeloAreasBarra::getPosicion(int indx)
     return datos.at(indx).first;
 }
 
-float ModeloAreasBarra::getArea(int indx)
+double ModeloAreasBarra::getArea(int indx)
 {
     if(indx >= nroFilas)
     {
@@ -195,21 +200,21 @@ void ModeloAreasBarra::setPerfil(perfilVariacionArea p)
                      QAbstractItemModel::createIndex(nroFilas-1,nroColumnas-1));
 }
 
-void ModeloAreasBarra::actualizarValoresLongitud(int row, float posRelativa)
+void ModeloAreasBarra::actualizarValoresLongitud(int row, double posicionNueva)
 {
-    datos[row].first = posRelativa;
+    datos[row].first = posicionNueva;
     bool reordenar = false;
     if(row == 0)
     {
-        if(posRelativa>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posicionNueva>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     else if (row == nroFilas-1)
     {
-        if(posRelativa<datos[row-1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posicionNueva<datos[row-1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     else
     {
-        if(posRelativa<datos[row-1].first || posRelativa>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
+        if(posicionNueva<datos[row-1].first || posicionNueva>datos[row+1].first) reordenar=true; //Si esto es cierto hay que reordenar
     }
     if (reordenar) //uso la funcion std::sort, se prefiere sobre qSort
     {
@@ -226,11 +231,12 @@ void ModeloAreasBarra::actualizarValoresLongitud(int row, float posRelativa)
     longitudCambiada(datos[nroFilas-1].first);
 }
 
-bool ModeloAreasBarra::puntoYaExiste(QPair<float, float> p)
+bool ModeloAreasBarra::puntoYaExiste(QPair<double, double> p)
 {
     if( (std::find(datos.begin(), datos.end(), p)) != datos.end())
     {
         emit logMensaje("El valor que se quiere ingresar ya existe", tipoMensaje::ERROR);
+
         return true;
     }
     return false;
@@ -249,7 +255,7 @@ bool ModeloAreasBarra::posicionYaExiste(float pos)
     return false;
 }
 
-QPair<float, float> ModeloAreasBarra::puntoEditado(int row, int column, float value)
+QPair<double, double> ModeloAreasBarra::puntoEditado(int row, int column, float value)
 {
     float valorRef = value;
     float posRef;
@@ -264,6 +270,6 @@ QPair<float, float> ModeloAreasBarra::puntoEditado(int row, int column, float va
         areaRef = (column == 2) ? valorRef/areaReferencia : valorRef;
         posRef = datos[row].first;
     }
-    QPair<float, float> p(posRef,areaRef);
+    QPair<double, double> p(posRef,areaRef);
     return p;
 }

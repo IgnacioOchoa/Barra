@@ -17,12 +17,13 @@ class PuntoGrafico : public QGraphicsObject
 public:
     enum {Type = UserType + 1};
     enum class movimiento {LIBRE, VERT, HOR};
-    PuntoGrafico(const QPointF& centro, const float diametro, int index, movimiento mov,
+    PuntoGrafico(const QPointF& centro, const float diametro, int index, int nroPto, movimiento mov,
                  float ylim, QGraphicsItem *parent = nullptr);
     void setDiametro(const float diametro);
     void escalarDiametro(const float escala);
     void setXLims(Limites lims);
-    int indx() {return numeroOrden;};
+    int getNroPtoControl() {return nroPtoControl;};
+    int getNroPtoVertice() {return nroPtoVertice;};
 
     void virtual paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* w) override;
     void virtual hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
@@ -34,7 +35,7 @@ public:
     int type() const override {return Type;};
 
 signals:
-    void sigPosicionCambiada(int index, QPointF nuevaPos);
+    void sigPosicionCambiada(int nroPtoVertice, int nroPtoCtrl, QPointF nuevaPos);
     void nuevaPosicionAceptada();
 
 private:
@@ -49,7 +50,9 @@ private:
     QBrush brSelect;
 
     bool hovered;
-    int numeroOrden;
+    int nroPtoControl;
+    int nroPtoVertice;
+
 
     movimiento movim;
 };
