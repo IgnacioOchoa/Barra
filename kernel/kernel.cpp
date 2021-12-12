@@ -141,7 +141,7 @@ void Kernel::setPuntoBarra(int pto, double pos, double area)
 
 void Kernel::procesarBarraCambiada()
 {
-    interfaz->graficarBarra();
+    interfaz->actualizarDibujoBarra();
 }
 
 void Kernel::mensajeRecibido(QString mensaje, tipoMensaje tipo)

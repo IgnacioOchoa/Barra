@@ -34,18 +34,28 @@ QVariant ModeloAreasBarra::data(const QModelIndex &index, int role) const
     if (index.row() >= nroFilas || index.row() < 0)
         return QVariant();
 
+    double pos = datos.at(index.row()).first;
+    double posRel = pos/longitudBarra;
+    double areaRel = datos.at(index.row()).second;
+    double area = datos.at(index.row()).second*areaReferencia;
+    int nroDecimales;
+
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
             case 0:
-                return datos.at(index.row()).first;
+                nroDecimales = calcularNroDecimales(pos);
+                return QString::number(pos, 'f', nroDecimales);
             case 1:
-                return datos.at(index.row()).first/longitudBarra;
+                nroDecimales = calcularNroDecimales(posRel);
+                return QString::number(posRel, 'f', nroDecimales);
             case 2:
                 if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (index.row()==nroFilas-1)) return "-";
-                return datos.at(index.row()).second*areaReferencia;
+                nroDecimales = calcularNroDecimales(area);
+                return QString::number(area, 'f', nroDecimales);
             case 3:
                 if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (index.row()==nroFilas-1)) return "-";
-                return datos.at(index.row()).second;
+                nroDecimales = calcularNroDecimales(areaRel);
+                return QString::number(areaRel, 'f', nroDecimales);
             default:
                 break;
         }
@@ -274,6 +284,15 @@ bool ModeloAreasBarra::posicionYaExiste(float pos)
         }
     }
     return false;
+}
+
+int ModeloAreasBarra::calcularNroDecimales(double nro) const
+{
+    if (nro - floor(nro) < PG.margenDifDoubles)
+        return 0;
+    else if (nro*10 - floor(nro*10) < PG.margenDifDoubles)
+        return 1;
+    else return 2;
 }
 
 QPair<double, double> ModeloAreasBarra::puntoEditado(int row, int column, float value)

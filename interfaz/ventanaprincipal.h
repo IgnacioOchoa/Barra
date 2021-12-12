@@ -49,6 +49,7 @@ public:
 
     void printMensaje(const QString& msj, tipoMensaje t);
     void graficarBarra();
+    void actualizarDibujoBarra();
 
 signals:
     void sigValorArea1Cambiado(double area);
@@ -128,6 +129,9 @@ private:
 
     QPolygonF* poligonoBarra;
     paramGlob PG;
+
+    //--- Flags utiles ---
+    bool barraYaGraficada;
 
     void crearMenus();
     void crearFrameModelo();

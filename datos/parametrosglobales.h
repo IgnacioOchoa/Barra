@@ -15,6 +15,8 @@ struct paramGlob
     double areaMin = 0.01;
     double longMin = 0.05;
 
+    double margenDifDoubles = 0.0001; //Valor pequeño usado para comparar doubles, con una diferencia menor a esto se asumen iguales
+
     QString gbDimensiones = "Dimensiones";
     QStringList cabecerasTablaGeometria = {"Pos", "Pos rel", "Area", "Area rel"};
     QString lbPerfilBarra = "Perfil transversal de la barra";

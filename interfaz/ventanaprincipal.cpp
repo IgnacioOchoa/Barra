@@ -6,6 +6,7 @@ VentanaPrincipal::VentanaPrincipal(Kernel *k, QWidget *parent)
     , ui(new Ui::ventanaPrincipal)
     , ker(k)
     , escena(new GraficoPrincipal(this))
+    , barraYaGraficada(false)
 {
     ui->setupUi(this);
 
@@ -526,6 +527,7 @@ void VentanaPrincipal::crearVistaPrincipal()
 void VentanaPrincipal::graficarBarra()
 {
     borrarBarra();
+    barraYaGraficada = true;
     QVector<QPointF> verticesBarra;
     QVector<QPointF> puntosControl;
 
@@ -536,14 +538,21 @@ void VentanaPrincipal::graficarBarra()
     ui->vistaGeometria->maximizarContenido();
 }
 
+void VentanaPrincipal::actualizarDibujoBarra()
+{
+    if(barraYaGraficada) graficarBarra();
+}
+
 void VentanaPrincipal::borrarBarra()
 {
+    barraYaGraficada = false;
     escena->clear();
 }
 
 void VentanaPrincipal::centrarBarra()
 {
-    ui->vistaGeometria->maximizarContenido();
+    if (barraYaGraficada)
+        ui->vistaGeometria->maximizarContenido();
 }
 
 void VentanaPrincipal::rotarBarra()

@@ -81,6 +81,7 @@ private:
     //un reordenamiento.
     bool puntoYaExiste(QPair<double, double>);
     bool posicionYaExiste(float pos);
+    int calcularNroDecimales(double nro) const;
     QPair<double, double> puntoEditado(int row, int column, float value);
 };
 
