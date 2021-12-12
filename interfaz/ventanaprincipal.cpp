@@ -625,6 +625,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(false);
 
         emit sigPerfilAreaCambiado(perfilVariacionArea::CONSTANTE);
+        borrarBarra();
     }
     else if (s == PG.geometriaPerfilBarra[1]) //Variacion lineal
     {
@@ -650,6 +651,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
 
         emit sigPerfilAreaCambiado(perfilVariacionArea::LINEAL);
+        borrarBarra();
     }
     else if (s == PG.geometriaPerfilBarra[2]) // Constante por tramos
     {
@@ -672,6 +674,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
 
         emit sigPerfilAreaCambiado(perfilVariacionArea::CONSTANTEPORTRAMOS);
+        borrarBarra();
     }
     else if (s == PG.geometriaPerfilBarra[3]) // Variacion multipunto
     {
@@ -694,6 +697,7 @@ void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
         foreach(QAbstractButton* bt, btgSimetria->buttons()) bt->setEnabled(true);
 
         emit sigPerfilAreaCambiado(perfilVariacionArea::MULTIPUNTO);
+        borrarBarra();
     }
 }
 
