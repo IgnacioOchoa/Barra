@@ -167,8 +167,9 @@ bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &ind
     position = nroFilas;
     beginInsertRows(QModelIndex(), position, position);
     nroFilas++;
-    datos.append({longitudBarra+1,1.0});
-    longitudCambiada(longitudBarra+1);
+    double areaPrevia = datos.last().second;
+    datos.append({floor(longitudBarra+1),areaPrevia});
+    longitudCambiada(floor(longitudBarra+1));
     endInsertRows();
     emit barraModificada();
     return true;
@@ -211,6 +212,7 @@ double ModeloAreasBarra::getArea(int indx)
 void ModeloAreasBarra::setPosicion(int indx, double pos)
 {
     datos[indx].first = pos;
+    if(pos > longitudBarra) longitudCambiada(pos);
     QModelIndex mIndxInicial = QAbstractItemModel::createIndex(indx,0);
     QModelIndex mIndxFinal = QAbstractItemModel::createIndex(indx,nroColumnas-1);
     emit dataChanged(mIndxInicial, mIndxFinal, {Qt::DisplayRole, Qt::EditRole});
@@ -219,6 +221,8 @@ void ModeloAreasBarra::setPosicion(int indx, double pos)
 void ModeloAreasBarra::setArea(int indx, double area)
 {
     datos[indx].second = area;
+    if(perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (indx == nroFilas - 2))
+        datos[indx+1].second = area;
     QModelIndex mIndxInicial = QAbstractItemModel::createIndex(indx,0);
     QModelIndex mIndxFinal = QAbstractItemModel::createIndex(indx,nroColumnas-1);
     emit dataChanged(mIndxInicial, mIndxFinal, {Qt::DisplayRole, Qt::EditRole});
