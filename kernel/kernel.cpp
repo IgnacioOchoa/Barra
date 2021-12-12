@@ -3,8 +3,8 @@
 Kernel::Kernel(QObject *parent) : QObject(parent)
 {
     modeloAreasBarra = new ModeloAreasBarra(this);
-
     connect(modeloAreasBarra, &ModeloAreasBarra::logMensaje, this, &Kernel::mensajeRecibido);
+    connect(modeloAreasBarra, &ModeloAreasBarra::barraModificada, this, &Kernel::procesarBarraCambiada);
 }
 
 void Kernel::setInterfaz(VentanaPrincipal *ventanaPpal)
@@ -15,7 +15,10 @@ void Kernel::setInterfaz(VentanaPrincipal *ventanaPpal)
     connect(interfaz, &VentanaPrincipal::sigValorArea2Cambiado, this, &Kernel::setValorArea2);
     connect(interfaz, &VentanaPrincipal::sigLongitudBarraCambiado, this, &Kernel::setLongitudBarra);
     connect(interfaz, &VentanaPrincipal::sigPuntoCambiado, this, &Kernel::setPuntoBarra);
-    ventanaPpal->enviarParametrosActuales();
+    setTipoVariacionArea(PG.perfilInicial);
+    area1 = PG.area1BarraInicial;
+    area2 = PG.area2BarraInicial;
+    longitudBarra = PG.longBarraInicial;
 }
 
 ModeloAreasBarra *Kernel::getModeloAreas() const
@@ -126,14 +129,19 @@ void Kernel::setPuntoBarra(int pto, double pos, double area)
 {
     if(tipoVariacionAreaActivo == perfilVariacionArea::CONSTANTEPORTRAMOS)
     {
-        modeloAreasBarra->setData(modeloAreasBarra->index(pto+1,0), pos);
-        modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
+        modeloAreasBarra->setPosicion(pto+1, pos);
+        modeloAreasBarra->setArea(pto, area);
     }
     else if(tipoVariacionAreaActivo == perfilVariacionArea::MULTIPUNTO)
     {
-        modeloAreasBarra->setData(modeloAreasBarra->index(pto,0), pos);
-        modeloAreasBarra->setData(modeloAreasBarra->index(pto,2), area);
+        modeloAreasBarra->setPosicion(pto, pos);
+        modeloAreasBarra->setArea(pto, area);
     }
+}
+
+void Kernel::procesarBarraCambiada()
+{
+    interfaz->graficarBarra();
 }
 
 void Kernel::mensajeRecibido(QString mensaje, tipoMensaje tipo)

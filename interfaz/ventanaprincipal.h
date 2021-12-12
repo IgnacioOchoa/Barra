@@ -48,7 +48,7 @@ public:
     ~VentanaPrincipal();
 
     void printMensaje(const QString& msj, tipoMensaje t);
-    void enviarParametrosActuales();
+    void graficarBarra();
 
 signals:
     void sigValorArea1Cambiado(double area);
@@ -138,7 +138,6 @@ private:
     void moduloSeleccionado(bool seleccionado);
     void crearPanelMensajes();
     void crearVistaPrincipal();
-    void graficarBarra();
     void borrarBarra();
     void centrarBarra();
     void rotarBarra();

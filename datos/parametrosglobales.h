@@ -9,7 +9,9 @@ enum class perfilVariacionArea {CONSTANTE, LINEAL, CONSTANTEPORTRAMOS, MULTIPUNT
 struct paramGlob
 {
     float longBarraInicial = 10.0;
-    float areaBarraInicial = 1.0;
+    float area1BarraInicial = 1.0;
+    float area2BarraInicial = 1.0;
+    perfilVariacionArea perfilInicial = perfilVariacionArea::CONSTANTE;
     double areaMin = 0.01;
     double longMin = 0.05;
 

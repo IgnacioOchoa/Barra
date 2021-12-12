@@ -30,6 +30,7 @@ public slots:
     void setValorArea2(float area);
     void setLongitudBarra(float longitud);
     void setPuntoBarra(int pto, double pos, double area);
+    void procesarBarraCambiada();
 
 private:
 

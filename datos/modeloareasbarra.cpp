@@ -6,7 +6,7 @@ ModeloAreasBarra::ModeloAreasBarra(QObject *parent) :
     nroFilas = MIN_ROWS;
     nroColumnas = 4;
     longitudBarra = PG.longBarraInicial;
-    areaReferencia = PG.areaBarraInicial;
+    areaReferencia = PG.area1BarraInicial;
 
     datos.append(QPair<double,double>(0.0,1.0));
     datos.append(QPair<double,double>(longitudBarra/2,1.0));
@@ -63,7 +63,9 @@ bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value,
 {
     if (mIndex.isValid() && role == Qt::EditRole) {
         if(value.toFloat()<=0) return false;
-        if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS && (mIndex.row()==nroFilas-1)) return false;
+        if (perfilModelo == perfilVariacionArea::CONSTANTEPORTRAMOS
+                && (mIndex.row()==nroFilas-1)
+                && (mIndex.column()==2 || mIndex.column()==3)) return false;
         QPair<double,double> p = puntoEditado(mIndex.row(), mIndex.column(), value.toFloat());
         // Esto significa que estoy manteniendo la posicion pero cambiando el area,
         // cuando esto sucede no hay que chequear si la posicion existe porque se va
@@ -92,6 +94,7 @@ bool ModeloAreasBarra::setData(const QModelIndex &mIndex, const QVariant &value,
         {
             emit filaCambiada(index(datos.indexOf(p),mIndex.column()));
         }
+        emit barraModificada();
         return true;
     }
     return false;
@@ -119,14 +122,14 @@ QVariant ModeloAreasBarra::headerData(int section, Qt::Orientation orientation, 
 
 }
 
-void ModeloAreasBarra::longitudCambiada(float nuevaLongitud)
+void ModeloAreasBarra::longitudCambiada(double nuevaLongitud)
 {
     longitudBarra = nuevaLongitud;
     emit dataChanged(QAbstractItemModel::createIndex(0,0),QAbstractItemModel::createIndex(nroFilas-1,1));
     return;
 }
 
-void ModeloAreasBarra::areaReferenciaCambiada(float nuevaArea)
+void ModeloAreasBarra::areaReferenciaCambiada(double nuevaArea)
 {
     areaReferencia = nuevaArea;
     emit dataChanged(QAbstractItemModel::createIndex(0,2),QAbstractItemModel::createIndex(nroFilas-1,3));
@@ -157,6 +160,7 @@ bool ModeloAreasBarra::insertRows(int position, int rows, const QModelIndex &ind
     datos.append({longitudBarra+1,1.0});
     longitudCambiada(longitudBarra+1);
     endInsertRows();
+    emit barraModificada();
     return true;
 }
 
@@ -170,6 +174,7 @@ bool ModeloAreasBarra::removeRows(int position, int rows, const QModelIndex &ind
     nroFilas--;
     datos.removeLast();
     endRemoveRows();
+    emit barraModificada();
     return true;
 }
 
@@ -191,6 +196,22 @@ double ModeloAreasBarra::getArea(int indx)
         return 0.0f;
     }
     return datos.at(indx).second*areaReferencia;
+}
+
+void ModeloAreasBarra::setPosicion(int indx, double pos)
+{
+    datos[indx].first = pos;
+    QModelIndex mIndxInicial = QAbstractItemModel::createIndex(indx,0);
+    QModelIndex mIndxFinal = QAbstractItemModel::createIndex(indx,nroColumnas-1);
+    emit dataChanged(mIndxInicial, mIndxFinal, {Qt::DisplayRole, Qt::EditRole});
+}
+
+void ModeloAreasBarra::setArea(int indx, double area)
+{
+    datos[indx].second = area;
+    QModelIndex mIndxInicial = QAbstractItemModel::createIndex(indx,0);
+    QModelIndex mIndxFinal = QAbstractItemModel::createIndex(indx,nroColumnas-1);
+    emit dataChanged(mIndxInicial, mIndxFinal, {Qt::DisplayRole, Qt::EditRole});
 }
 
 void ModeloAreasBarra::setPerfil(perfilVariacionArea p)

@@ -49,17 +49,19 @@ public:
 
     double getPosicion(int indx);
     double getArea(int indx);
+    void setPosicion(int indx, double pos);
+    void setArea(int indx, double area);
 
     void setPerfil(perfilVariacionArea p);
 
 public slots:
-    void longitudCambiada(float nuevaLongitud);
-    void areaReferenciaCambiada(float nuevaArea);
+    void longitudCambiada(double nuevaLongitud);
+    void areaReferenciaCambiada(double nuevaArea);
 
 signals:
     void logMensaje(QString mensaje, tipoMensaje t);
     void filaCambiada(QModelIndex);
-    void sigReversionPuntos(int nroPuntoPrimero, int nroPuntoSegundo);
+    void barraModificada();
 
 private:
 

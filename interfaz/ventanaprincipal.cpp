@@ -17,7 +17,6 @@ VentanaPrincipal::VentanaPrincipal(Kernel *k, QWidget *parent)
     crearPagGeometria();
     crearPanelMensajes();
     crearVistaPrincipal();
-
     modeloElegido = -1;
 
     mensajeStatusBar("Aplicación lista");
@@ -339,14 +338,14 @@ void VentanaPrincipal::crearPagGeometria()
     gdArea = new QGridLayout;
     lbValorArea1 = new QLabel();
     leValorArea1 = new QLineEdit;
-    leValorArea1->setText(QString::number(PG.areaBarraInicial));
+    leValorArea1->setText(QString::number(PG.area1BarraInicial));
     leValorArea1->setMaximumWidth(100);
     gdArea->addWidget(lbValorArea1,0,0);
     gdArea->addWidget(leValorArea1,0,1,Qt::AlignLeft);
 
     lbValorArea2 = new QLabel();
     leValorArea2 = new QLineEdit;
-    leValorArea2->setText(QString::number(PG.areaBarraInicial));
+    leValorArea2->setText(QString::number(PG.area2BarraInicial));
     leValorArea2->setMaximumWidth(100);
     gdArea->addWidget(lbValorArea2,1,0);
     gdArea->addWidget(leValorArea2,1,1,Qt::AlignLeft);
@@ -591,14 +590,6 @@ void VentanaPrincipal::printMensaje(const QString &msj, tipoMensaje t)
     teLogMensaje->append(msjEditado);
 }
 
-void VentanaPrincipal::enviarParametrosActuales()
-{
-    valorAreaCambiado();
-    valorAreaFinalCambiado();
-    longitudBarraCambiada();
-    emit sigPerfilAreaCambiado (perfilVariacionArea::CONSTANTE);
-}
-
 void VentanaPrincipal::cbVariacionAreaCambiado(const QString &s)
 {
 
@@ -701,18 +692,21 @@ void VentanaPrincipal::longitudBarraCambiada()
 {
     float longitudBarra = leLongitudBarra->text().toDouble();
     emit sigLongitudBarraCambiado(longitudBarra);
+    graficarBarra();
 }
 
 void VentanaPrincipal::valorAreaCambiado()
 {
     float areaReferencia = leValorArea1->text().toDouble();
     emit sigValorArea1Cambiado(areaReferencia);
+    graficarBarra();
 }
 
 void VentanaPrincipal::valorAreaFinalCambiado()
 {
     float areaReferencia = leValorArea2->text().toDouble();
     emit sigValorArea2Cambiado(areaReferencia);
+    graficarBarra();
 }
 
 void VentanaPrincipal::lanzarVentanaModelo()
