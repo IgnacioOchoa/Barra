@@ -9,7 +9,9 @@
 class GraficoPrincipal : public QGraphicsScene
 {
     Q_OBJECT
+
 public:
+    enum class colorFondo {GEOMETRIA, MALLA};
     GraficoPrincipal(QObject *parent = nullptr);
     void graficarBarra(QVector<QPointF> verticesBarra, QVector<QPointF> puntosControl,
                        perfilVariacionArea perfil);
@@ -20,6 +22,7 @@ public slots:
     void actualizarPoligonoBarra(int nroPtoVertice, int nroPtoControl, QPointF pos);
     void perfilVariacionAreaCambiado(perfilVariacionArea perf);
     void actualizarLimitesPuntos();
+    void setColorFondo(colorFondo);
 
 signals:
     void barraModificada(double area1, double area2, double longitud);

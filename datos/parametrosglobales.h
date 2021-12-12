@@ -34,6 +34,11 @@ struct paramGlob
     QString pbEliminarLineaTabla = "Borrar fila";
     QString chbMostrarPosRelativa = "Posición relativa";
     QString chbMostrarAreaRelativa = "Area relativa";
+
+    QString lbTipoMalla = "Tipo de malla";
+    QStringList tiposMalla = {"Uniforme", "Gradiente", "Manual"};
+    QString lbNroNodos = "Número de nodos";
+    QString pbGraficarMalla = "Graficar malla";
 };
 
 struct Limites

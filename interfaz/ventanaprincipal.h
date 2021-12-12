@@ -103,6 +103,7 @@ private:
     QLineEdit* leLongitudBarra;
     QLabel* lbLongitudBarra;
 
+    //------------  MODULO DE GEOMETRIA --------------
     //Perfil barra
     QComboBox* cbTipoBarra;
 
@@ -133,12 +134,18 @@ private:
     //--- Flags utiles ---
     bool barraYaGraficada;
 
+    //------------ MODULO DE MALLA ---------------
+    QComboBox* cbTipoMalla;
+    QLineEdit* leNroNodos;
+    QPushButton* pbGraficarMalla;
+
     void crearMenus();
     void crearFrameModelo();
     void crearIconos();
     void crearBotonesPrincipales();
     void crearFrameDimension();
     void crearPagGeometria();
+    void crearPagMalla();
     void moduloSeleccionado(bool seleccionado);
     void crearPanelMensajes();
     void crearVistaPrincipal();

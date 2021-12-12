@@ -169,17 +169,7 @@
         </size>
        </property>
       </widget>
-      <widget class="QWidget" name="pagMalla">
-       <layout class="QFormLayout" name="formLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Malla</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <widget class="QWidget" name="pagMalla"/>
       <widget class="QWidget" name="pagFisica">
        <layout class="QFormLayout" name="formLayout_3">
         <item row="0" column="0">

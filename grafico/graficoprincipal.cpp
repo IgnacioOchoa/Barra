@@ -3,14 +3,7 @@
 GraficoPrincipal::GraficoPrincipal(QObject *parent) :
     QGraphicsScene(parent)
 {
-     QLinearGradient* gd = new QLinearGradient();
-     gd->setCoordinateMode(QGradient::ObjectMode);
-     gd->setColorAt(0, "#EAECEE");
-     gd->setColorAt(1, "#ABB2B9");
-
-     QBrush br(*gd);
-     setBackgroundBrush(br);
-     //setForegroundBrush(br);
+     setColorFondo(colorFondo::GEOMETRIA);
      connect(static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::sigPerfilAreaCambiado, this, &GraficoPrincipal::perfilVariacionAreaCambiado);
      connect(this, &GraficoPrincipal::barraModificada,static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::actualizarBarra);
      connect(this, &GraficoPrincipal::puntoBarraModificado, static_cast<VentanaPrincipal*>(parent), &VentanaPrincipal::actualizarPuntoBarra);
@@ -122,4 +115,23 @@ void GraficoPrincipal::actualizarLimitesPuntos()
         }
         puntosGraficos.last()->setXLims({true,false,puntosGraficos[i-1]->pos().x()+PG.longMin,0});
     }
+}
+
+void GraficoPrincipal::setColorFondo(colorFondo color)
+{
+    QLinearGradient* gd = new QLinearGradient();
+    gd->setCoordinateMode(QGradient::ObjectMode);
+    if (color == colorFondo::GEOMETRIA)
+    {
+        gd->setColorAt(0, "#EAECEE");
+        gd->setColorAt(1, "#ABB2B9");
+    }
+    else if (color == colorFondo::MALLA)
+    {
+        gd->setColorAt(0, "#FFF7E6");
+        gd->setColorAt(1, "#FFCC66");
+    }
+    QBrush br(*gd);
+    setBackgroundBrush(br);
+
 }

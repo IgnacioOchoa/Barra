@@ -16,10 +16,12 @@ VentanaPrincipal::VentanaPrincipal(Kernel *k, QWidget *parent)
     crearFrameDimension();
     crearBotonesPrincipales();
     crearPagGeometria();
+    crearPagMalla();
     crearPanelMensajes();
     crearVistaPrincipal();
     modeloElegido = -1;
 
+    ui->stackedWidget->setCurrentIndex(0);
     mensajeStatusBar("Aplicación lista");
 }
 
@@ -460,12 +462,49 @@ void VentanaPrincipal::crearPagGeometria()
 
     cbTipoBarra->setCurrentIndex(0);
     pGeom->setLayout(hLayGeneral);
+}
+
+void VentanaPrincipal::crearPagMalla()
+{
+    QWidget* pMalla = ui->pagMalla;
+
+    QGridLayout* grLayout = new QGridLayout;
+    grLayout->setSpacing(20);
+    QHBoxLayout* hBoxPpal = new QHBoxLayout;
+    QVBoxLayout* vBoxPpal = new QVBoxLayout;
+
+    hBoxPpal->addItem(grLayout);
+    hBoxPpal->insertStretch(1);
+    vBoxPpal->addItem(hBoxPpal);
+    vBoxPpal->insertStretch(1);
+
+    cbTipoMalla = new QComboBox;
+    cbTipoMalla->addItems(PG.tiposMalla);
+    cbTipoMalla->setCurrentIndex(-1);
+    QLabel* lbTipoMalla = new QLabel(PG.lbTipoMalla);
+
+    grLayout->addWidget(lbTipoMalla,0,0);
+    grLayout->addWidget(cbTipoMalla,0,1);
+
+    QLabel* lbNroNodos = new QLabel(PG.lbNroNodos);
+    leNroNodos = new QLineEdit();
+
+    grLayout->addWidget(lbNroNodos,1,0);
+    grLayout->addWidget(leNroNodos,1,1);
+
+    pbGraficarMalla = new QPushButton(PG.pbGraficarMalla);
+    grLayout->addWidget(pbGraficarMalla,2,1);
+
+    pMalla->setLayout(vBoxPpal);
 
 }
 
 void VentanaPrincipal::moduloSeleccionado(bool seleccionado)
 {
-    if(seleccionado) ui->stackedWidget->setCurrentIndex(grBotonesModulos->checkedId());
+    int id = grBotonesModulos->checkedId();
+    if(seleccionado) ui->stackedWidget->setCurrentIndex(id);
+    if (id == 0) escena->setColorFondo(GraficoPrincipal::colorFondo::GEOMETRIA);
+    else if (id == 1) escena->setColorFondo(GraficoPrincipal::colorFondo::MALLA);
 }
 
 void VentanaPrincipal::crearPanelMensajes()
