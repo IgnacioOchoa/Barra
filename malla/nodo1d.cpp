@@ -19,20 +19,24 @@ Nodo1D::Nodo1D(QList<float> coord, int id){
 //constructor 3
 Nodo1D::Nodo1D(float coordX, float coordY)
 {
+    x = coordX;
+    y = coordY;
+    coordenadas[0] = coordX;
+    coordenadas[1] = coordY;
 
 }
 //constructor 4
 Nodo1D::Nodo1D(QList<float> coord)
 {
+    coordenadas = coord;
+    x = coord[0];
+    y = coord[1];
 
 }
 
 
 
-QList<Elemento1D> Nodo1D::obtenerAdyacentes()
-{
-    return adyacentes;
-}
+
 //métodos públicos
 int Nodo1D::obtenerID() const{
     return ID;
@@ -50,23 +54,46 @@ QList<float> Nodo1D::obtenerCoordenadas(){
     return coordenadas;
 }
 
+QList<Elemento1D> Nodo1D::obtenerElementosAdyacentes(){
+    QList<Elemento1D> elementos;
+    elementos[0] = *elementoAnterior;
+    elementos[1] = *elementoSiguiente;//buscar como s pone "a lo que apunta"
+
+    return elementos;
+}
+
+
+
 //Setters
 void Nodo1D::modificarCoordenadas(QList<float> l)
 {
+    coordenadas = l;
+    x = l[0];
+    y = l[1];
+
 
 }
 
-void Nodo1D::modificarCoorX(float x)
+void Nodo1D::modificarCoorX(float coordX)
+{
+    x = coordX;
+    coordenadas[0] = coordX;
+
+}
+
+void Nodo1D::modificarCoorY(float coordY)
+{
+    y = coordY;
+    coordenadas[0] = coordY;
+
+}
+
+void Nodo1D::modificarElementos()
 {
 
 }
 
-void Nodo1D::modificarCoorY(float y)
-{
-
-}
-
-void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
+/*/void Nodo1D::modificarListaAdyacentes(QList<Elemento1D> adyacente)
 {
 
 }
@@ -75,7 +102,7 @@ void Nodo1D::modificarElementoAdyacente(Elemento1D ady)
 {
 
 }
-
+/*/
 
 
 

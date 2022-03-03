@@ -98,7 +98,7 @@ QList<Nodo1D> Malla1D::obtenerListaDeNodos()
 
 QList<Elemento1D> Malla1D::obtenerListaDeAdyacentes(Nodo1D nod)
 {
-    return nod.obtenerAdyacentes();
+    return nod.obtenerElementosAdyacentes();
 
 }
 
